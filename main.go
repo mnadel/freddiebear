@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -40,6 +41,13 @@ const (
 			ZMODIFICATIONDATE DESC
 	`
 )
+
+type Result struct {
+	ID    string
+	Title string
+}
+
+type Results []Result
 
 var (
 	searchEverywhere bool
@@ -76,21 +84,21 @@ func main() {
 	var id string
 	var title string
 
-	items := make([][]string, 0)
+	results := make(Results, 0)
 
 	for rows.Next() {
 		err := rows.Scan(&id, &title)
 		if err != nil {
 			log.Fatal(err)
 		}
-		items = append(items, []string{title, id})
+		results = append(results, Result{ID: id, Title: title})
 	}
 	err = rows.Err()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	serialize(items)
+	fmt.Println(serialize(results))
 }
 
 func openDB() *sql.DB {
@@ -108,14 +116,24 @@ func openDB() *sql.DB {
 	return db
 }
 
-func serialize(results [][]string) {
-	fmt.Println(`<?xml version="1.0" encoding="utf-8"?><items>`)
+func serialize(results Results) string {
+	builder := strings.Builder{}
+
+	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?><items>`)
 
 	for _, item := range results {
-		fmt.Println(`<item valid="yes">` +
-			`<title>` + item[0] + `</title><subtitle>Open note</subtitle>` +
-			`<arg>` + item[1] + `</arg></item>`)
+		builder.WriteString(`<item valid="yes">`)
+		builder.WriteString(`<title>`)
+		builder.WriteString(item.Title)
+		builder.WriteString(`</title>`)
+		builder.WriteString(`<subtitle>Open note</subtitle>`)
+		builder.WriteString(`<arg>`)
+		builder.WriteString(item.ID)
+		builder.WriteString(`</arg>`)
+		builder.WriteString(`</item>`)
 	}
 
-	fmt.Println(`</items>`)
+	builder.WriteString(`</items>`)
+
+	return builder.String()
 }
