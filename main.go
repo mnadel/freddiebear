@@ -44,7 +44,7 @@ func doSearch(db *DB, searchTitleOnly bool, searchTerm string) string {
 }
 
 func doCaptainsLog(db *DB, dateTag string) string {
-	id, err := db.QueryToday()
+	id, err := db.QueryCaptainsLog()
 	if err != nil {
 		log.Fatal(err.Error())
 	}

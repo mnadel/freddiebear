@@ -15,7 +15,7 @@ import (
 const (
 	dbFile = "/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite"
 
-	sqlToday = `
+	sqlCaptainsLog = `
 		SELECT
 			ZUNIQUEIDENTIFIER, ZTITLE
  		FROM
@@ -83,9 +83,9 @@ func (d *DB) Close() error {
 	return d.db.Close()
 }
 
-func (d *DB) QueryToday() (string, error) {
+func (d *DB) QueryCaptainsLog() (string, error) {
 	bind := time.Now().Format("2006-01-02")
-	rows, err := d.db.Query(sqlToday, bind)
+	rows, err := d.db.Query(sqlCaptainsLog, bind)
 	if err != nil {
 		return "", err
 	}
