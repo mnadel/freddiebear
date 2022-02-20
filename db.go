@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 
@@ -13,14 +15,25 @@ import (
 const (
 	dbFile = "/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite"
 
+	sqlToday = `
+		SELECT
+			ZUNIQUEIDENTIFIER, ZTITLE
+ 		FROM
+			ZSFNOTE
+ 		WHERE
+			ZARCHIVED = 0
+			AND ZTRASHED = 0
+			AND ZTITLE = ?
+	`
+
 	sqlTitle = `
 		SELECT DISTINCT
 			ZUNIQUEIDENTIFIER, ZTITLE
  		FROM
 			ZSFNOTE
  		WHERE
-			ZARCHIVED=0
-			AND ZTRASHED=0
+			ZARCHIVED = 0
+			AND ZTRASHED = 0
 			AND lower(ZTITLE) LIKE lower(?)
  		ORDER BY
 			ZMODIFICATIONDATE DESC
@@ -32,8 +45,8 @@ const (
  		FROM
 			ZSFNOTE
  		WHERE
-			ZARCHIVED=0
-			AND ZTRASHED=0
+			ZARCHIVED = 0
+			AND ZTRASHED = 0
 			AND (lower(ZTEXT) LIKE lower(?) OR lower(ZTITLE) LIKE lower(?))
  		ORDER BY
 			ZMODIFICATIONDATE DESC
@@ -70,6 +83,26 @@ func (d *DB) Close() error {
 	return d.db.Close()
 }
 
+func (d *DB) QueryToday() (string, error) {
+	bind := time.Now().Format("2006-01-02")
+	rows, err := d.db.Query(sqlToday, bind)
+	if err != nil {
+		return "", err
+	}
+	defer rows.Close()
+
+	results, err := collectRows(rows)
+	if err != nil {
+		return "", err
+	} else if len(results) > 1 {
+		return "", fmt.Errorf("found too many records")
+	} else if len(results) == 1 {
+		return results[0].ID, nil
+	} else {
+		return "", nil
+	}
+}
+
 func (d *DB) QueryTitles(term string) ([]Result, error) {
 	bind := "%" + term + "%"
 	rows, err := d.db.Query(sqlTitle, bind)
@@ -77,6 +110,7 @@ func (d *DB) QueryTitles(term string) ([]Result, error) {
 		return nil, err
 	}
 	defer rows.Close()
+
 	return collectRows(rows)
 }
 
@@ -87,6 +121,7 @@ func (d *DB) QueryText(term string) ([]Result, error) {
 		return nil, err
 	}
 	defer rows.Close()
+
 	return collectRows(rows)
 }
 

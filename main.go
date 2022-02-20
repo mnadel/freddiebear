@@ -4,29 +4,41 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 )
 
 var (
 	searchEverywhere bool
 	searchTerm       string
+	todaysNote       bool
 )
 
 func init() {
 	flag.BoolVar(&searchEverywhere, "e", false, "Search everywhere, not just titles")
+	flag.BoolVar(&todaysNote, "t", false, "Print ID of today's note if it exists")
 
 	flag.Parse()
+}
+
+func main() {
+	db := NewDB()
+	defer db.Close()
+
+	if todaysNote {
+		id, err := db.QueryToday()
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		fmt.Println(id)
+		os.Exit(0)
+	}
 
 	if flag.NArg() != 1 {
 		log.Fatal("missing search term")
 	} else {
 		searchTerm = flag.Arg(0)
 	}
-}
-
-func main() {
-	db := NewDB()
-	defer db.Close()
 
 	var results []Result
 	var err error
