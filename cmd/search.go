@@ -13,7 +13,7 @@ var (
 	searchAll bool
 
 	searchCmd = &cobra.Command{
-		Use:   "search <term>",
+		Use:   "search [term]",
 		Short: "Search for a note",
 		Long:  "Generate search results in Alfred Workflow's XML schema format",
 		Args:  cobra.ExactArgs(1),
@@ -30,7 +30,7 @@ func searchCmdRunner(cmd *cobra.Command, args []string) {
 	bearDB := db.NewDB()
 	defer bearDB.Close()
 
-	var results []db.Result
+	var results db.Results
 	var err error
 
 	if searchAll {
@@ -49,7 +49,8 @@ func searchCmdRunner(cmd *cobra.Command, args []string) {
 func serialize(results db.Results) string {
 	builder := strings.Builder{}
 
-	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?><items>`)
+	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
+	builder.WriteString(`<items>`)
 
 	for _, item := range results {
 		builder.WriteString(`<item valid="yes">`)
