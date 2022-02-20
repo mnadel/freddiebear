@@ -19,11 +19,24 @@
 				<false/>
 			</dict>
 		</array>
-		<key>4ACE7385-7B21-4ADF-93B1-EA31C16E290A</key>
+		<key>2E17823A-4BAE-426E-81F5-2862B294C7AA</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
+				<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C18A2120-5700-4B12-BA3C-C20476ABA9A6</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -48,7 +61,20 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+				<string>2E17823A-4BAE-426E-81F5-2862B294C7AA</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -102,9 +128,9 @@
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
-				<string>bear://x-callback-url/create?title={split1}&amp;tags={split2}&amp;open_note=yes&amp;edit=yes</string>
+				<string>bear://x-callback-url/create?title={var:split1}&amp;tags={var:split2}&amp;open_note=yes&amp;edit=yes&amp;show_window=yes</string>
 				<key>utf8</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -133,51 +159,46 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>2</integer>
-				<key>escaping</key>
-				<integer>102</integer>
 				<key>keyword</key>
 				<string>bc</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Captain's Log</string>
-				<key>script</key>
-				<string>$HOME/Projects/go/bin/bearfred -c drip/captainslog</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
 				<key>subtext</key>
 				<string></string>
-				<key>title</key>
-				<string>Bear Captain's Log</string>
-				<key>type</key>
-				<integer>5</integer>
+				<key>text</key>
+				<string>Captain's Log</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
+			<string>alfred.workflow.input.keyword</string>
 			<key>uid</key>
-			<string>4ACE7385-7B21-4ADF-93B1-EA31C16E290A</string>
+			<string>5B6F048B-E933-4908-B391-EE17DCD239E5</string>
 			<key>version</key>
-			<integer>3</integer>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>$HOME/Projects/go/bin/bearfred -c drip/captainslog</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C18A2120-5700-4B12-BA3C-C20476ABA9A6</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -192,7 +213,7 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>\d{4}-\d{2}-\d{2}</string>
+						<string>\d{4}-\d{2}-\d{2},.+</string>
 						<key>outputlabel</key>
 						<string>create</string>
 						<key>uid</key>
@@ -206,6 +227,19 @@
 			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
 			<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.transform</string>
+			<key>uid</key>
+			<string>2E17823A-4BAE-426E-81F5-2862B294C7AA</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -266,14 +300,31 @@
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
-				<string>bear://x-callback-url/open-note?id={query}&amp;open_note=yes&amp;edit=yes</string>
+				<string>bear://x-callback-url/open-note?id={query}&amp;open_note=yes&amp;edit=yes&amp;show_window=yes</string>
 				<key>utf8</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
 			<key>uid</key>
 			<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>applescript</key>
+				<string>on alfred_script(q)
+  -- your script here
+end alfred_script</string>
+				<key>cachescript</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.applescript</string>
+			<key>uid</key>
+			<string>5ADEB109-2C47-4611-B75E-8B710AD3329D</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -327,23 +378,6 @@
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>applescript</key>
-				<string>on alfred_script(q)
-  -- your script here
-end alfred_script</string>
-				<key>cachescript</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.applescript</string>
-			<key>uid</key>
-			<string>5ADEB109-2C47-4611-B75E-8B710AD3329D</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 	</array>
 	<key>readme</key>
 	<string>Search your Bear notes with bt (by title) and bs (within the body). Or create/open a daily note with bc.</string>
@@ -352,30 +386,37 @@ end alfred_script</string>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
 			<key>xpos</key>
-			<integer>255</integer>
+			<integer>240</integer>
 			<key>ypos</key>
-			<integer>325</integer>
+			<integer>310</integer>
 		</dict>
-		<key>4ACE7385-7B21-4ADF-93B1-EA31C16E290A</key>
+		<key>2E17823A-4BAE-426E-81F5-2862B294C7AA</key>
 		<dict>
 			<key>xpos</key>
-			<integer>255</integer>
+			<integer>545</integer>
 			<key>ypos</key>
-			<integer>130</integer>
+			<integer>225</integer>
 		</dict>
 		<key>5ADEB109-2C47-4611-B75E-8B710AD3329D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>405</integer>
+			<integer>40</integer>
 			<key>ypos</key>
-			<integer>690</integer>
+			<integer>415</integer>
+		</dict>
+		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
+		<dict>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>130</integer>
 		</dict>
 		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>645</integer>
+			<integer>665</integer>
 			<key>ypos</key>
-			<integer>95</integer>
+			<integer>55</integer>
 		</dict>
 		<key>9A57C1B3-98D2-4857-BF03-F68279B6357F</key>
 		<dict>
@@ -384,26 +425,33 @@ end alfred_script</string>
 			<key>ypos</key>
 			<integer>150</integer>
 		</dict>
+		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
+		<dict>
+			<key>xpos</key>
+			<integer>240</integer>
+			<key>ypos</key>
+			<integer>130</integer>
+		</dict>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<dict>
 			<key>xpos</key>
-			<integer>255</integer>
+			<integer>240</integer>
 			<key>ypos</key>
-			<integer>495</integer>
+			<integer>485</integer>
 		</dict>
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
 			<key>xpos</key>
-			<integer>565</integer>
+			<integer>665</integer>
 			<key>ypos</key>
-			<integer>420</integer>
+			<integer>360</integer>
 		</dict>
 		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
 		<dict>
 			<key>xpos</key>
-			<integer>540</integer>
+			<integer>550</integer>
 			<key>ypos</key>
-			<integer>125</integer>
+			<integer>85</integer>
 		</dict>
 	</dict>
 	<key>version</key>
