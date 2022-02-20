@@ -9,7 +9,7 @@ import (
 
 func main() {
 	searchEverywhere := flag.Bool("e", false, "Search everywhere, not just titles")
-	captainsLog := flag.String("c", "", "Captain's Log: print ID of today's note, else <date>,<tag>")
+	captainsLog := flag.String("c", "", "Captain's Log: print ID of today's note, else <date>,<arg>")
 
 	flag.Parse()
 
