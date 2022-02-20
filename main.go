@@ -1,9 +1,13 @@
 package main
 
 import (
+	"log"
+
 	"github.com/mnadel/bearfred/cmd"
 )
 
 func main() {
-	cmd.Execute()
+	if err := cmd.Execute(); err != nil {
+		log.Fatal(err)
+	}
 }

@@ -1,7 +1,6 @@
 package db
 
 import (
-	"log"
 	"os"
 	"path"
 
@@ -55,17 +54,17 @@ type Result struct {
 type Results []Result
 
 // Create a new DB, referencing the user's Bear Notes database
-func NewDB() *DB {
+func NewDB() (*DB, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	dbFile := path.Join(home, dbFile)
 
 	db, err := sql.Open("sqlite3", dbFile)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
 	pragmasSQL := `
@@ -76,10 +75,10 @@ func NewDB() *DB {
 	`
 
 	if _, err := db.Exec(pragmasSQL); err != nil {
-		log.Fatal(err.Error())
+		return nil, err
 	}
 
-	return &DB{db}
+	return &DB{db}, nil
 }
 
 // Close cleans up our database connection
@@ -87,11 +86,15 @@ func (d *DB) Close() error {
 	return d.db.Close()
 }
 
-// QueryTitles searches for a term within the titles of notes within the database
+// QueryTitles searches for a term within the titles of notes within the database, setting
+// `exact` to true will do an exact match, else it'll perform a substring match
 func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
-	bind := "%" + term + "%"
+	var bind string
+
 	if exact {
 		bind = term
+	} else {
+		bind = "%" + term + "%"
 	}
 
 	rows, err := d.db.Query(sqlTitle, bind)
@@ -124,7 +127,7 @@ func rowsToResults(rows *sql.Rows) (Results, error) {
 	for rows.Next() {
 		err := rows.Scan(&id, &title)
 		if err != nil {
-			log.Fatal(err)
+			return nil, err
 		}
 		results = append(results, Result{ID: id, Title: title})
 	}

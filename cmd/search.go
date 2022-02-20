@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/mnadel/bearfred/db"
@@ -17,7 +16,7 @@ var (
 		Short: "Search for a note",
 		Long:  "Generate search results in Alfred Workflow's XML schema format",
 		Args:  cobra.ExactArgs(1),
-		Run:   searchCmdRunner,
+		RunE:  searchCmdRunner,
 	}
 )
 
@@ -26,12 +25,14 @@ func init() {
 	searchCmd.Flags().BoolVar(&searchAll, "all", false, "search everything, else titles only")
 }
 
-func searchCmdRunner(cmd *cobra.Command, args []string) {
-	bearDB := db.NewDB()
+func searchCmdRunner(cmd *cobra.Command, args []string) error {
+	bearDB, err := db.NewDB()
+	if err != nil {
+		return err
+	}
 	defer bearDB.Close()
 
 	var results db.Results
-	var err error
 
 	if searchAll {
 		results, err = bearDB.QueryText(args[0])
@@ -40,10 +41,12 @@ func searchCmdRunner(cmd *cobra.Command, args []string) {
 	}
 
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
 	fmt.Print(serialize(results))
+
+	return nil
 }
 
 func serialize(results db.Results) string {

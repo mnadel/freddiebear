@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/mnadel/bearfred/db"
@@ -17,7 +16,7 @@ var (
 		Use:   "journal",
 		Short: "Daily journal helper",
 		Long:  "Display daily note ID, or <title>,<tag>",
-		Run:   journalCmdRunner,
+		RunE:  journalCmdRunner,
 	}
 )
 
@@ -27,8 +26,11 @@ func init() {
 	journalCmd.Flags().BoolVar(&tagAppendDate, "date", false, "append date (/yyyy/mm) to tag")
 }
 
-func journalCmdRunner(cmd *cobra.Command, args []string) {
-	bearDB := db.NewDB()
+func journalCmdRunner(cmd *cobra.Command, args []string) error {
+	bearDB, err := db.NewDB()
+	if err != nil {
+		return err
+	}
 	defer bearDB.Close()
 
 	now := time.Now()
@@ -36,13 +38,13 @@ func journalCmdRunner(cmd *cobra.Command, args []string) {
 
 	results, err := bearDB.QueryTitles(term, true)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
 	var id string
 
 	if len(results) > 1 {
-		log.Fatal("found too many matches")
+		return fmt.Errorf("found too many matches")
 	} else if len(results) == 1 {
 		id = results[0].ID
 	}
@@ -53,6 +55,8 @@ func journalCmdRunner(cmd *cobra.Command, args []string) {
 	} else {
 		fmt.Print(id)
 	}
+
+	return nil
 }
 
 func journalTag(now time.Time) string {
