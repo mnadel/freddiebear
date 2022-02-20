@@ -1,53 +1,11 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"fmt"
 	"log"
-	"os"
-	"path"
 	"strings"
-
-	_ "github.com/mattn/go-sqlite3"
 )
-
-const (
-	DBFILE = "/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite"
-
-	SQL_TITLE = `
-		SELECT DISTINCT
-			ZUNIQUEIDENTIFIER, ZTITLE
- 		FROM
-			ZSFNOTE
- 		WHERE
-			ZARCHIVED=0
-			AND ZTRASHED=0
-			AND lower(ZTITLE) LIKE lower(?)
- 		ORDER BY
-			ZMODIFICATIONDATE DESC
-	`
-
-	SQL_TEXT = `
-		SELECT DISTINCT
-			ZUNIQUEIDENTIFIER, ZTITLE
- 		FROM
-			ZSFNOTE
- 		WHERE
-			ZARCHIVED=0
-			AND ZTRASHED=0
-			AND (lower(ZTEXT) LIKE lower(?) OR lower(ZTITLE) LIKE lower(?))
- 		ORDER BY
-			ZMODIFICATIONDATE DESC
-	`
-)
-
-type Result struct {
-	ID    string
-	Title string
-}
-
-type Results []Result
 
 var (
 	searchEverywhere bool
@@ -67,65 +25,23 @@ func init() {
 }
 
 func main() {
-	db := openDB()
+	db := NewDB()
 	defer db.Close()
 
-	var rows *sql.Rows
+	var results []Result
 	var err error
+
 	if searchEverywhere {
-		rows, err = queryText(db)
+		results, err = db.QueryText(searchTerm)
 	} else {
-		rows, err = queryTitles(db)
+		results, err = db.QueryTitles(searchTerm)
 	}
 
 	if err != nil {
-		log.Fatal(err)
-	}
-	defer rows.Close()
-
-	var id string
-	var title string
-
-	results := make(Results, 0)
-
-	for rows.Next() {
-		err := rows.Scan(&id, &title)
-		if err != nil {
-			log.Fatal(err)
-		}
-		results = append(results, Result{ID: id, Title: title})
-	}
-	err = rows.Err()
-	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err.Error())
 	}
 
 	fmt.Println(serialize(results))
-}
-
-func queryTitles(db *sql.DB) (*sql.Rows, error) {
-	bind := "%" + searchTerm + "%"
-	return db.Query(SQL_TITLE, bind)
-}
-
-func queryText(db *sql.DB) (*sql.Rows, error) {
-	bind := "%" + searchTerm + "%"
-	return db.Query(SQL_TEXT, bind, bind)
-}
-
-func openDB() *sql.DB {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	dbFile := path.Join(home, DBFILE)
-
-	db, err := sql.Open("sqlite3", dbFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return db
 }
 
 func serialize(results Results) string {
