@@ -1,11 +1,9 @@
-package main
+package db
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"path"
-	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 
@@ -95,28 +93,12 @@ func (d *DB) Close() error {
 	return d.db.Close()
 }
 
-func (d *DB) QueryCaptainsLog() (string, error) {
-	bind := time.Now().Format("2006-01-02")
-	rows, err := d.db.Query(sqlCaptainsLog, bind)
-	if err != nil {
-		return "", err
-	}
-	defer rows.Close()
-
-	results, err := collectRows(rows)
-	if err != nil {
-		return "", err
-	} else if len(results) > 1 {
-		return "", fmt.Errorf("found too many records")
-	} else if len(results) == 1 {
-		return results[0].ID, nil
-	} else {
-		return "", nil
-	}
-}
-
-func (d *DB) QueryTitles(term string) ([]Result, error) {
+func (d *DB) QueryTitles(term string, exact bool) ([]Result, error) {
 	bind := "%" + term + "%"
+	if exact {
+		bind = term
+	}
+
 	rows, err := d.db.Query(sqlTitle, bind)
 	if err != nil {
 		return nil, err
