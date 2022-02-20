@@ -19,11 +19,62 @@
 				<false/>
 			</dict>
 		</array>
+		<key>4ACE7385-7B21-4ADF-93B1-EA31C16E290A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>9A57C1B3-98D2-4857-BF03-F68279B6357F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>FC123FEE-10F1-4704-A05D-453295453FEA</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>74D89E61-F33F-43B9-A518-3FF322D91D9A</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>89964AC2-784D-4776-8979-DE530696B99D</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -43,6 +94,121 @@
 	<string>Bearfred</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>bear://x-callback-url/create?title={split1}&amp;tags={split2}&amp;open_note=yes&amp;edit=yes</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>89964AC2-784D-4776-8979-DE530696B99D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>FC123FEE-10F1-4704-A05D-453295453FEA</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>bc</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Captain's Log</string>
+				<key>script</key>
+				<string>$HOME/Projects/go/bin/bearfred -c drip/captainslog</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Bear Captain's Log</string>
+				<key>type</key>
+				<integer>5</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>4ACE7385-7B21-4ADF-93B1-EA31C16E290A</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{query}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>\d{4}-\d{2}-\d{2}</string>
+						<key>outputlabel</key>
+						<string>create</string>
+						<key>uid</key>
+						<string>74D89E61-F33F-43B9-A518-3FF322D91D9A</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>open</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -180,15 +346,22 @@ end alfred_script</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>Search your Bear notes with bt (by title) and bs (within the body)</string>
+	<string>Search your Bear notes with bt (by title) and bs (within the body). Or create/open a daily note with bc.</string>
 	<key>uidata</key>
 	<dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
 			<key>xpos</key>
-			<integer>285</integer>
+			<integer>255</integer>
 			<key>ypos</key>
-			<integer>30</integer>
+			<integer>325</integer>
+		</dict>
+		<key>4ACE7385-7B21-4ADF-93B1-EA31C16E290A</key>
+		<dict>
+			<key>xpos</key>
+			<integer>255</integer>
+			<key>ypos</key>
+			<integer>130</integer>
 		</dict>
 		<key>5ADEB109-2C47-4611-B75E-8B710AD3329D</key>
 		<dict>
@@ -197,19 +370,40 @@ end alfred_script</string>
 			<key>ypos</key>
 			<integer>690</integer>
 		</dict>
+		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
+		<dict>
+			<key>xpos</key>
+			<integer>645</integer>
+			<key>ypos</key>
+			<integer>95</integer>
+		</dict>
+		<key>9A57C1B3-98D2-4857-BF03-F68279B6357F</key>
+		<dict>
+			<key>xpos</key>
+			<integer>430</integer>
+			<key>ypos</key>
+			<integer>150</integer>
+		</dict>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<dict>
 			<key>xpos</key>
-			<integer>285</integer>
+			<integer>255</integer>
 			<key>ypos</key>
-			<integer>200</integer>
+			<integer>495</integer>
 		</dict>
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
 			<key>xpos</key>
-			<integer>525</integer>
+			<integer>565</integer>
 			<key>ypos</key>
-			<integer>105</integer>
+			<integer>420</integer>
+		</dict>
+		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
+		<dict>
+			<key>xpos</key>
+			<integer>540</integer>
+			<key>ypos</key>
+			<integer>125</integer>
 		</dict>
 	</dict>
 	<key>version</key>
