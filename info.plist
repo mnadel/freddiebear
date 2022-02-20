@@ -213,7 +213,7 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>\d{4}-\d{2}-\d{2},.+</string>
+						<string>.+,.+</string>
 						<key>outputlabel</key>
 						<string>create</string>
 						<key>uid</key>
