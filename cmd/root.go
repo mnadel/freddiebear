@@ -7,7 +7,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "bearfred",
 	Short: "A CLI for an Alfred+Bear integration",
-	Long:  `Search notes and helpers to implement a daily journal`,
+	Long:  "Search notes, plus helpers to implement a daily journal",
 }
 
 func Execute() error {

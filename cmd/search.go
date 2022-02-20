@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -16,14 +15,9 @@ var (
 	searchCmd = &cobra.Command{
 		Use:   "search <term>",
 		Short: "Search for a note",
-		Long:  `Generate Alfred Workflow search results`,
-		Args: func(cmd *cobra.Command, args []string) error {
-			if len(args) != 1 {
-				return errors.New("requires a search term")
-			}
-			return nil
-		},
-		Run: executeSearch,
+		Long:  "Generate search results in Alfred Workflow's XML schema format",
+		Args:  cobra.ExactArgs(1),
+		Run:   searchCmdRunner,
 	}
 )
 
@@ -32,7 +26,7 @@ func init() {
 	searchCmd.Flags().BoolVar(&searchAll, "all", false, "search everything, else titles only")
 }
 
-func executeSearch(cmd *cobra.Command, args []string) {
+func searchCmdRunner(cmd *cobra.Command, args []string) {
 	bearDB := db.NewDB()
 	defer bearDB.Close()
 

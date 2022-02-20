@@ -13,17 +13,6 @@ import (
 const (
 	dbFile = "/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite"
 
-	sqlCaptainsLog = `
-		SELECT
-			ZUNIQUEIDENTIFIER, ZTITLE
- 		FROM
-			ZSFNOTE
- 		WHERE
-			ZARCHIVED = 0
-			AND ZTRASHED = 0
-			AND ZTITLE = ?
-	`
-
 	sqlTitle = `
 		SELECT DISTINCT
 			ZUNIQUEIDENTIFIER, ZTITLE
@@ -51,17 +40,21 @@ const (
 	`
 )
 
+// DB represents the Bear Notes database
 type DB struct {
 	db *sql.DB
 }
 
+// Result references a specific note: its identifier and title
 type Result struct {
 	ID    string
 	Title string
 }
 
+// Results is a collection of Result, and represents a set of notes in the database
 type Results []Result
 
+// Create a new DB, referencing the user's Bear Notes database
 func NewDB() *DB {
 	home, err := os.UserHomeDir()
 	if err != nil {
@@ -89,11 +82,13 @@ func NewDB() *DB {
 	return &DB{db}
 }
 
+// Close cleans up our database connection
 func (d *DB) Close() error {
 	return d.db.Close()
 }
 
-func (d *DB) QueryTitles(term string, exact bool) ([]Result, error) {
+// QueryTitles searches for a term within the titles of notes within the database
+func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
 	bind := "%" + term + "%"
 	if exact {
 		bind = term
@@ -105,10 +100,11 @@ func (d *DB) QueryTitles(term string, exact bool) ([]Result, error) {
 	}
 	defer rows.Close()
 
-	return collectRows(rows)
+	return rowsToResults(rows)
 }
 
-func (d *DB) QueryText(term string) ([]Result, error) {
+// QueryText searches for a term within the body or title of notes within the database
+func (d *DB) QueryText(term string) (Results, error) {
 	bind := "%" + term + "%"
 	rows, err := d.db.Query(sqlText, bind, bind)
 	if err != nil {
@@ -116,10 +112,10 @@ func (d *DB) QueryText(term string) ([]Result, error) {
 	}
 	defer rows.Close()
 
-	return collectRows(rows)
+	return rowsToResults(rows)
 }
 
-func collectRows(rows *sql.Rows) ([]Result, error) {
+func rowsToResults(rows *sql.Rows) (Results, error) {
 	var id string
 	var title string
 

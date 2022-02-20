@@ -16,8 +16,8 @@ var (
 	journalCmd = &cobra.Command{
 		Use:   "journal",
 		Short: "Daily journal helper",
-		Long:  `Display daily note ID, or <title>,<tag>`,
-		Run:   executeJournal,
+		Long:  "Display daily note ID, or <title>,<tag>",
+		Run:   journalCmdRunner,
 	}
 )
 
@@ -27,7 +27,7 @@ func init() {
 	journalCmd.Flags().BoolVar(&tagAppendDate, "date", false, "append date (/yyyy/mm) to tag")
 }
 
-func executeJournal(cmd *cobra.Command, args []string) {
+func journalCmdRunner(cmd *cobra.Command, args []string) {
 	bearDB := db.NewDB()
 	defer bearDB.Close()
 
