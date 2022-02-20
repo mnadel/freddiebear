@@ -36,7 +36,7 @@ const (
  		WHERE
 			ZARCHIVED=0
 			AND ZTRASHED=0
-			AND lower(ZTEXT) LIKE lower(?)
+			AND (lower(ZTEXT) LIKE lower(?) OR lower(ZTITLE) LIKE lower(?))
  		ORDER BY
 			ZMODIFICATIONDATE DESC
 	`
@@ -70,12 +70,14 @@ func main() {
 	db := openDB()
 	defer db.Close()
 
-	sql := SQL_TITLE
+	var rows *sql.Rows
+	var err error
 	if searchEverywhere {
-		sql = SQL_TEXT
+		rows, err = queryText(db)
+	} else {
+		rows, err = queryTitles(db)
 	}
 
-	rows, err := db.Query(sql, "%"+searchTerm+"%")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -99,6 +101,16 @@ func main() {
 	}
 
 	fmt.Println(serialize(results))
+}
+
+func queryTitles(db *sql.DB) (*sql.Rows, error) {
+	bind := "%" + searchTerm + "%"
+	return db.Query(SQL_TITLE, bind)
+}
+
+func queryText(db *sql.DB) (*sql.Rows, error) {
+	bind := "%" + searchTerm + "%"
+	return db.Query(SQL_TEXT, bind, bind)
 }
 
 func openDB() *sql.DB {
