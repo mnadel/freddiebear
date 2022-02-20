@@ -6,17 +6,18 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 )
 
 var (
 	searchEverywhere bool
 	searchTerm       string
-	todaysNote       bool
+	todaysNote       string
 )
 
 func init() {
 	flag.BoolVar(&searchEverywhere, "e", false, "Search everywhere, not just titles")
-	flag.BoolVar(&todaysNote, "t", false, "Print ID of today's note if it exists")
+	flag.StringVar(&todaysNote, "t", "", "Print today's note's ID, else <date>,<tag>")
 
 	flag.Parse()
 }
@@ -25,12 +26,16 @@ func main() {
 	db := NewDB()
 	defer db.Close()
 
-	if todaysNote {
+	if todaysNote != "" {
 		id, err := db.QueryToday()
 		if err != nil {
 			log.Fatal(err.Error())
+		} else if id == "" {
+			now := time.Now()
+			fmt.Printf("%s,%s/%s/%s\n", now.Format("2006-01-02"), todaysNote, now.Format("2006"), now.Format("01"))
+		} else {
+			fmt.Println(id)
 		}
-		fmt.Println(id)
 		os.Exit(0)
 	}
 
