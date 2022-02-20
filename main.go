@@ -4,61 +4,57 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 	"time"
 )
 
-var (
-	searchEverywhere bool
-	searchTerm       string
-	todaysNote       string
-)
-
-func init() {
-	flag.BoolVar(&searchEverywhere, "e", false, "Search everywhere, not just titles")
-	flag.StringVar(&todaysNote, "t", "", "Print today's note's ID, else <date>,<tag>")
+func main() {
+	searchEverywhere := flag.Bool("e", false, "Search everywhere, not just titles")
+	captainsLog := flag.String("c", "", "Captain's Log: print ID of today's note, else <date>,<tag>")
 
 	flag.Parse()
-}
 
-func main() {
 	db := NewDB()
 	defer db.Close()
 
-	if todaysNote != "" {
-		id, err := db.QueryToday()
-		if err != nil {
-			log.Fatal(err.Error())
-		} else if id == "" {
-			now := time.Now()
-			fmt.Printf("%s,%s/%s/%s\n", now.Format("2006-01-02"), todaysNote, now.Format("2006"), now.Format("01"))
-		} else {
-			fmt.Println(id)
-		}
-		os.Exit(0)
-	}
-
-	if flag.NArg() != 1 {
+	if *captainsLog != "" {
+		fmt.Println(doCaptainsLog(db, *captainsLog))
+	} else if flag.NArg() != 1 {
 		log.Fatal("missing search term")
 	} else {
-		searchTerm = flag.Arg(0)
+		fmt.Println(doSearch(db, !*searchEverywhere, flag.Arg(0)))
 	}
+}
 
+func doSearch(db *DB, searchTitleOnly bool, searchTerm string) string {
 	var results []Result
 	var err error
 
-	if searchEverywhere {
-		results, err = db.QueryText(searchTerm)
-	} else {
+	if searchTitleOnly {
 		results, err = db.QueryTitles(searchTerm)
+	} else {
+		results, err = db.QueryText(searchTerm)
 	}
 
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	fmt.Println(serialize(results))
+	return serialize(results)
+}
+
+func doCaptainsLog(db *DB, dateTag string) string {
+	id, err := db.QueryToday()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	if id == "" {
+		now := time.Now()
+		return fmt.Sprintf("%s,%s/%s/%s", now.Format("2006-01-02"), dateTag, now.Format("2006"), now.Format("01"))
+	} else {
+		return id
+	}
 }
 
 func serialize(results Results) string {
