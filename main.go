@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	"time"
 )
 
 func main() {
@@ -18,42 +17,11 @@ func main() {
 	defer db.Close()
 
 	if *captainsLog != "" {
-		fmt.Println(doCaptainsLog(db, *captainsLog))
+		fmt.Println(CaptainsLog(db, *captainsLog))
 	} else if flag.NArg() != 1 {
 		log.Fatal("missing search term")
 	} else {
-		fmt.Println(doSearch(db, !*searchEverywhere, flag.Arg(0)))
-	}
-}
-
-func doSearch(db *DB, searchTitleOnly bool, searchTerm string) string {
-	var results []Result
-	var err error
-
-	if searchTitleOnly {
-		results, err = db.QueryTitles(searchTerm)
-	} else {
-		results, err = db.QueryText(searchTerm)
-	}
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	return serialize(results)
-}
-
-func doCaptainsLog(db *DB, dateTag string) string {
-	id, err := db.QueryCaptainsLog()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	if id == "" {
-		now := time.Now()
-		return fmt.Sprintf("%s,%s/%s/%s", now.Format("2006-01-02"), dateTag, now.Format("2006"), now.Format("01"))
-	} else {
-		return id
+		fmt.Println(Search(db, !*searchEverywhere, flag.Arg(0)))
 	}
 }
 

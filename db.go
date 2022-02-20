@@ -76,6 +76,17 @@ func NewDB() *DB {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	pragmasSQL := `
+		pragma synchronous = normal;
+		pragma temp_store = memory;
+		pragma mmap_size = 30000000000;
+	`
+
+	if _, err := db.Exec(pragmasSQL); err != nil {
+		log.Fatal(err.Error())
+	}
+
 	return &DB{db}
 }
 
