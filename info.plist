@@ -164,7 +164,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>$HOME/Projects/go/bin/bearfred journal --tag drip/captainslog --date</string>
+				<string>$BFBIN journal $JOURNAL_ARGS</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -259,7 +259,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>bs</string>
+				<string>bt</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -271,7 +271,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>$HOME/Projects/go/bin/bearfred search "{query}" --all</string>
+				<string>$BFBIN search "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -279,7 +279,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Search Bear</string>
+				<string>Search Bear by Title</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -288,9 +288,26 @@
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>1A741966-5341-40BC-996D-68EAB30F62AA</string>
+			<string>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</string>
 			<key>version</key>
 			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>applescript</key>
+				<string>on alfred_script(q)
+  -- your script here
+end alfred_script</string>
+				<key>cachescript</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.applescript</string>
+			<key>uid</key>
+			<string>5ADEB109-2C47-4611-B75E-8B710AD3329D</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -314,23 +331,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>applescript</key>
-				<string>on alfred_script(q)
-  -- your script here
-end alfred_script</string>
-				<key>cachescript</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.applescript</string>
-			<key>uid</key>
-			<string>5ADEB109-2C47-4611-B75E-8B710AD3329D</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
@@ -344,7 +344,7 @@ end alfred_script</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>bt</string>
+				<string>bs</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -356,8 +356,7 @@ end alfred_script</string>
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>$HOME/Projects/go/bin/bearfred search "{query}"
-</string>
+				<string>$BFBIN search --all "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -365,7 +364,7 @@ end alfred_script</string>
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Search Bear by Title</string>
+				<string>Search Bear</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -374,13 +373,13 @@ end alfred_script</string>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</string>
+			<string>1A741966-5341-40BC-996D-68EAB30F62AA</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>Search your Bear notes with bt (by title) and bs (within the body). Or create/open a daily note with bc.</string>
+	<string>Search your Bear notes by title (with `bt`) or exhaustively (with `bs`). Or create/open a daily note with captainslog.</string>
 	<key>uidata</key>
 	<dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
@@ -388,7 +387,7 @@ end alfred_script</string>
 			<key>xpos</key>
 			<integer>240</integer>
 			<key>ypos</key>
-			<integer>310</integer>
+			<integer>435</integer>
 		</dict>
 		<key>2E17823A-4BAE-426E-81F5-2862B294C7AA</key>
 		<dict>
@@ -402,42 +401,42 @@ end alfred_script</string>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>415</integer>
+			<integer>360</integer>
 		</dict>
 		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
 		<dict>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>130</integer>
+			<integer>145</integer>
 		</dict>
 		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
 		<dict>
 			<key>xpos</key>
 			<integer>665</integer>
 			<key>ypos</key>
-			<integer>55</integer>
+			<integer>85</integer>
 		</dict>
 		<key>9A57C1B3-98D2-4857-BF03-F68279B6357F</key>
 		<dict>
 			<key>xpos</key>
-			<integer>430</integer>
+			<integer>425</integer>
 			<key>ypos</key>
-			<integer>150</integer>
+			<integer>165</integer>
 		</dict>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<dict>
 			<key>xpos</key>
 			<integer>240</integer>
 			<key>ypos</key>
-			<integer>130</integer>
+			<integer>145</integer>
 		</dict>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<dict>
 			<key>xpos</key>
 			<integer>240</integer>
 			<key>ypos</key>
-			<integer>485</integer>
+			<integer>290</integer>
 		</dict>
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
@@ -451,11 +450,18 @@ end alfred_script</string>
 			<key>xpos</key>
 			<integer>550</integer>
 			<key>ypos</key>
-			<integer>85</integer>
+			<integer>115</integer>
 		</dict>
 	</dict>
+	<key>variables</key>
+	<dict>
+		<key>BFBIN</key>
+		<string>/Users/mikenadel/Projects/go/bin/bearfred</string>
+		<key>JOURNAL_ARGS</key>
+		<string>--tag drip/captainslog --date</string>
+	</dict>
 	<key>version</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/mnadel/bearfred</string>
 </dict>
