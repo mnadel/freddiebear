@@ -9,20 +9,20 @@ import (
 )
 
 var (
-	searchAll bool
+	optSearchAll bool
+)
 
-	searchCmd = &cobra.Command{
+func init() {
+	searchCmd := &cobra.Command{
 		Use:   "search [term]",
 		Short: "Search for a note",
 		Long:  "Generate search results in Alfred Workflow's XML schema format",
 		Args:  cobra.ExactArgs(1),
 		RunE:  searchCmdRunner,
 	}
-)
 
-func init() {
 	rootCmd.AddCommand(searchCmd)
-	searchCmd.Flags().BoolVar(&searchAll, "all", false, "search everything, else titles only")
+	searchCmd.Flags().BoolVar(&optSearchAll, "all", false, "search everything, else titles only")
 }
 
 func searchCmdRunner(cmd *cobra.Command, args []string) error {
@@ -34,7 +34,7 @@ func searchCmdRunner(cmd *cobra.Command, args []string) error {
 
 	var results db.Results
 
-	if searchAll {
+	if optSearchAll {
 		results, err = bearDB.QueryText(args[0])
 	} else {
 		results, err = bearDB.QueryTitles(args[0], false)

@@ -9,21 +9,21 @@ import (
 )
 
 var (
-	tagName       string
-	tagAppendDate bool
+	optTagName       string
+	optTagAppendDate bool
+)
 
-	journalCmd = &cobra.Command{
+func init() {
+	journalCmd := &cobra.Command{
 		Use:   "journal",
 		Short: "Daily journal helper",
 		Long:  "Display daily note ID, or <title>,<tag>",
 		RunE:  journalCmdRunner,
 	}
-)
 
-func init() {
 	rootCmd.AddCommand(journalCmd)
-	journalCmd.Flags().StringVar(&tagName, "tag", "", "tag to add to journal entry")
-	journalCmd.Flags().BoolVar(&tagAppendDate, "date", false, "append date (/yyyy/mm) to tag")
+	journalCmd.Flags().StringVar(&optTagName, "tag", "", "tag to add to journal entry")
+	journalCmd.Flags().BoolVar(&optTagAppendDate, "date", false, "append date (yyyy/mm) to tag")
 }
 
 func journalCmdRunner(cmd *cobra.Command, args []string) error {
@@ -50,8 +50,7 @@ func journalCmdRunner(cmd *cobra.Command, args []string) error {
 	}
 
 	if id == "" {
-		tag := journalTag(now)
-		fmt.Printf("%s,%s", now.Format("2006-01-02"), tag)
+		fmt.Printf("%s,%s", now.Format("2006-01-02"), journalTag(now))
 	} else {
 		fmt.Print(id)
 	}
@@ -60,11 +59,11 @@ func journalCmdRunner(cmd *cobra.Command, args []string) error {
 }
 
 func journalTag(now time.Time) string {
-	if tagName == "" && !tagAppendDate {
+	if optTagName == "" && !optTagAppendDate {
 		return ""
-	} else if !tagAppendDate {
-		return tagName
+	} else if !optTagAppendDate {
+		return optTagName
 	} else {
-		return fmt.Sprintf("%s/%s/%s", tagName, now.Format("2006"), now.Format("01"))
+		return fmt.Sprintf("%s/%s/%s", optTagName, now.Format("2006"), now.Format("01"))
 	}
 }

@@ -50,8 +50,8 @@ type Result struct {
 	Title string
 }
 
-// Results is a collection of Result, and represents a set of notes in the database
-type Results []Result
+// Results is a list of *Result, and represents a collection of notes in the database
+type Results []*Result
 
 // Create a new DB, referencing the user's Bear Notes database
 func NewDB() (*DB, error) {
@@ -60,9 +60,7 @@ func NewDB() (*DB, error) {
 		return nil, err
 	}
 
-	dbFile := path.Join(home, dbFile)
-
-	db, err := sql.Open("sqlite3", dbFile)
+	db, err := sql.Open("sqlite3", path.Join(home, dbFile))
 	if err != nil {
 		return nil, err
 	}
@@ -129,7 +127,7 @@ func rowsToResults(rows *sql.Rows) (Results, error) {
 		if err != nil {
 			return nil, err
 		}
-		results = append(results, Result{ID: id, Title: title})
+		results = append(results, &Result{ID: id, Title: title})
 	}
 
 	return results, rows.Err()
