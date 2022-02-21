@@ -1,10 +1,11 @@
-package cmd
+package journal
 
 import (
 	"fmt"
 	"time"
 
 	"github.com/mnadel/bearfred/db"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -13,24 +14,24 @@ var (
 	optTagAppendDate bool
 )
 
-func init() {
+func New() *cobra.Command {
 	journalCmd := &cobra.Command{
 		Use:   "journal",
 		Short: "Daily journal helper",
 		Long:  "Display daily note ID, or <title>,<tag>",
-		RunE:  journalCmdRunner,
+		RunE:  runner,
 	}
 
 	journalCmd.Flags().StringVar(&optTagName, "tag", "", "tag to add to journal entry")
 	journalCmd.Flags().BoolVar(&optTagAppendDate, "date", false, "append date (yyyy/mm) to tag")
 
-	rootCmd.AddCommand(journalCmd)
+	return journalCmd
 }
 
-func journalCmdRunner(cmd *cobra.Command, args []string) error {
+func runner(cmd *cobra.Command, args []string) error {
 	bearDB, err := db.NewDB()
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 	defer bearDB.Close()
 
@@ -39,7 +40,7 @@ func journalCmdRunner(cmd *cobra.Command, args []string) error {
 
 	results, err := bearDB.QueryTitles(term, true)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	var id string

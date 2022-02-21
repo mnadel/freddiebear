@@ -1,48 +1,49 @@
-package cmd
+package search
 
 import (
 	"fmt"
 	"strings"
 
 	"github.com/mnadel/bearfred/db"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
 var (
-	optSearchAll bool
+	optAll bool
 )
 
-func init() {
+func New() *cobra.Command {
 	searchCmd := &cobra.Command{
 		Use:   "search [term]",
 		Short: "Search for a note",
 		Long:  "Generate search results in Alfred Workflow's XML schema format",
 		Args:  cobra.ExactArgs(1),
-		RunE:  searchCmdRunner,
+		RunE:  runner,
 	}
 
-	searchCmd.Flags().BoolVar(&optSearchAll, "all", false, "search everything, else titles only")
+	searchCmd.Flags().BoolVar(&optAll, "all", false, "search everything, else titles only")
 
-	rootCmd.AddCommand(searchCmd)
+	return searchCmd
 }
 
-func searchCmdRunner(cmd *cobra.Command, args []string) error {
+func runner(cmd *cobra.Command, args []string) error {
 	bearDB, err := db.NewDB()
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 	defer bearDB.Close()
 
 	var results db.Results
 
-	if optSearchAll {
+	if optAll {
 		results, err = bearDB.QueryText(args[0])
 	} else {
 		results, err = bearDB.QueryTitles(args[0], false)
 	}
 
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	fmt.Print(serialize(results))

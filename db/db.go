@@ -5,6 +5,7 @@ import (
 	"path"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/pkg/errors"
 
 	"database/sql"
 )
@@ -57,12 +58,12 @@ type Results []*Result
 func NewDB() (*DB, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 
 	db, err := sql.Open("sqlite3", path.Join(home, dbFile))
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 
 	pragmasSQL := `
@@ -73,7 +74,7 @@ func NewDB() (*DB, error) {
 	`
 
 	if _, err := db.Exec(pragmasSQL); err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 
 	return &DB{db}, nil
@@ -97,7 +98,7 @@ func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
 
 	rows, err := d.db.Query(sqlTitle, bind)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 	defer rows.Close()
 
@@ -109,7 +110,7 @@ func (d *DB) QueryText(term string) (Results, error) {
 	bind := "%" + term + "%"
 	rows, err := d.db.Query(sqlText, bind, bind)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 	defer rows.Close()
 
@@ -125,10 +126,10 @@ func rowsToResults(rows *sql.Rows) (Results, error) {
 	for rows.Next() {
 		err := rows.Scan(&id, &title)
 		if err != nil {
-			return nil, err
+			return nil, errors.WithStack(err)
 		}
 		results = append(results, &Result{ID: id, Title: title})
 	}
 
-	return results, rows.Err()
+	return results, errors.WithStack(rows.Err())
 }
