@@ -22,7 +22,7 @@ func New() *cobra.Command {
 		RunE:  runner,
 	}
 
-	searchCmd.Flags().BoolVar(&optAll, "all", false, "search everything, else titles only")
+	searchCmd.Flags().BoolVar(&optAll, "all", false, "search everything (default: titles only)")
 
 	return searchCmd
 }

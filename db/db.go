@@ -3,6 +3,7 @@ package db
 import (
 	"os"
 	"path"
+	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/pkg/errors"
@@ -11,9 +12,9 @@ import (
 )
 
 const (
-	dbFile = "/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite"
+	DBFILE = `/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite`
 
-	sqlTitle = `
+	SQL_TITLE = `
 		SELECT DISTINCT
 			ZUNIQUEIDENTIFIER, ZTITLE
  		FROM
@@ -26,7 +27,7 @@ const (
 			ZMODIFICATIONDATE DESC
 	`
 
-	sqlText = `
+	SQL_TEXT = `
 		SELECT DISTINCT
 			ZUNIQUEIDENTIFIER, ZTITLE
  		FROM
@@ -37,6 +38,13 @@ const (
 			AND (lower(ZTEXT) LIKE lower(?) OR lower(ZTITLE) LIKE lower(?))
  		ORDER BY
 			ZMODIFICATIONDATE DESC
+	`
+
+	SQL_PRAGMA = `
+		PRAGMA synchronous = normal;
+		PRAGMA temp_store = memory;
+		PRAGMA mmap_size = 30000000000;
+		PRAGMA cache_size = -64000;
 	`
 )
 
@@ -61,19 +69,12 @@ func NewDB() (*DB, error) {
 		return nil, errors.WithStack(err)
 	}
 
-	db, err := sql.Open("sqlite3", path.Join(home, dbFile))
+	db, err := sql.Open("sqlite3", path.Join(home, DBFILE))
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	pragmasSQL := `
-		PRAGMA synchronous = normal;
-		PRAGMA temp_store = memory;
-		PRAGMA mmap_size = 30000000000;
-		PRAGMA cache_size = -64000;
-	`
-
-	if _, err := db.Exec(pragmasSQL); err != nil {
+	if _, err := db.Exec(SQL_PRAGMA); err != nil {
 		return nil, errors.WithStack(err)
 	}
 
@@ -93,10 +94,10 @@ func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
 	if exact {
 		bind = term
 	} else {
-		bind = "%" + term + "%"
+		bind = substringSearch(term)
 	}
 
-	rows, err := d.db.Query(sqlTitle, bind)
+	rows, err := d.db.Query(SQL_TITLE, bind)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -107,8 +108,8 @@ func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
 
 // QueryText searches for a term within the body or title of notes within the database
 func (d *DB) QueryText(term string) (Results, error) {
-	bind := "%" + term + "%"
-	rows, err := d.db.Query(sqlText, bind, bind)
+	bind := substringSearch(term)
+	rows, err := d.db.Query(SQL_TEXT, bind, bind)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -132,4 +133,12 @@ func rowsToResults(rows *sql.Rows) (Results, error) {
 	}
 
 	return results, errors.WithStack(rows.Err())
+}
+
+func substringSearch(term string) string {
+	bind := strings.Builder{}
+	bind.WriteString(`%`)
+	bind.WriteString(term)
+	bind.WriteString(`%`)
+	return bind.String()
 }

@@ -21,5 +21,5 @@ Run `bearfred help journal` for details on how to tweak the tag it attaches to n
 This Golang implementation is pretty snappy on my current 4MB database. Most of the performance gains of this implementaion over a Python implementation appears to be reduced startup cost. That said, [db.go](https://github.com/mnadel/bearfred/blob/main/db/db.go) includes some SQLite3 pragmas that will hopefully keep it snappy as it grows. Sample timing that returns about half the records in the database:
 
 ```
-bearfred search --all drip  0.00s user 0.00s system 73% cpu 0.011 total
+bearfred search --all drip  0.00s user 0.00s system 73% cpu 0.010 total
 ```
