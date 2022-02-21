@@ -21,8 +21,9 @@ func init() {
 		RunE:  searchCmdRunner,
 	}
 
-	rootCmd.AddCommand(searchCmd)
 	searchCmd.Flags().BoolVar(&optSearchAll, "all", false, "search everything, else titles only")
+
+	rootCmd.AddCommand(searchCmd)
 }
 
 func searchCmdRunner(cmd *cobra.Command, args []string) error {

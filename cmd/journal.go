@@ -21,9 +21,10 @@ func init() {
 		RunE:  journalCmdRunner,
 	}
 
-	rootCmd.AddCommand(journalCmd)
 	journalCmd.Flags().StringVar(&optTagName, "tag", "", "tag to add to journal entry")
 	journalCmd.Flags().BoolVar(&optTagAppendDate, "date", false, "append date (yyyy/mm) to tag")
+
+	rootCmd.AddCommand(journalCmd)
 }
 
 func journalCmdRunner(cmd *cobra.Command, args []string) error {
