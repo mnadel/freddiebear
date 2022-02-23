@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	DBFILE = `/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite`
+	dbFile = `/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite`
 
-	SQL_TITLE = `
+	sqlTitle = `
 		SELECT DISTINCT
 			ZUNIQUEIDENTIFIER, ZTITLE
  		FROM
@@ -27,7 +27,7 @@ const (
 			ZMODIFICATIONDATE DESC
 	`
 
-	SQL_TEXT = `
+	sqlText = `
 		SELECT DISTINCT
 			ZUNIQUEIDENTIFIER, ZTITLE
  		FROM
@@ -40,7 +40,7 @@ const (
 			ZMODIFICATIONDATE DESC
 	`
 
-	SQL_PRAGMA = `
+	sqlPragma = `
 		PRAGMA synchronous = normal;
 		PRAGMA temp_store = memory;
 		PRAGMA mmap_size = 30000000000;
@@ -69,12 +69,12 @@ func NewDB() (*DB, error) {
 		return nil, errors.WithStack(err)
 	}
 
-	db, err := sql.Open("sqlite3", path.Join(home, DBFILE))
+	db, err := sql.Open("sqlite3", path.Join(home, dbFile))
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	if _, err := db.Exec(SQL_PRAGMA); err != nil {
+	if _, err := db.Exec(sqlPragma); err != nil {
 		return nil, errors.WithStack(err)
 	}
 
@@ -97,7 +97,7 @@ func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
 		bind = substringSearch(term)
 	}
 
-	rows, err := d.db.Query(SQL_TITLE, bind)
+	rows, err := d.db.Query(sqlTitle, bind)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -109,7 +109,7 @@ func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
 // QueryText searches for a term within the body or title of notes within the database
 func (d *DB) QueryText(term string) (Results, error) {
 	bind := substringSearch(term)
-	rows, err := d.db.Query(SQL_TEXT, bind, bind)
+	rows, err := d.db.Query(sqlText, bind, bind)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
