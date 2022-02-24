@@ -41,6 +41,7 @@ const (
 	`
 
 	sqlPragma = `
+		PRAGMA query_only = on;
 		PRAGMA synchronous = normal;
 		PRAGMA temp_store = memory;
 		PRAGMA mmap_size = 30000000000;
