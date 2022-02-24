@@ -64,12 +64,12 @@ type Results []*Result
 
 // Create a new DB, referencing the user's Bear Notes database
 func NewDB() (*DB, error) {
-	home, err := os.UserHomeDir()
+	url, err := dbUrl()
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	db, err := sql.Open("sqlite3", path.Join(home, dbFile))
+	db, err := sql.Open("sqlite3", url)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -141,4 +141,17 @@ func substringSearch(term string) string {
 	bind.WriteString(term)
 	bind.WriteString(`%`)
 	return bind.String()
+}
+
+func dbUrl() (string, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "", errors.WithStack(err)
+	}
+
+	url := strings.Builder{}
+	url.WriteString(path.Join(home, dbFile))
+	url.WriteString(`?mode=ro`)
+
+	return url.String(), nil
 }
