@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	dbFile = `/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite`
+	dbFile = `/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite?mode=ro`
 
 	sqlTitle = `
 		SELECT DISTINCT
@@ -65,12 +65,12 @@ type Results []*Result
 
 // Create a new DB, referencing the user's Bear Notes database
 func NewDB() (*DB, error) {
-	url, err := dbUrl()
+	home, err := os.UserHomeDir()
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	db, err := sql.Open("sqlite3", url)
+	db, err := sql.Open("sqlite3", path.Join(home, dbFile))
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -142,17 +142,4 @@ func substringSearch(term string) string {
 	bind.WriteString(term)
 	bind.WriteString(`%`)
 	return bind.String()
-}
-
-func dbUrl() (string, error) {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return "", errors.WithStack(err)
-	}
-
-	url := strings.Builder{}
-	url.WriteString(path.Join(home, dbFile))
-	url.WriteString(`?mode=ro`)
-
-	return url.String(), nil
 }
