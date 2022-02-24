@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mnadel/bearfred/db"
+	"github.com/mnadel/freddiebear/db"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )

@@ -1,4 +1,4 @@
-module github.com/mnadel/bearfred
+module github.com/mnadel/freddiebear
 
 go 1.17
 

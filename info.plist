@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>com.nadel.bearfred</string>
+	<string>org.nadel.freddiebear</string>
 	<key>connections</key>
 	<dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
@@ -117,7 +117,7 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Bearfred</string>
+	<string>Freddiebear</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -456,13 +456,13 @@ end alfred_script</string>
 	<key>variables</key>
 	<dict>
 		<key>BFBIN</key>
-		<string>/Users/mikenadel/Projects/go/bin/bearfred</string>
+		<string>/Users/mikenadel/Projects/go/bin/freddiebear</string>
 		<key>JOURNAL_ARGS</key>
 		<string>--tag drip/captainslog --date</string>
 	</dict>
 	<key>version</key>
 	<string>1.1</string>
 	<key>webaddress</key>
-	<string>https://github.com/mnadel/bearfred</string>
+	<string>https://github.com/mnadel/freddiebear</string>
 </dict>
 </plist>
