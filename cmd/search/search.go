@@ -10,7 +10,8 @@ import (
 )
 
 var (
-	optAll bool
+	optAll      bool
+	optShowTags bool
 )
 
 func New() *cobra.Command {
@@ -23,6 +24,7 @@ func New() *cobra.Command {
 	}
 
 	searchCmd.Flags().BoolVar(&optAll, "all", false, "search everything (default: titles only)")
+	searchCmd.Flags().BoolVar(&optShowTags, "show-tags", false, "include tags in output")
 
 	return searchCmd
 }
@@ -62,7 +64,15 @@ func serialize(results db.Results) string {
 		builder.WriteString(`<title>`)
 		builder.WriteString(item.Title)
 		builder.WriteString(`</title>`)
-		builder.WriteString(`<subtitle>Open note</subtitle>`)
+
+		if !optShowTags {
+			builder.WriteString(`<subtitle>Open note</subtitle>`)
+		} else {
+			builder.WriteString(`<subtitle>`)
+			builder.WriteString(strings.Join(item.UniqueTags(), ", "))
+			builder.WriteString(`</subtitle>`)
+		}
+
 		builder.WriteString(`<arg>`)
 		builder.WriteString(item.ID)
 		builder.WriteString(`</arg>`)

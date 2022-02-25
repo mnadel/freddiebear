@@ -271,7 +271,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>$BFBIN search "{query}"</string>
+				<string>$BFBIN search --show-tags "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -356,7 +356,7 @@ end alfred_script</string>
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>$BFBIN search --all "{query}"</string>
+				<string>$BFBIN search --all --show-tags "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -379,7 +379,11 @@ end alfred_script</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>Search your Bear notes by title (with `bt`) or exhaustively (with `bs`). Or create/open a daily note with captainslog.</string>
+	<string>Search your Bear notes by title (with `bt`) or exhaustively (with `bs`). Or create/open a daily note with captainslog.
+
+Release Notes:
+- 1.1 Initial revision
+- 1.2 Show note's tags as subtitle</string>
 	<key>uidata</key>
 	<dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
@@ -461,7 +465,7 @@ end alfred_script</string>
 		<string>--tag drip/captainslog --date</string>
 	</dict>
 	<key>version</key>
-	<string>1.1</string>
+	<string>1.2</string>
 	<key>webaddress</key>
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>

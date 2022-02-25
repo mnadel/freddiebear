@@ -16,28 +16,36 @@ const (
 
 	sqlTitle = `
 		SELECT DISTINCT
-			ZUNIQUEIDENTIFIER, ZTITLE
- 		FROM
-			ZSFNOTE
- 		WHERE
-			ZARCHIVED = 0
-			AND ZTRASHED = 0
-			AND lower(ZTITLE) LIKE lower(?)
- 		ORDER BY
-			ZMODIFICATIONDATE DESC
+			note.ZUNIQUEIDENTIFIER, note.ZTITLE, group_concat(tag.ZTITLE)
+		FROM
+			ZSFNOTE note
+			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+		WHERE
+			note.ZARCHIVED = 0
+			AND note.ZTRASHED = 0
+			AND lower(note.ZTITLE) LIKE lower(?)
+		GROUP BY
+			note.ZUNIQUEIDENTIFIER
+		ORDER BY
+			note.ZMODIFICATIONDATE DESC
 	`
 
 	sqlText = `
 		SELECT DISTINCT
-			ZUNIQUEIDENTIFIER, ZTITLE
- 		FROM
-			ZSFNOTE
- 		WHERE
-			ZARCHIVED = 0
-			AND ZTRASHED = 0
-			AND (lower(ZTEXT) LIKE lower(?) OR lower(ZTITLE) LIKE lower(?))
- 		ORDER BY
-			ZMODIFICATIONDATE DESC
+			note.ZUNIQUEIDENTIFIER, note.ZTITLE, group_concat(tag.ZTITLE)
+		FROM
+			ZSFNOTE note
+			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+		WHERE
+			note.ZARCHIVED = 0
+			AND note.ZTRASHED = 0
+			AND (lower(note.ZTEXT) LIKE lower(?) OR lower(note.ZTITLE) LIKE lower(?))
+		GROUP BY
+			note.ZUNIQUEIDENTIFIER
+		ORDER BY
+			note.ZMODIFICATIONDATE DESC
 	`
 
 	sqlPragma = `
@@ -58,6 +66,7 @@ type DB struct {
 type Result struct {
 	ID    string
 	Title string
+	Tags  string
 }
 
 // Results is a list of *Result, and represents a collection of notes in the database
@@ -119,18 +128,51 @@ func (d *DB) QueryText(term string) (Results, error) {
 	return rowsToResults(rows)
 }
 
+// UniqueTags returns a list of unique tag names ([a a/b c] would return [a/b c] since a is an intermediate tag)
+func (r *Result) UniqueTags() []string {
+	tags := strings.Split(r.Tags, ",")
+
+	// if any tag is a prefix of another, wipe it out
+	prefix := strings.Builder{}
+
+	for i, tag := range tags {
+		for j, t := range tags {
+			prefix.WriteString(tag)
+			prefix.WriteString("/")
+
+			if i != j && tags[i] != "" && strings.HasPrefix(t, prefix.String()) {
+				tags[i] = ""
+			}
+
+			prefix.Reset()
+		}
+	}
+
+	// collect non-empty tags
+	deepTags := make([]string, 0)
+
+	for _, tag := range tags {
+		if tag != "" {
+			deepTags = append(deepTags, tag)
+		}
+	}
+
+	return deepTags
+}
+
 func rowsToResults(rows *sql.Rows) (Results, error) {
 	var id string
 	var title string
+	var tags string
 
 	results := make(Results, 0)
 
 	for rows.Next() {
-		err := rows.Scan(&id, &title)
+		err := rows.Scan(&id, &title, &tags)
 		if err != nil {
 			return nil, errors.WithStack(err)
 		}
-		results = append(results, &Result{ID: id, Title: title})
+		results = append(results, &Result{ID: id, Title: title, Tags: tags})
 	}
 
 	return results, errors.WithStack(rows.Err())
