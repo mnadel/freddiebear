@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/mnadel/freddiebear/util"
 	"github.com/pkg/errors"
 
 	"database/sql"
@@ -128,36 +129,10 @@ func (d *DB) QueryText(term string) (Results, error) {
 	return rowsToResults(rows)
 }
 
-// UniqueTags returns a list of unique tag names ([a a/b c] would return [a/b c] since a is an intermediate tag)
+// UniqueTags returns the leaf-node tags ([a a/b a/b/c d] -> [a/b/c d])
 func (r *Result) UniqueTags() []string {
-	tags := strings.Split(r.Tags, ",")
-
-	// if any tag is a prefix of another, wipe it out
-	prefix := strings.Builder{}
-
-	for i, tag := range tags {
-		for j, t := range tags {
-			prefix.WriteString(tag)
-			prefix.WriteString("/")
-
-			if i != j && tags[i] != "" && strings.HasPrefix(t, prefix.String()) {
-				tags[i] = ""
-			}
-
-			prefix.Reset()
-		}
-	}
-
-	// collect non-empty tags
-	deepTags := make([]string, 0)
-
-	for _, tag := range tags {
-		if tag != "" {
-			deepTags = append(deepTags, tag)
-		}
-	}
-
-	return deepTags
+	split := strings.Split(r.Tags, ",")
+	return util.RemoveIntermediatePrefixes(split, "/")
 }
 
 func rowsToResults(rows *sql.Rows) (Results, error) {
