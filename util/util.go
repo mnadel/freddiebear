@@ -13,16 +13,17 @@ func RemoveIntermediatePrefixes(strs []string, sep string) []string {
 	prefix := strings.Builder{}
 
 	for i, tag := range mut {
-		for j, t := range mut {
-			prefix.WriteString(tag)
-			prefix.WriteString(sep)
+		prefix.WriteString(tag)
+		prefix.WriteString(sep)
+                pfx := prefix.String()
 
-			if i != j && mut[i] != "" && strings.HasPrefix(t, prefix.String()) {
+		for j, t := range mut {
+			if i != j && mut[i] != "" && strings.HasPrefix(t, pfx) {
 				mut[i] = ""
 			}
-
-			prefix.Reset()
 		}
+
+		prefix.Reset()
 	}
 
 	// collect non-empty entries
