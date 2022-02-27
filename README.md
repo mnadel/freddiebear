@@ -26,12 +26,17 @@ freddiebear search --all drip  0.00s user 0.00s system 66% cpu 0.012 total
 
 ## --show-tags
 
-Show tags will generate a list longest-path tags to show as an Alfred item's subtitle. For example, a note with a tag `a/b/c` will have three tags in the database:
+Show tags will generate a list longest-path tags to show as an Alfred item's subtitle.
+
+For example, a note with a tags `q` and `a/b/c` will have four tags in the database:
+1. `q`
 1. `a`
 1. `a/b`
 1. `a/b/c`
 
-And we'll only return terminal (non-intermediate) tags. The current implementation uses a O(n^2) algorithm, but in practice is quite fast for small sets of tags. Compare its implementation to one that uses a prefix trie:
+And we'll only return the terminal/non-intermediate tags (`a/b/c` and `q` in this example).
+
+The current implementation uses a O(n^2) algorithm, but in practice is quite fast for small sets of tags. Compare its implementation to one that uses a prefix trie:
 
 ```
 → go test -bench=.
