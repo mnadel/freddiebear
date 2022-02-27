@@ -17,7 +17,9 @@ const (
 
 	sqlTitle = `
 		SELECT DISTINCT
-			note.ZUNIQUEIDENTIFIER, note.ZTITLE, group_concat(tag.ZTITLE)
+			note.ZUNIQUEIDENTIFIER,
+			note.ZTITLE,
+			group_concat(tag.ZTITLE)
 		FROM
 			ZSFNOTE note
 			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
@@ -34,7 +36,9 @@ const (
 
 	sqlText = `
 		SELECT DISTINCT
-			note.ZUNIQUEIDENTIFIER, note.ZTITLE, group_concat(tag.ZTITLE)
+			note.ZUNIQUEIDENTIFIER,
+			note.ZTITLE,
+			group_concat(tag.ZTITLE)
 		FROM
 			ZSFNOTE note
 			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES

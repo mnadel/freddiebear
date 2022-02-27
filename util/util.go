@@ -12,8 +12,8 @@ func RemoveIntermediatePrefixes(strs []string, sep string) []string {
 
 	prefix := strings.Builder{}
 
-	// if any tag is a prefix of another, clear it out
 	for i, s := range mut {
+		// if it's already been removed, then skip
 		if s == "" {
 			continue
 		}
@@ -22,9 +22,11 @@ func RemoveIntermediatePrefixes(strs []string, sep string) []string {
 		prefix.WriteString(sep)
 		pfx := prefix.String()
 
+		// remove if any other string is prefixed with this string
 		for j, t := range mut {
-			if i != j && mut[i] != "" && strings.HasPrefix(t, pfx) {
+			if i != j && strings.HasPrefix(t, pfx) {
 				mut[i] = ""
+				break
 			}
 		}
 
