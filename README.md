@@ -21,5 +21,24 @@ Run `freddiebear help journal` for details on how to tweak the tag it attaches t
 This Golang implementation is pretty snappy on my current 4MB database. Most of the performance gains of this implementaion over a Python implementation appears to be reduced startup cost. That said, [db.go](https://github.com/mnadel/freddiebear/blob/main/db/db.go) includes some SQLite3 pragmas that will hopefully keep it snappy as it grows. Sample timing that returns about half the records in the database:
 
 ```
-freddiebear search --all drip  0.00s user 0.00s system 73% cpu 0.010 total
+freddiebear search --all drip  0.00s user 0.00s system 66% cpu 0.012 total
+```
+
+## --show-tags
+
+Show tags will generate a list longest-path tags to show as an Alfred item's subtitle. For example, a note with a tag `a/b/c` will have three tags in the database:
+1. `a`
+1. `a/b`
+1. `a/b/c`
+
+And we'll only return terminal (non-intermediate) tags. The current implementation uses a O(n^2) algorithm, but in practice is quite fast for small sets of tags. Compare its implementation to one that uses a prefix trie:
+
+```
+→ go test -bench=.
+goos: darwin
+goarch: amd64
+pkg: github.com/mnadel/freddiebear/util
+cpu: Intel(R) Core(TM) i9-9880H CPU @ 2.30GHz
+BenchmarkRemoveIntermediatePrefixes-16   4701206               233.7 ns/op
+BenchmarkPrefixTrie-16                    611623              1865 ns/op
 ```
