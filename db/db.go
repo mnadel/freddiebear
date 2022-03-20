@@ -55,7 +55,8 @@ const (
 
 	sqlExport = `
 		select
-			ZTITLE || ' (' || Z_PK || ')',
+			Z_PK,
+			ZTITLE,
 			ZTEXT
 		from
 			ZSFNOTE
@@ -74,7 +75,7 @@ const (
 )
 
 // Exporter is a func that receives an export of all notes
-type Exporter func(title, text string) error
+type Exporter func(id int, title, text string) error
 
 // DB represents the Bear Notes database
 type DB struct {
@@ -122,16 +123,17 @@ func (d *DB) Export(exporter Exporter) error {
 		return errors.WithStack(rows.Err())
 	}
 
+	var id int
 	var title string
 	var text string
 
 	for rows.Next() {
-		err := rows.Scan(&title, &text)
+		err := rows.Scan(&id, &title, &text)
 		if err != nil {
 			return errors.WithStack(err)
 		}
 
-		if err = exporter(title, text); err != nil {
+		if err = exporter(id, title, text); err != nil {
 			return errors.WithStack(err)
 		}
 	}

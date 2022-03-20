@@ -52,8 +52,8 @@ func exporter(destination string) (db.Exporter, error) {
 		return nil, errors.WithStack(fmt.Errorf("not a directory: %s", destination))
 	}
 
-	return func(title, text string) error {
-		filename := fmt.Sprintf("%s.md", url.QueryEscape(title))
+	return func(id int, title, text string) error {
+		filename := fmt.Sprintf("%s (%d).md", url.QueryEscape(title), id)
 		filename = path.Join(destination, filename)
 
 		if err = ioutil.WriteFile(filename, []byte(text), 0644); err != nil {
