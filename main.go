@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/mnadel/freddiebear/cmd/export"
 	"github.com/mnadel/freddiebear/cmd/journal"
 	"github.com/mnadel/freddiebear/cmd/search"
 	"github.com/mnadel/freddiebear/cmd/version"
@@ -19,6 +20,7 @@ func main() {
 	cmd.AddCommand(journal.New())
 	cmd.AddCommand(search.New())
 	cmd.AddCommand(version.New())
+	cmd.AddCommand(export.New())
 
 	if err := cmd.Execute(); err != nil {
 		log.Fatal(err)

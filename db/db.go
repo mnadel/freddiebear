@@ -53,6 +53,17 @@ const (
 			note.ZMODIFICATIONDATE DESC
 	`
 
+	sqlExport = `
+		select
+			ZTITLE || ' (' || Z_PK || ')',
+			ZTEXT
+		from
+			ZSFNOTE
+		where
+			ZARCHIVED = 0 
+			and ZTRASHED = 0
+	`
+
 	sqlPragma = `
 		PRAGMA query_only = on;
 		PRAGMA synchronous = normal;
@@ -61,6 +72,9 @@ const (
 		PRAGMA cache_size = -64000;
 	`
 )
+
+// Exporter is a func that receives an export of all notes
+type Exporter func(title, text string) error
 
 // DB represents the Bear Notes database
 type DB struct {
@@ -99,6 +113,30 @@ func NewDB() (*DB, error) {
 // Close cleans up our database connection
 func (d *DB) Close() error {
 	return d.db.Close()
+}
+
+// Export notes to specified directory
+func (d *DB) Export(exporter Exporter) error {
+	rows, err := d.db.Query(sqlExport)
+	if err != nil {
+		return errors.WithStack(rows.Err())
+	}
+
+	var title string
+	var text string
+
+	for rows.Next() {
+		err := rows.Scan(&title, &text)
+		if err != nil {
+			return errors.WithStack(err)
+		}
+
+		if err = exporter(title, text); err != nil {
+			return errors.WithStack(err)
+		}
+	}
+
+	return nil
 }
 
 // QueryTitles searches for a term within the titles of notes within the database, setting
