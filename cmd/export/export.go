@@ -12,11 +12,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	optAll      bool
-	optShowTags bool
-)
-
 func New() *cobra.Command {
 	searchCmd := &cobra.Command{
 		Use:   "export [destination]",
