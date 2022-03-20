@@ -47,11 +47,11 @@ func exporter(destination string) (db.Exporter, error) {
 		return nil, errors.WithStack(fmt.Errorf("not a directory: %s", destination))
 	}
 
-	return func(id int, title, text string) error {
-		filename := fmt.Sprintf("%s (%d).md", url.QueryEscape(title), id)
+	return func(record *db.Record) error {
+		filename := fmt.Sprintf("%s (%d).md", url.QueryEscape(record.Title), record.ID)
 		filename = path.Join(destination, filename)
 
-		if err = ioutil.WriteFile(filename, []byte(text), 0644); err != nil {
+		if err = ioutil.WriteFile(filename, []byte(record.Text), 0644); err != nil {
 			return err
 		}
 

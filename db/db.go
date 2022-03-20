@@ -56,6 +56,7 @@ const (
 	sqlExport = `
 		select
 			Z_PK,
+			ZUNIQUEIDENTIFIER,
 			ZTITLE,
 			ZTEXT
 		from
@@ -74,12 +75,20 @@ const (
 	`
 )
 
-// Exporter is a func that receives an export of all notes
-type Exporter func(id int, title, text string) error
+// Exporter is a func that receives an exported record
+type Exporter func(record *Record) error
 
 // DB represents the Bear Notes database
 type DB struct {
 	db *sql.DB
+}
+
+// Record represents an exported record
+type Record struct {
+	ID    int
+	GUID  string
+	Title string
+	Text  string
 }
 
 // Result references a specific note: its identifier and title
@@ -123,17 +132,15 @@ func (d *DB) Export(exporter Exporter) error {
 		return errors.WithStack(rows.Err())
 	}
 
-	var id int
-	var title string
-	var text string
-
 	for rows.Next() {
-		err := rows.Scan(&id, &title, &text)
+		record := Record{}
+
+		err := rows.Scan(&record.ID, &record.GUID, &record.Title, &record.Text)
 		if err != nil {
 			return errors.WithStack(err)
 		}
 
-		if err = exporter(id, title, text); err != nil {
+		if err = exporter(&record); err != nil {
 			return errors.WithStack(err)
 		}
 	}
