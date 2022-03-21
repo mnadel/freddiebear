@@ -39,10 +39,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	defer bearDB.Close()
 
 	if listOnly {
-		return bearDB.Export(func(rec *db.Record) error {
-			fmt.Println(path.Join(args[0], buildFilename(rec)))
-			return nil
-		})
+		return bearDB.Export(printingExporter(args[0]))
 	}
 
 	info, err := os.Stat(args[0])
@@ -52,25 +49,27 @@ func runner(cmd *cobra.Command, args []string) error {
 		return errors.WithStack(fmt.Errorf("not a directory: %s", args[0]))
 	}
 
-	exporter, err := exporter(args[0])
-	if err != nil {
-		return errors.WithStack(err)
-	}
-
-	return bearDB.Export(exporter)
+	return bearDB.Export(writingExporter(args[0]))
 }
 
-func exporter(destinationDir string) (db.Exporter, error) {
+func printingExporter(destinationDir string) db.Exporter {
+	return func(record *db.Record) error {
+		fmt.Println(path.Join(destinationDir, buildFilename(record)))
+		return nil
+	}
+}
+
+func writingExporter(destinationDir string) db.Exporter {
 	return func(record *db.Record) error {
 		filename := buildFilename(record)
 		outfile := path.Join(destinationDir, filename)
 
 		if err := ioutil.WriteFile(outfile, []byte(record.Text), 0644); err != nil {
-			return err
+			return errors.WithStack(err)
 		}
 
 		return nil
-	}, nil
+	}
 }
 
 func buildFilename(record *db.Record) string {

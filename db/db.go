@@ -55,7 +55,6 @@ const (
 
 	sqlExport = `
 		select
-			Z_PK,
 			ZUNIQUEIDENTIFIER,
 			ZTITLE,
 			ZTEXT
@@ -83,9 +82,8 @@ type DB struct {
 	db *sql.DB
 }
 
-// Record represents an exported record
+// Record represents an exported note
 type Record struct {
-	ID    int
 	GUID  string
 	Title string
 	Text  string
@@ -135,7 +133,7 @@ func (d *DB) Export(exporter Exporter) error {
 	for rows.Next() {
 		record := Record{}
 
-		err := rows.Scan(&record.ID, &record.GUID, &record.Title, &record.Text)
+		err := rows.Scan(&record.GUID, &record.Title, &record.Text)
 		if err != nil {
 			return errors.WithStack(err)
 		}
