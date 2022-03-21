@@ -65,7 +65,12 @@ func writingExporter(destinationDir string) db.Exporter {
 		outfile := path.Join(destinationDir, filename)
 
 		if err := ioutil.WriteFile(outfile, []byte(record.Text), 0644); err != nil {
-			return errors.WithStack(err)
+			filename = buildSafeFilename(record)
+			outfile = path.Join(destinationDir, filename)
+
+			if err = ioutil.WriteFile(outfile, []byte(record.Text), 0644); err != nil {
+				return errors.WithStack(err)
+			}
 		}
 
 		return nil
@@ -73,6 +78,13 @@ func writingExporter(destinationDir string) db.Exporter {
 }
 
 func buildFilename(record *db.Record) string {
+	id := fmt.Sprintf("%x", md5.Sum([]byte(record.GUID)))
+	filename := fmt.Sprintf("%s (%s).md", record.Title, id[0:7])
+
+	return filename
+}
+
+func buildSafeFilename(record *db.Record) string {
 	id := fmt.Sprintf("%x", md5.Sum([]byte(record.GUID)))
 	filename := fmt.Sprintf("%s (%s).md", url.QueryEscape(record.Title), id[0:7])
 
