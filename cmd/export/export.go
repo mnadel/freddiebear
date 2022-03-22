@@ -4,9 +4,11 @@ import (
 	"crypto/md5"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/url"
 	"os"
 	"path"
+	"regexp"
 
 	"github.com/mnadel/freddiebear/db"
 	"github.com/pkg/errors"
@@ -16,6 +18,9 @@ import (
 var (
 	listOnly bool
 )
+
+type SHA string
+type Filename string
 
 func New() *cobra.Command {
 	searchCmd := &cobra.Command{
@@ -49,7 +54,12 @@ func runner(cmd *cobra.Command, args []string) error {
 		return errors.WithStack(fmt.Errorf("not a directory: %s", args[0]))
 	}
 
-	return bearDB.Export(writingExporter(args[0]))
+	exporter, err := writingExporter(args[0])
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	return bearDB.Export(exporter)
 }
 
 func printingExporter(destinationDir string) db.Exporter {
@@ -59,34 +69,78 @@ func printingExporter(destinationDir string) db.Exporter {
 	}
 }
 
-func writingExporter(destinationDir string) db.Exporter {
+func writingExporter(destinationDir string) (db.Exporter, error) {
+	filenameSHAs, err := getFilenameSHAs(destinationDir)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
 	return func(record *db.Record) error {
-		filename := buildFilename(record)
-		outfile := path.Join(destinationDir, filename)
+		preferredFilename := path.Join(destinationDir, buildFilename(record))
+		safeFilename := path.Join(destinationDir, buildSafeFilename(record))
+		recordText := []byte(record.Text)
 
-		if err := ioutil.WriteFile(outfile, []byte(record.Text), 0644); err != nil {
-			filename = buildSafeFilename(record)
-			outfile = path.Join(destinationDir, filename)
+		changes, err := hasChanges(filenameSHAs, record.SHA, recordText)
+		if err != nil {
+			return errors.WithStack(err)
+		} else if !changes {
+			return nil
+		}
 
-			if err = ioutil.WriteFile(outfile, []byte(record.Text), 0644); err != nil {
+		log.Println("exporing", record.SHA)
+
+		if err := os.WriteFile(preferredFilename, recordText, 0644); err != nil {
+			if err = os.WriteFile(safeFilename, recordText, 0644); err != nil {
 				return errors.WithStack(err)
 			}
 		}
 
 		return nil
-	}
+	}, nil
 }
 
 func buildFilename(record *db.Record) string {
-	id := fmt.Sprintf("%x", md5.Sum([]byte(record.GUID)))
-	filename := fmt.Sprintf("%s (%s).md", record.Title, id[0:7])
-
-	return filename
+	return fmt.Sprintf("%s (%s).md", record.Title, record.SHA)
 }
 
 func buildSafeFilename(record *db.Record) string {
-	id := fmt.Sprintf("%x", md5.Sum([]byte(record.GUID)))
-	filename := fmt.Sprintf("%s (%s).md", url.QueryEscape(record.Title), id[0:7])
+	return fmt.Sprintf("%s (%s).md", url.QueryEscape(record.Title), record.SHA)
+}
 
-	return filename
+func hasChanges(mapping map[SHA]Filename, sha string, newData []byte) (bool, error) {
+	filename, ok := mapping[SHA(sha)]
+	if !ok {
+		return true, nil
+	}
+
+	oldData, err := os.ReadFile(string(filename))
+	if err != nil {
+		return false, errors.WithStack(err)
+	}
+
+	oldSum := md5.Sum(oldData)
+	newSum := md5.Sum(newData)
+
+	return oldSum != newSum, nil
+}
+
+func getFilenameSHAs(directory string) (map[SHA]Filename, error) {
+	files, err := ioutil.ReadDir(directory)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	filenames := make(map[SHA]Filename)
+	re := regexp.MustCompile(`.*\s\((\w+)\)\.md$`)
+
+	for _, file := range files {
+		if !file.IsDir() {
+			parts := re.FindStringSubmatch(file.Name())
+			if len(parts) == 2 {
+				filenames[SHA(parts[1])] = Filename(file.Name())
+			}
+		}
+	}
+
+	return filenames, nil
 }

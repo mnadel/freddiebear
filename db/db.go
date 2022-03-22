@@ -1,6 +1,8 @@
 package db
 
 import (
+	"crypto/md5"
+	"fmt"
 	"os"
 	"path"
 	"strings"
@@ -84,7 +86,7 @@ type DB struct {
 
 // Record represents an exported note
 type Record struct {
-	GUID  string
+	SHA   string
 	Title string
 	Text  string
 }
@@ -130,15 +132,21 @@ func (d *DB) Export(exporter Exporter) error {
 		return errors.WithStack(rows.Err())
 	}
 
-	for rows.Next() {
-		record := Record{}
+	var guid, title, text string
 
-		err := rows.Scan(&record.GUID, &record.Title, &record.Text)
+	for rows.Next() {
+		err := rows.Scan(&guid, &title, &text)
 		if err != nil {
 			return errors.WithStack(err)
 		}
 
-		if err = exporter(&record); err != nil {
+		record := &Record{
+			SHA:   fmt.Sprintf("%x", md5.Sum([]byte(guid)))[0:7],
+			Title: title,
+			Text:  text,
+		}
+
+		if err = exporter(record); err != nil {
 			return errors.WithStack(err)
 		}
 	}
