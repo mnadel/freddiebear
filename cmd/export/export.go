@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/url"
 	"os"
 	"path"
 	"regexp"
@@ -13,6 +12,11 @@ import (
 	"github.com/mnadel/freddiebear/db"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+)
+
+const (
+	FilenameTemplate = "%s (%s).md"
+	FilenameRegex    = `.*\s\((\w+)\)\.md$`
 )
 
 var (
@@ -76,23 +80,27 @@ func writingExporter(destinationDir string) (db.Exporter, error) {
 	}
 
 	return func(record *db.Record) error {
-		preferredFilename := path.Join(destinationDir, buildFilename(record))
-		safeFilename := path.Join(destinationDir, buildSafeFilename(record))
+		filename := path.Join(destinationDir, buildFilename(record))
 		recordText := []byte(record.Text)
 
-		changes, err := hasChanges(filenameSHAs, record.SHA, recordText)
-		if err != nil {
-			return errors.WithStack(err)
-		} else if !changes {
-			return nil
-		}
-
-		log.Println("exporing", record.SHA)
-
-		if err := os.WriteFile(preferredFilename, recordText, 0644); err != nil {
-			if err = os.WriteFile(safeFilename, recordText, 0644); err != nil {
+		if renamed, oldName := wasRenamed(SHA(record.SHA), filename, filenameSHAs); renamed {
+			log.Println("removing renamed file", oldName, "->", filename)
+			if err := os.Remove(string(oldName)); err != nil {
 				return errors.WithStack(err)
 			}
+		} else {
+			changes, err := hasChanges(record.SHA, recordText, filenameSHAs)
+			if err != nil {
+				return errors.WithStack(err)
+			} else if !changes {
+				return nil
+			}
+		}
+
+		log.Println("exporting", record.SHA)
+
+		if err := os.WriteFile(filename, recordText, 0644); err != nil {
+			return errors.WithStack(err)
 		}
 
 		return nil
@@ -100,14 +108,10 @@ func writingExporter(destinationDir string) (db.Exporter, error) {
 }
 
 func buildFilename(record *db.Record) string {
-	return fmt.Sprintf("%s (%s).md", record.Title, record.SHA)
+	return fmt.Sprintf(FilenameTemplate, record.Title, record.SHA)
 }
 
-func buildSafeFilename(record *db.Record) string {
-	return fmt.Sprintf("%s (%s).md", url.QueryEscape(record.Title), record.SHA)
-}
-
-func hasChanges(mapping map[SHA]Filename, sha string, newData []byte) (bool, error) {
+func hasChanges(sha string, newData []byte, mapping map[SHA]Filename) (bool, error) {
 	filename, ok := mapping[SHA(sha)]
 	if !ok {
 		return true, nil
@@ -124,6 +128,15 @@ func hasChanges(mapping map[SHA]Filename, sha string, newData []byte) (bool, err
 	return oldSum != newSum, nil
 }
 
+func wasRenamed(sha SHA, newName string, mapping map[SHA]Filename) (bool, Filename) {
+	f, ok := mapping[sha]
+	if !ok {
+		return false, ""
+	}
+
+	return string(f) != newName, f
+}
+
 func getFilenameSHAs(directory string) (map[SHA]Filename, error) {
 	files, err := ioutil.ReadDir(directory)
 	if err != nil {
@@ -131,7 +144,7 @@ func getFilenameSHAs(directory string) (map[SHA]Filename, error) {
 	}
 
 	filenames := make(map[SHA]Filename)
-	re := regexp.MustCompile(`.*\s\((\w+)\)\.md$`)
+	re := regexp.MustCompile(FilenameRegex)
 
 	for _, file := range files {
 		if !file.IsDir() {
