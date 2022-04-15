@@ -10,7 +10,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+				<string>9BAAA486-610C-457F-BC72-FF7242F797E0</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -57,6 +57,31 @@
 				<false/>
 			</dict>
 		</array>
+		<key>9BAAA486-610C-457F-BC72-FF7242F797E0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>74D89E61-F33F-43B9-A518-3FF322D91D9A</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<array>
 			<dict>
@@ -74,7 +99,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+				<string>9BAAA486-610C-457F-BC72-FF7242F797E0</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -88,6 +113,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>73CD1003-1EB6-41AD-9205-DC88881924D8</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -168,7 +206,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/Users/mikenadel/Projects/go/bin/freddiebear journal --tag drip/captainslog --date</string>
+				<string>/Users/mikenadel/Projects/go/bin/freddiebear journal --tag captainslog --date</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -295,6 +333,25 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>bear://x-callback-url/open-note?id={query}&amp;open_note=yes&amp;edit=yes&amp;show_window=yes</string>
+				<key>utf8</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>applescript</key>
 				<string>on alfred_script(q)
   -- your script here
@@ -312,19 +369,30 @@ end alfred_script</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>spaces</key>
-				<string></string>
-				<key>url</key>
-				<string>bear://x-callback-url/open-note?id={query}&amp;open_note=yes&amp;edit=yes&amp;show_window=yes</string>
-				<key>utf8</key>
-				<false/>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{query}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>create:.*</string>
+						<key>outputlabel</key>
+						<string>create</string>
+						<key>uid</key>
+						<string>74D89E61-F33F-43B9-A518-3FF322D91D9A</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>open</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
+			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
-			<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
+			<string>9BAAA486-610C-457F-BC72-FF7242F797E0</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -377,6 +445,42 @@ end alfred_script</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>bear://x-callback-url/create?title={query}&amp;open_note=yes&amp;text=%20&amp;show_window=yes&amp;edit=yes</string>
+				<key>utf8</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>73CD1003-1EB6-41AD-9205-DC88881924D8</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>create:</string>
+				<key>replacestring</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.replace</string>
+			<key>uid</key>
+			<string>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>Search your Bear notes by title (with `bt`) or exhaustively (with `bs`). Or create/open a daily note with captainslog.
@@ -407,6 +511,13 @@ Release Notes:
 			<key>ypos</key>
 			<integer>145</integer>
 		</dict>
+		<key>73CD1003-1EB6-41AD-9205-DC88881924D8</key>
+		<dict>
+			<key>xpos</key>
+			<integer>790</integer>
+			<key>ypos</key>
+			<integer>470</integer>
+		</dict>
 		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
 		<dict>
 			<key>xpos</key>
@@ -420,6 +531,13 @@ Release Notes:
 			<integer>530</integer>
 			<key>ypos</key>
 			<integer>165</integer>
+		</dict>
+		<key>9BAAA486-610C-457F-BC72-FF7242F797E0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>500</integer>
+			<key>ypos</key>
+			<integer>395</integer>
 		</dict>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<dict>
@@ -438,9 +556,9 @@ Release Notes:
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
 			<key>xpos</key>
-			<integer>665</integer>
+			<integer>785</integer>
 			<key>ypos</key>
-			<integer>360</integer>
+			<integer>295</integer>
 		</dict>
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
@@ -448,6 +566,13 @@ Release Notes:
 			<integer>430</integer>
 			<key>ypos</key>
 			<integer>175</integer>
+		</dict>
+		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
+		<dict>
+			<key>xpos</key>
+			<integer>665</integer>
+			<key>ypos</key>
+			<integer>500</integer>
 		</dict>
 		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
 		<dict>
