@@ -379,7 +379,7 @@ end alfred_script</string>
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>create:.*</string>
+						<string>x-fb-create:.*</string>
 						<key>outputlabel</key>
 						<string>create</string>
 						<key>uid</key>
@@ -470,7 +470,7 @@ end alfred_script</string>
 				<key>matchmode</key>
 				<integer>0</integer>
 				<key>matchstring</key>
-				<string>create:</string>
+				<string>x-fb-create:</string>
 				<key>replacestring</key>
 				<string></string>
 			</dict>
