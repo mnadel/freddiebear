@@ -16,6 +16,12 @@ The `captainslog` keyword will either open today's log (a note with the title `Y
 
 Run `freddiebear help journal` for details on how to tweak the tag it attaches to new notes.
 
+# Exporting
+
+You can `export` the text contents of your notes to Markdown files. Specify the directory and we'll create files in the form of `<title> (<sha>).md`.
+
+Titles aren't unique, so we append a unique ID for each note. It also allows us to track renamed notes if you re-export into an existing directory.
+
 # Implementation
 
 This Golang implementation is pretty snappy on my current 4MB database. Most of the performance gains of this implementaion over a Python implementation appears to be reduced startup cost. That said, [db.go](https://github.com/mnadel/freddiebear/blob/main/db/db.go) includes some SQLite3 pragmas that will hopefully keep it snappy as it grows. Sample timing that returns about half the records in the database:

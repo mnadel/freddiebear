@@ -1,4 +1,4 @@
-package export
+package exporter
 
 import (
 	"crypto/md5"

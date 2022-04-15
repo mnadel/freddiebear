@@ -48,35 +48,48 @@ func runner(cmd *cobra.Command, args []string) error {
 		return errors.WithStack(err)
 	}
 
-	fmt.Print(serialize(results))
+	fmt.Print(serialize(results, args[0]))
 
 	return nil
 }
 
-func serialize(results db.Results) string {
+func serialize(results db.Results, searchTerm string) string {
 	builder := strings.Builder{}
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
 	builder.WriteString(`<items>`)
 
-	for _, item := range results {
+	if len(results) == 0 {
 		builder.WriteString(`<item valid="yes">`)
+		builder.WriteString(`<subtitle>Create note</subtitle>`)
 		builder.WriteString(`<title>`)
-		builder.WriteString(item.Title)
+		builder.WriteString(searchTerm)
 		builder.WriteString(`</title>`)
-
-		if !optShowTags {
-			builder.WriteString(`<subtitle>Open note</subtitle>`)
-		} else {
-			builder.WriteString(`<subtitle>`)
-			builder.WriteString(strings.Join(item.UniqueTags(), ", "))
-			builder.WriteString(`</subtitle>`)
-		}
-
 		builder.WriteString(`<arg>`)
-		builder.WriteString(item.ID)
+		builder.WriteString(`create:`)
+		builder.WriteString(searchTerm)
 		builder.WriteString(`</arg>`)
 		builder.WriteString(`</item>`)
+	} else {
+		for _, item := range results {
+			builder.WriteString(`<item valid="yes">`)
+			builder.WriteString(`<title>`)
+			builder.WriteString(item.Title)
+			builder.WriteString(`</title>`)
+
+			if !optShowTags {
+				builder.WriteString(`<subtitle>Open note</subtitle>`)
+			} else {
+				builder.WriteString(`<subtitle>`)
+				builder.WriteString(strings.Join(item.UniqueTags(), ", "))
+				builder.WriteString(`</subtitle>`)
+			}
+
+			builder.WriteString(`<arg>`)
+			builder.WriteString(item.ID)
+			builder.WriteString(`</arg>`)
+			builder.WriteString(`</item>`)
+		}
 	}
 
 	builder.WriteString(`</items>`)

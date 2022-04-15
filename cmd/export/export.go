@@ -7,7 +7,7 @@ import (
 	"path"
 
 	"github.com/mnadel/freddiebear/db"
-	"github.com/mnadel/freddiebear/db/export"
+	"github.com/mnadel/freddiebear/db/exporter"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
@@ -48,36 +48,36 @@ func runner(cmd *cobra.Command, args []string) error {
 		return errors.WithStack(fmt.Errorf("not a directory: %s", args[0]))
 	}
 
-	exporter, err := writingExporter(args[0])
+	exp, err := writingExporter(args[0])
 	if err != nil {
 		return errors.WithStack(err)
 	}
 
-	return bearDB.Export(exporter)
+	return bearDB.Export(exp)
 }
 
 func printingExporter(destinationDir string) db.Exporter {
 	return func(record *db.Record) error {
-		fmt.Println(path.Join(destinationDir, export.BuildFilename(record)))
+		fmt.Println(path.Join(destinationDir, exporter.BuildFilename(record)))
 		return nil
 	}
 }
 
 func writingExporter(destinationDir string) (db.Exporter, error) {
-	exporter, err := export.NewExporter(destinationDir)
+	exp, err := exporter.NewExporter(destinationDir)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
 	return func(record *db.Record) error {
-		if renamed, oldName := exporter.IsRenamed(record); renamed {
+		if renamed, oldName := exp.IsRenamed(record); renamed {
 			log.Println("detected rename of", oldName)
 
 			if err := os.Remove(string(oldName)); err != nil {
 				return errors.WithStack(err)
 			}
 		} else {
-			changes, err := exporter.IsChanged(record)
+			changes, err := exp.IsChanged(record)
 			if err != nil {
 				return errors.WithStack(err)
 			} else if !changes {
@@ -91,10 +91,9 @@ func writingExporter(destinationDir string) (db.Exporter, error) {
 }
 
 func writeRecord(record *db.Record, destinationDir string) error {
-	filename := path.Join(destinationDir, export.BuildFilename(record))
-	recordText := []byte(record.Text)
+	filename := path.Join(destinationDir, exporter.BuildFilename(record))
 
-	if err := os.WriteFile(filename, recordText, 0644); err != nil {
+	if err := os.WriteFile(filename, []byte(record.Text), 0644); err != nil {
 		return errors.WithStack(err)
 	}
 
