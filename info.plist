@@ -513,6 +513,8 @@ Release Notes:
 		</dict>
 		<key>73CD1003-1EB6-41AD-9205-DC88881924D8</key>
 		<dict>
+			<key>note</key>
+			<string>create note</string>
 			<key>xpos</key>
 			<integer>790</integer>
 			<key>ypos</key>
@@ -520,6 +522,8 @@ Release Notes:
 		</dict>
 		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
 		<dict>
+			<key>note</key>
+			<string>create cap log</string>
 			<key>xpos</key>
 			<integer>780</integer>
 			<key>ypos</key>
@@ -555,6 +559,8 @@ Release Notes:
 		</dict>
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
+			<key>note</key>
+			<string>open note</string>
 			<key>xpos</key>
 			<integer>785</integer>
 			<key>ypos</key>
@@ -569,6 +575,8 @@ Release Notes:
 		</dict>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<dict>
+			<key>note</key>
+			<string>remove x-fb</string>
 			<key>xpos</key>
 			<integer>665</integer>
 			<key>ypos</key>

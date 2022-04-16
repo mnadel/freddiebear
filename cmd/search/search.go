@@ -3,6 +3,7 @@ package search
 import (
 	"fmt"
 	"strings"
+	"unicode"
 
 	"github.com/mnadel/freddiebear/db"
 	"github.com/pkg/errors"
@@ -49,16 +50,17 @@ func runner(cmd *cobra.Command, args []string) error {
 	}
 
 	if len(results) == 0 {
-		fmt.Print(serializeCreate(args[0]))
+		fmt.Print(buildCreateXml(args[0]))
 	} else {
-		fmt.Print(serializeOpen(results))
+		fmt.Print(buildOpenXml(results))
 	}
 
 	return nil
 }
 
-func serializeCreate(searchTerm string) string {
+func buildCreateXml(searchTerm string) string {
 	builder := strings.Builder{}
+	title := toTitleCase(searchTerm)
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
 	builder.WriteString(`<items>`)
@@ -66,11 +68,11 @@ func serializeCreate(searchTerm string) string {
 	builder.WriteString(`<item valid="yes">`)
 	builder.WriteString(`<subtitle>Create note</subtitle>`)
 	builder.WriteString(`<title>`)
-	builder.WriteString(searchTerm)
+	builder.WriteString(title)
 	builder.WriteString(`</title>`)
 	builder.WriteString(`<arg>`)
 	builder.WriteString(`x-fb-create:`)
-	builder.WriteString(searchTerm)
+	builder.WriteString(title)
 	builder.WriteString(`</arg>`)
 	builder.WriteString(`</item>`)
 
@@ -79,7 +81,26 @@ func serializeCreate(searchTerm string) string {
 	return builder.String()
 }
 
-func serializeOpen(results db.Results) string {
+// toTitleCase return word w/ first chars uppercase'd
+func toTitleCase(word string) string {
+	if unicode.IsUpper(rune(word[0])) {
+		return word
+	}
+
+	builder := strings.Builder{}
+
+	for _, word := range strings.Split(word, " ") {
+		if builder.Len() > 0 {
+			builder.WriteString(` `)
+		}
+		builder.WriteRune(unicode.ToUpper(rune(word[0])))
+		builder.WriteString(word[1:])
+	}
+
+	return builder.String()
+}
+
+func buildOpenXml(results db.Results) string {
 	builder := strings.Builder{}
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
