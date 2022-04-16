@@ -21,12 +21,19 @@ func TestRemoveIntermediatePrefixes(t *testing.T) {
 }
 
 func TestToTitleCase(t *testing.T) {
+	// single word
 	assert.Equal(t, "Bobby", ToTitleCase("bobby"))
+
+	// two words
 	assert.Equal(t, "Bobby Tables", ToTitleCase("bobby tables"))
+
+	// bunch of words
 	assert.Equal(t, "My Name Is Bobby Tables", ToTitleCase("my name is bobby tables"))
+
+	// word that also has caps
 	assert.Equal(t, "QrstuVwX", ToTitleCase("qrstuVwX"))
 
-	// smart case when first letter is already uppercase
+	// preserve when first letter is already uppercase
 	assert.Equal(t, "Bobby tables", ToTitleCase("Bobby tables"))
 }
 
@@ -41,5 +48,11 @@ func BenchmarkRemoveIntermediatePrefixes(t *testing.B) {
 	for i := 0; i < t.N; i++ {
 		t := rand.Intn(len(tests))
 		RemoveIntermediatePrefixes(tests[t], "/")
+	}
+}
+
+func BenchmarkTitleCase(t *testing.B) {
+	for i := 0; i < t.N; i++ {
+		ToTitleCase("bobby tables")
 	}
 }

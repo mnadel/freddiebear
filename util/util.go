@@ -49,18 +49,18 @@ func RemoveIntermediatePrefixes(strs []string, sep string) []string {
 // ToTitleCase returns the string with first char of each word uppercased.
 // Unless the first letter already is, then it just returns the string.
 func ToTitleCase(sentence string) string {
-	if unicode.IsUpper(rune(sentence[0])) {
+	if len(sentence) == 0 || unicode.IsUpper(rune(sentence[0])) {
 		return sentence
 	}
 
 	builder := strings.Builder{}
 
-	for _, word := range strings.Split(sentence, " ") {
-		if builder.Len() > 0 {
-			builder.WriteString(" ")
+	for i, ch := range sentence {
+		if i == 0 || sentence[i-1] == ' ' {
+			builder.WriteRune(unicode.ToUpper(ch))
+		} else {
+			builder.WriteRune(ch)
 		}
-		builder.WriteRune(unicode.ToUpper(rune(word[0])))
-		builder.WriteString(word[1:])
 	}
 
 	return builder.String()
