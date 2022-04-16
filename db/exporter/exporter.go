@@ -77,11 +77,7 @@ func (e *Exporter) IsRenamed(record *db.Record) (bool, Filename) {
 }
 
 func BuildFilename(record *db.Record) string {
-	safeTitle := record.Title
-
-	if strings.Contains(safeTitle, PathSep) {
-		safeTitle = strings.ReplaceAll(safeTitle, PathSep, url.QueryEscape(PathSep))
-	}
+	safeTitle := strings.ReplaceAll(record.Title, PathSep, url.QueryEscape(PathSep))
 
 	return fmt.Sprintf(FilenameTemplate, safeTitle, record.SHA)
 }
