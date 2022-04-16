@@ -2,6 +2,7 @@ package util
 
 import (
 	"strings"
+	"unicode"
 )
 
 // RemoveIntermediatePrefixes removes the set of intermediate prefixes. If [a a/b c] is passed in,
@@ -43,4 +44,24 @@ func RemoveIntermediatePrefixes(strs []string, sep string) []string {
 	}
 
 	return collapsed
+}
+
+// ToTitleCase returns the string with first char of each word uppercased.
+// Unless the first letter already is, then it just returns the string.
+func ToTitleCase(sentence string) string {
+	if unicode.IsUpper(rune(sentence[0])) {
+		return sentence
+	}
+
+	builder := strings.Builder{}
+
+	for _, word := range strings.Split(sentence, " ") {
+		if builder.Len() > 0 {
+			builder.WriteString(" ")
+		}
+		builder.WriteRune(unicode.ToUpper(rune(word[0])))
+		builder.WriteString(word[1:])
+	}
+
+	return builder.String()
 }

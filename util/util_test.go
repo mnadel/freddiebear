@@ -20,6 +20,16 @@ func TestRemoveIntermediatePrefixes(t *testing.T) {
 	assert.Equal(t, 6, len(orig))
 }
 
+func TestToTitleCase(t *testing.T) {
+	assert.Equal(t, "Bobby", ToTitleCase("bobby"))
+	assert.Equal(t, "Bobby Tables", ToTitleCase("bobby tables"))
+	assert.Equal(t, "My Name Is Bobby Tables", ToTitleCase("my name is bobby tables"))
+	assert.Equal(t, "QrstuVwX", ToTitleCase("qrstuVwX"))
+
+	// smart case when first letter is already uppercase
+	assert.Equal(t, "Bobby tables", ToTitleCase("Bobby tables"))
+}
+
 func BenchmarkRemoveIntermediatePrefixes(t *testing.B) {
 	tests := [][]string{
 		{"fred", "fred/bear", "readings", "work", "work/coffee", "work/coffee/africa"},

@@ -3,9 +3,9 @@ package search
 import (
 	"fmt"
 	"strings"
-	"unicode"
 
 	"github.com/mnadel/freddiebear/db"
+	"github.com/mnadel/freddiebear/util"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
@@ -60,7 +60,7 @@ func runner(cmd *cobra.Command, args []string) error {
 
 func buildCreateXml(searchTerm string) string {
 	builder := strings.Builder{}
-	title := toTitleCase(searchTerm)
+	title := util.ToTitleCase(searchTerm)
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
 	builder.WriteString(`<items>`)
@@ -77,25 +77,6 @@ func buildCreateXml(searchTerm string) string {
 	builder.WriteString(`</item>`)
 
 	builder.WriteString(`</items>`)
-
-	return builder.String()
-}
-
-// toTitleCase return word w/ first chars uppercase'd
-func toTitleCase(word string) string {
-	if unicode.IsUpper(rune(word[0])) {
-		return word
-	}
-
-	builder := strings.Builder{}
-
-	for _, word := range strings.Split(word, " ") {
-		if builder.Len() > 0 {
-			builder.WriteString(` `)
-		}
-		builder.WriteRune(unicode.ToUpper(rune(word[0])))
-		builder.WriteString(word[1:])
-	}
 
 	return builder.String()
 }
