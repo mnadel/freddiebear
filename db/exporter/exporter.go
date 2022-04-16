@@ -4,8 +4,10 @@ import (
 	"crypto/md5"
 	"fmt"
 	"io/ioutil"
+	"net/url"
 	"os"
 	"regexp"
+	"strings"
 
 	"github.com/mnadel/freddiebear/db"
 	"github.com/pkg/errors"
@@ -14,6 +16,7 @@ import (
 const (
 	FilenameTemplate = "%s (%s).md"
 	FilenameRegex    = `.*\s\((\w+)\)\.md$`
+	PathSep          = string(os.PathSeparator)
 )
 
 type SHA string
@@ -74,5 +77,11 @@ func (e *Exporter) IsRenamed(record *db.Record) (bool, Filename) {
 }
 
 func BuildFilename(record *db.Record) string {
-	return fmt.Sprintf(FilenameTemplate, record.Title, record.SHA)
+	safeTitle := record.Title
+
+	if strings.Contains(safeTitle, PathSep) {
+		safeTitle = strings.ReplaceAll(safeTitle, PathSep, url.QueryEscape(PathSep))
+	}
+
+	return fmt.Sprintf(FilenameTemplate, safeTitle, record.SHA)
 }
