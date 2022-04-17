@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/mnadel/freddiebear/db"
+	"github.com/mnadel/freddiebear/ext"
 	"github.com/mnadel/freddiebear/util"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -71,7 +72,7 @@ func buildCreateXml(searchTerm string) string {
 	builder.WriteString(title)
 	builder.WriteString(`</title>`)
 	builder.WriteString(`<arg>`)
-	builder.WriteString(`x-fb-create:`)
+	ext.WriteKeyValue(builder, `create`, title)
 	builder.WriteString(title)
 	builder.WriteString(`</arg>`)
 	builder.WriteString(`</item>`)
