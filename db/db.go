@@ -21,7 +21,7 @@ const (
 		SELECT DISTINCT
 			note.ZUNIQUEIDENTIFIER,
 			note.ZTITLE,
-			group_concat(tag.ZTITLE)
+			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
 		FROM
 			ZSFNOTE note
 			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
@@ -29,7 +29,7 @@ const (
 		WHERE
 			note.ZARCHIVED = 0
 			AND note.ZTRASHED = 0
-			AND lower(note.ZTITLE) LIKE lower(?)
+			AND LOWER(note.ZTITLE) LIKE LOWER(?)
 		GROUP BY
 			note.ZUNIQUEIDENTIFIER
 		ORDER BY
@@ -40,7 +40,7 @@ const (
 		SELECT DISTINCT
 			note.ZUNIQUEIDENTIFIER,
 			note.ZTITLE,
-			group_concat(tag.ZTITLE)
+			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
 		FROM
 			ZSFNOTE note
 			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
@@ -48,7 +48,7 @@ const (
 		WHERE
 			note.ZARCHIVED = 0
 			AND note.ZTRASHED = 0
-			AND (lower(note.ZTEXT) LIKE lower(?) OR lower(note.ZTITLE) LIKE lower(?))
+			AND (LOWER(note.ZTEXT) LIKE LOWER(?) OR LOWER(note.ZTITLE) LIKE LOWER(?))
 		GROUP BY
 			note.ZUNIQUEIDENTIFIER
 		ORDER BY
