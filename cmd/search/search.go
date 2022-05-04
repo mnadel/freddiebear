@@ -73,7 +73,6 @@ func buildCreateXml(searchTerm string) string {
 	builder.WriteString(`</title>`)
 	builder.WriteString(`<arg>`)
 	ext.WriteKeyValue(&builder, `create`, title)
-	builder.WriteString(title)
 	builder.WriteString(`</arg>`)
 	builder.WriteString(`</item>`)
 
