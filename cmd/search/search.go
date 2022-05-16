@@ -61,7 +61,10 @@ func runner(cmd *cobra.Command, args []string) error {
 
 func buildCreateXml(searchTerm string) string {
 	builder := strings.Builder{}
-	title := util.ToTitleCase(searchTerm)
+	result := db.Result{
+		Title: util.ToTitleCase(searchTerm),
+	}
+	title := result.SafeTitle()
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
 	builder.WriteString(`<items>`)
@@ -90,7 +93,7 @@ func buildOpenXml(results db.Results) string {
 	for _, item := range results {
 		builder.WriteString(`<item valid="yes">`)
 		builder.WriteString(`<title>`)
-		builder.WriteString(item.Title)
+		builder.WriteString(item.SafeTitle())
 		builder.WriteString(`</title>`)
 
 		if !optShowTags {
