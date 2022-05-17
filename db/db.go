@@ -192,9 +192,9 @@ func (r *Result) UniqueTags() []string {
 	return util.RemoveIntermediatePrefixes(split, "/")
 }
 
-// SafeTitle returns a Alfred-safe version of the title
-func (r *Result) SafeTitle() string {
-	return strings.ReplaceAll(r.Title, "&", "&amp;")
+// TitleCase returns a Alfred-safe version of the proper title casing
+func (r *Result) TitleCase() string {
+	return util.ToSafeString(util.ToTitleCase(r.Title))
 }
 
 func rowsToResults(rows *sql.Rows) (Results, error) {

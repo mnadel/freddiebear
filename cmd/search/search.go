@@ -6,7 +6,6 @@ import (
 
 	"github.com/mnadel/freddiebear/db"
 	"github.com/mnadel/freddiebear/ext"
-	"github.com/mnadel/freddiebear/util"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
@@ -62,9 +61,9 @@ func runner(cmd *cobra.Command, args []string) error {
 func buildCreateXml(searchTerm string) string {
 	builder := strings.Builder{}
 	result := db.Result{
-		Title: util.ToTitleCase(searchTerm),
+		Title: searchTerm,
 	}
-	title := result.SafeTitle()
+	title := result.TitleCase()
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
 	builder.WriteString(`<items>`)
@@ -93,7 +92,7 @@ func buildOpenXml(results db.Results) string {
 	for _, item := range results {
 		builder.WriteString(`<item valid="yes">`)
 		builder.WriteString(`<title>`)
-		builder.WriteString(item.SafeTitle())
+		builder.WriteString(item.TitleCase())
 		builder.WriteString(`</title>`)
 
 		if !optShowTags {

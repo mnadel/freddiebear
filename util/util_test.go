@@ -37,6 +37,14 @@ func TestToTitleCase(t *testing.T) {
 	assert.Equal(t, "Bobby tables", ToTitleCase("Bobby tables"))
 }
 
+func TestToSafeString(t *testing.T) {
+	// ampersand isn't safe
+	assert.Equal(t, "a &amp; b", ToSafeString("a & b"))
+
+	// frontslash is safe
+	assert.Equal(t, "a / b", ToSafeString("a / b"))
+}
+
 func BenchmarkRemoveIntermediatePrefixes(t *testing.B) {
 	tests := [][]string{
 		{"fred", "fred/bear", "readings", "work", "work/coffee", "work/coffee/africa"},

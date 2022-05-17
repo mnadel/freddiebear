@@ -35,8 +35,3 @@ func BenchmarkQueryTitlesFuzzy(t *testing.B) {
 		assert.Nil(t, err, "error searching titles fuzzy")
 	}
 }
-
-func TestSafeTitle(t *testing.T) {
-	// ampersand isn't safe
-	assert.Equal(t, "a &amp; b", (&Result{Title: "a & b"}).SafeTitle())
-}

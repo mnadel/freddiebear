@@ -65,3 +65,8 @@ func ToTitleCase(sentence string) string {
 
 	return builder.String()
 }
+
+// ToSafeString returns an Alfred-safe string
+func ToSafeString(s string) string {
+	return strings.ReplaceAll(s, "&", "&amp;")
+}
