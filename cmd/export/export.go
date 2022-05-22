@@ -53,7 +53,29 @@ func runner(cmd *cobra.Command, args []string) error {
 		return errors.WithStack(err)
 	}
 
-	return bearDB.Export(exp)
+	if err := bearDB.Export(exp); err != nil {
+		return errors.WithStack(err)
+	}
+
+	records, err := bearDB.Records()
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	exporter, err := exporter.NewExporter(args[0])
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	trashDir := path.Join(args[0], "Trash")
+	_, err = os.Stat(trashDir)
+	if os.IsNotExist(err) {
+		if err := os.Mkdir(trashDir, 0755); err != nil {
+			return errors.WithStack(err)
+		}
+	}
+
+	return exporter.Archive(records, trashDir)
 }
 
 func printingExporter(destinationDir string) db.Exporter {

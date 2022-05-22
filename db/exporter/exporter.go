@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/url"
 	"os"
+	"path"
 	"regexp"
 	"strings"
 
@@ -46,6 +47,26 @@ func NewExporter(directory string) (*Exporter, error) {
 	}
 
 	return &Exporter{filenames, directory}, nil
+}
+
+// Archive will move archived notes to trashDirectory
+func (e *Exporter) Archive(records []*db.Record, trashDirectory string) error {
+	currSHAs := make(map[SHA]bool)
+
+	for _, rec := range records {
+		currSHAs[SHA(rec.SHA)] = true
+	}
+
+	for sha, file := range e.mapping {
+		if ok := currSHAs[sha]; !ok {
+			newName := path.Join(trashDirectory, string(file))
+			if err := os.Rename(string(file), newName); err != nil {
+				return errors.WithStack(err)
+			}
+		}
+	}
+
+	return nil
 }
 
 // Returns true if the SHA and its new data differs from the previously-exported contents

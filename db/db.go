@@ -125,11 +125,13 @@ func (d *DB) Close() error {
 	return d.db.Close()
 }
 
-// Export notes to specified directory
-func (d *DB) Export(exporter Exporter) error {
+// Records returns the list of notes in the database
+func (d *DB) Records() ([]*Record, error) {
+	records := make([]*Record, 0)
+
 	rows, err := d.db.Query(sqlExport)
 	if err != nil {
-		return errors.WithStack(rows.Err())
+		return nil, errors.WithStack(rows.Err())
 	}
 
 	var guid, title, text string
@@ -137,7 +139,7 @@ func (d *DB) Export(exporter Exporter) error {
 	for rows.Next() {
 		err := rows.Scan(&guid, &title, &text)
 		if err != nil {
-			return errors.WithStack(err)
+			return nil, errors.WithStack(err)
 		}
 
 		record := &Record{
@@ -146,6 +148,20 @@ func (d *DB) Export(exporter Exporter) error {
 			Text:  text,
 		}
 
+		records = append(records, record)
+	}
+
+	return records, nil
+}
+
+// Export notes to specified directory
+func (d *DB) Export(exporter Exporter) error {
+	records, err := d.Records()
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	for _, record := range records {
 		if err = exporter(record); err != nil {
 			return errors.WithStack(err)
 		}
