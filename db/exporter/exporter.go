@@ -51,14 +51,17 @@ func NewExporter(directory string) (*Exporter, error) {
 
 // Archive will move archived notes to trashDirectory
 func (e *Exporter) Archive(records []*db.Record, trashDirectory string) error {
+	// create lookup table for current records
 	currSHAs := make(map[SHA]bool)
-
 	for _, rec := range records {
 		currSHAs[SHA(rec.SHA)] = true
 	}
 
+	// iterate over the list of exported notes
 	for sha, file := range e.mapping {
+		// and if it's not in the list of currents
 		if ok := currSHAs[sha]; !ok {
+			// then move to the trash directory
 			newName := path.Join(trashDirectory, string(file))
 			if err := os.Rename(string(file), newName); err != nil {
 				return errors.WithStack(err)

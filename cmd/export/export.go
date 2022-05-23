@@ -12,6 +12,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	RelativeTrashDirectoryPath = "Trash"
+)
+
 var (
 	listOnly bool
 )
@@ -67,7 +71,7 @@ func runner(cmd *cobra.Command, args []string) error {
 		return errors.WithStack(err)
 	}
 
-	trashDir := path.Join(args[0], "Trash")
+	trashDir := path.Join(args[0], RelativeTrashDirectoryPath)
 	_, err = os.Stat(trashDir)
 	if os.IsNotExist(err) {
 		if err := os.Mkdir(trashDir, 0755); err != nil {
