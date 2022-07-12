@@ -54,7 +54,7 @@ BenchmarkRemoveIntermediatePrefixes-16   4701206               233.7 ns/op
 BenchmarkPrefixTrie-16                    611623              1865 ns/op
 ```
 
-And if you've got an M1, it 36% faster:
+And if you've got an M1, it's 36% faster:
 ```
 → go test -bench=.
 goos: darwin
