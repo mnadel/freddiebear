@@ -53,3 +53,13 @@ cpu: Intel(R) Core(TM) i9-9880H CPU @ 2.30GHz
 BenchmarkRemoveIntermediatePrefixes-16   4701206               233.7 ns/op
 BenchmarkPrefixTrie-16                    611623              1865 ns/op
 ```
+
+And if you've got an M1, it 36% faster:
+```
+→ go test -bench=.
+goos: darwin
+goarch: arm64
+pkg: github.com/mnadel/freddiebear/util
+BenchmarkRemoveIntermediatePrefixes-10           7679737               149.4 ns/op
+BenchmarkTitleCase-10                           17403820                68.84 ns/op
+```
