@@ -22,6 +22,12 @@ You can `export` the text contents of your notes to Markdown files. Specify the 
 
 Titles aren't unique, so we append a unique ID for each note. It also allows us to track renamed notes if you re-export into an existing directory.
 
+# Graph
+
+You can create a `graph` of how notes are linked together. The Alfred keyword `bg` will redirect `freddiebear graph` to a `.dot` file, generate a PDF from it, and open the PDF w/ your default viewer.
+
+Requires `graphviz`.
+
 # Implementation
 
 This Golang implementation is pretty snappy on my current 4MB database. Most of the performance gains of this implementaion over a Python implementation appears to be reduced startup cost. That said, [db.go](https://github.com/mnadel/freddiebear/blob/main/db/db.go) includes some SQLite3 pragmas that will hopefully keep it snappy as it grows. Sample timing that returns about half the records in the database:
