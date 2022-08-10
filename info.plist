@@ -8,6 +8,19 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
+		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E1822493-25C1-4A2E-8C9E-D2AECF924974</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<array>
 			<dict>
@@ -576,7 +589,7 @@
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>file="$(mktemp).pdf"
+				<string>file="$(mktemp)"
 
 /Users/mikenadel/Projects/go/bin/freddiebear graph | dot -Tpdf &gt; "${file}" &gt;/dev/null 2&gt;&amp;1
 
@@ -634,6 +647,30 @@ echo -n "${file}"</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<true/>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>sleep 7
+rm "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E1822493-25C1-4A2E-8C9E-D2AECF924974</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>applescript</key>
 				<string>on alfred_script(q)
   -- your script here
@@ -660,7 +697,7 @@ Release Notes:
 		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
 		<dict>
 			<key>xpos</key>
-			<real>760</real>
+			<real>490</real>
 			<key>ypos</key>
 			<real>675</real>
 		</dict>
@@ -753,6 +790,13 @@ Release Notes:
 			<real>755</real>
 			<key>ypos</key>
 			<real>215</real>
+		</dict>
+		<key>E1822493-25C1-4A2E-8C9E-D2AECF924974</key>
+		<dict>
+			<key>xpos</key>
+			<real>700</real>
+			<key>ypos</key>
+			<real>675</real>
 		</dict>
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
