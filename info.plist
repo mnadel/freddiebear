@@ -9,18 +9,7 @@
 	<key>connections</key>
 	<dict>
 		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>E1822493-25C1-4A2E-8C9E-D2AECF924974</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
+		<array/>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<array>
 			<dict>
@@ -39,6 +28,16 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E1822493-25C1-4A2E-8C9E-D2AECF924974</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -261,7 +260,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>/Users/mikenadel/Projects/go/bin/freddiebear search --show-tags "{query}"</string>
+				<string>"${FB_BINARY:-freddiebear}" search --show-tags "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -327,7 +326,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>/Users/mikenadel/Projects/go/bin/freddiebear search --all --show-tags "{query}"</string>
+				<string>"${FB_BINARY:-freddiebear}" search --all --show-tags "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -429,7 +428,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>/Users/mikenadel/Projects/go/bin/freddiebear search todos</string>
+				<string>"${FB_BINARY:-freddiebear}" search todos</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -553,7 +552,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>/Users/mikenadel/Projects/go/bin/freddiebear journal --tag captainslog --date</string>
+				<string>"${FB_BINARY:-freddiebear}" journal --tag captainslog --date</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -584,6 +583,21 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>openwith</key>
+				<string>/System/Applications/Preview.app</string>
+				<key>sourcefile</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openfile</string>
+			<key>uid</key>
+			<string>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
@@ -591,7 +605,7 @@
 				<key>script</key>
 				<string>file="$(mktemp)"
 
-/Users/mikenadel/Projects/go/bin/freddiebear graph | dot -Tpdf &gt; "${file}" &gt;/dev/null 2&gt;&amp;1
+"${FB_BINARY:-freddiebear}" graph | dot -Tpdf &gt; "${file}" &gt;/dev/null 2&gt;&amp;1
 
 echo -n "${file}"</string>
 				<key>scriptargtype</key>
@@ -632,27 +646,12 @@ echo -n "${file}"</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>openwith</key>
-				<string>/System/Applications/Preview.app</string>
-				<key>sourcefile</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openfile</string>
-			<key>uid</key>
-			<string>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>concurrently</key>
 				<true/>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>script</key>
-				<string>sleep 7
+				<string>sleep 5
 rm "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -697,9 +696,9 @@ Release Notes:
 		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
 		<dict>
 			<key>xpos</key>
-			<real>490</real>
+			<real>585</real>
 			<key>ypos</key>
-			<real>675</real>
+			<real>595</real>
 		</dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
@@ -794,9 +793,9 @@ Release Notes:
 		<key>E1822493-25C1-4A2E-8C9E-D2AECF924974</key>
 		<dict>
 			<key>xpos</key>
-			<real>700</real>
+			<real>585</real>
 			<key>ypos</key>
-			<real>675</real>
+			<real>730</real>
 		</dict>
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
@@ -831,6 +830,15 @@ Release Notes:
 	</dict>
 	<key>userconfigurationconfig</key>
 	<array/>
+	<key>variables</key>
+	<dict>
+		<key>FB_BINARY</key>
+		<string>/Users/mikenadel/Projects/go/bin/freddiebear</string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>FB_BINARY</string>
+	</array>
 	<key>version</key>
 	<string>1.2</string>
 	<key>webaddress</key>
