@@ -66,7 +66,15 @@ func runner(cmd *cobra.Command, args []string) error {
 }
 
 func nodeLabel(n *db.Node) string {
-	alltags := strings.Join(n.UniqueTags(), ", ")
+	tags := n.UniqueTags()
+	if len(tags) > 0 {
+		tags[0] = fmt.Sprintf("#%s", tags[0])
+	} else {
+		tags = []string{"&nbsp;"}
+	}
+
+	alltags := strings.Join(tags, ", #")
+
 	return fmt.Sprintf(`<
 		<table border="0" cellborder="0"><tr><td>%s</td></tr><tr><td><font point-size="10">%s</font></td></tr></table>
 	>`, util.ToSafeString(n.Title), alltags)
