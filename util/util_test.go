@@ -45,6 +45,15 @@ func TestToSafeString(t *testing.T) {
 	assert.Equal(t, "a / b", ToSafeString("a / b"))
 }
 
+func TestUniqueSet(t *testing.T) {
+	test1 := []string{"a", "a", "b", "a"}
+	set1 := UniqueSet(test1)
+
+	assert.Equal(t, 2, len(set1), set1)
+	assert.Contains(t, set1, "a")
+	assert.Contains(t, set1, "b")
+}
+
 func BenchmarkRemoveIntermediatePrefixes(t *testing.B) {
 	tests := [][]string{
 		{"fred", "fred/bear", "readings", "work", "work/coffee", "work/coffee/africa"},

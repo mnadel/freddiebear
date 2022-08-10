@@ -68,7 +68,7 @@ const (
 	`
 
 	sqlGraph = `
-		WITH notes AS
+		WITH src AS
 		(
 			SELECT DISTINCT
 				note.Z_PK,
@@ -83,28 +83,36 @@ const (
 			WHERE
 				note.ZARCHIVED = 0
 				AND note.ZTRASHED = 0
+				AND link.Z_7LINKEDNOTES IS NOT NULL
 			GROUP BY
 				note.Z_PK
 		),
-		links AS (
+		target AS (
 			SELECT DISTINCT
 				note.Z_PK,
 				note.ZTITLE,
-				GROUP_CONCAT(COALESCE(tag.ZTITLE, '')) as tags
+				GROUP_CONCAT(COALESCE(tag.ZTITLE, '')) as tags,
+				link.Z_7LINKEDNOTES as linked_from
 			FROM
 				ZSFNOTE note
 				LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
 				LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
-				LEFT OUTER JOIN Z_7LINKEDNOTES link on note.Z_PK = link.Z_7LINKEDNOTES  
+				LEFT OUTER JOIN Z_7LINKEDNOTES link on note.Z_PK = link.Z_7LINKEDNOTES 
 			WHERE
 				note.ZARCHIVED = 0
 				AND note.ZTRASHED = 0
+				AND link.Z_7LINKEDNOTES IS NOT NULL
 			GROUP BY
 				note.Z_PK
 		)
-		SELECT notes.ZTITLE as src, notes.TAGS as src_tags, links.ZTITLE as dest, links.TAGS as dest_tags
-		FROM notes
-		JOIN links on notes.LINKED_TO = links.Z_PK
+		SELECT
+			src.ZTITLE as stitle,
+			src.TAGS as stags,
+			target.ZTITLE as ttitle,
+			target.TAGS as ttags
+		FROM
+			src
+			JOIN target on src.LINKED_TO = target.Z_PK
 	`
 
 	sqlPragma = `
@@ -143,11 +151,13 @@ type Result struct {
 // Results is a list of *Result, and represents a collection of notes in the database
 type Results []*Result
 
+type Node struct {
+	Title string
+	Tags  string
+}
 type Edge struct {
-	SourceTitle      string
-	SourceTags       string
-	DestinationTitle string
-	DestinationTags  string
+	Source *Node
+	Target *Node
 }
 
 type Graph []*Edge
@@ -263,21 +273,25 @@ func (d *DB) QueryGraph() (Graph, error) {
 
 	var sourceTitle string
 	var sourceTags string
-	var destinationTitle string
-	var destinationTags string
+	var targetTitle string
+	var targetTags string
 
 	results := make(Graph, 0)
 
 	for rows.Next() {
-		err := rows.Scan(&sourceTitle, &sourceTags, &destinationTitle, &destinationTags)
+		err := rows.Scan(&sourceTitle, &sourceTags, &targetTitle, &targetTags)
 		if err != nil {
 			return nil, errors.WithStack(err)
 		}
 		results = append(results, &Edge{
-			SourceTitle:      sourceTitle,
-			SourceTags:       sourceTags,
-			DestinationTitle: destinationTitle,
-			DestinationTags:  destinationTags,
+			Source: &Node{
+				Title: sourceTitle,
+				Tags:  sourceTags,
+			},
+			Target: &Node{
+				Title: targetTitle,
+				Tags:  targetTags,
+			},
 		})
 	}
 
@@ -293,6 +307,13 @@ func (r *Result) UniqueTags() []string {
 // TitleCase returns a Alfred-safe version of the proper title casing
 func (r *Result) TitleCase() string {
 	return util.ToSafeString(util.ToTitleCase(r.Title))
+}
+
+// UniqueTags returns the leaf-node tags ([a a/b a/b/c d] -> [a/b/c d]) for a Node
+func (n *Node) UniqueTags() []string {
+	split := strings.Split(n.Tags, ",")
+	tags := util.RemoveIntermediatePrefixes(split, "/")
+	return util.UniqueSet(tags)
 }
 
 func rowsToResults(rows *sql.Rows) (Results, error) {

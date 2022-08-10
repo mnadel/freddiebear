@@ -2,8 +2,10 @@ package graph
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/mnadel/freddiebear/db"
+	"github.com/mnadel/freddiebear/util"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
@@ -37,25 +39,34 @@ func runner(cmd *cobra.Command, args []string) error {
 	nodes := make(map[string]int)
 
 	for i, edge := range graph {
-		if _, ok := nodes[edge.SourceTitle]; !ok {
-			nodes[edge.SourceTitle] = i
-			fmt.Printf("	node_%d [label=\"%s\"];\n", i, edge.SourceTitle)
+		if _, ok := nodes[edge.Source.Title]; !ok {
+			nodes[edge.Source.Title] = i
+			label := nodeLabel(edge.Source)
+			fmt.Printf("	node_%d [label=%s];\n", i, label)
 		}
-		if _, ok := nodes[edge.DestinationTitle]; !ok {
-			nodes[edge.DestinationTitle] = i + len(graph)
-			fmt.Printf("	node_%d [label=\"%s\"];\n", i+len(graph), edge.DestinationTitle)
+		if _, ok := nodes[edge.Target.Title]; !ok {
+			nodes[edge.Target.Title] = i + len(graph)
+			label := nodeLabel(edge.Target)
+			fmt.Printf("	node_%d [label=%s];\n", i+len(graph), label)
 		}
 	}
 
 	fmt.Println("")
 
 	for _, edge := range graph {
-		src := nodes[edge.SourceTitle]
-		dest := nodes[edge.DestinationTitle]
+		src := nodes[edge.Source.Title]
+		dest := nodes[edge.Target.Title]
 		fmt.Printf("	node_%d -> node_%d;\n", src, dest)
 	}
 
 	fmt.Println("}")
 
 	return nil
+}
+
+func nodeLabel(n *db.Node) string {
+	alltags := strings.Join(n.UniqueTags(), ", ")
+	return fmt.Sprintf(`<
+		<table border="0" cellborder="0"><tr><td>%s</td></tr><tr><td><font size="-2">%s</font></td></tr></table>
+	>`, util.ToSafeString(n.Title), alltags)
 }

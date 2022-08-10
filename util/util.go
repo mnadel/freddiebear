@@ -70,3 +70,18 @@ func ToTitleCase(sentence string) string {
 func ToSafeString(s string) string {
 	return strings.ReplaceAll(s, "&", "&amp;")
 }
+
+// UniqueSet takes a string array and removes its duplicates
+func UniqueSet(strs []string) []string {
+	uniq := make(map[string]bool)
+	uniques := make([]string, 0)
+
+	for _, s := range strs {
+		if !uniq[s] {
+			uniq[s] = true
+			uniques = append(uniques, s)
+		}
+	}
+
+	return uniques
+}
