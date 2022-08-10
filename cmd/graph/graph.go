@@ -76,6 +76,8 @@ func nodeLabel(n *db.Node) string {
 	alltags := strings.Join(tags, ", #")
 
 	return fmt.Sprintf(`<
-		<table border="0" cellborder="0"><tr><td>%s</td></tr><tr><td><font point-size="10">%s</font></td></tr></table>
+		%s
+		<br/>
+		<font point-size="10">%s</font>
 	>`, util.ToSafeString(n.Title), alltags)
 }
