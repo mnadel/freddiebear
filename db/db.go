@@ -67,6 +67,46 @@ const (
 			and ZTRASHED = 0
 	`
 
+	sqlGraph = `
+		WITH notes AS
+		(
+			SELECT DISTINCT
+				note.Z_PK,
+				note.ZTITLE,
+				GROUP_CONCAT(COALESCE(tag.ZTITLE, '')) as tags,
+				link.Z_7LINKEDNOTES as linked_to
+			FROM
+				ZSFNOTE note
+				LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
+				LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+				LEFT OUTER JOIN Z_7LINKEDNOTES link on note.Z_PK = link.Z_7LINKEDBYNOTES 
+			WHERE
+				note.ZARCHIVED = 0
+				AND note.ZTRASHED = 0
+			GROUP BY
+				note.Z_PK
+		),
+		links AS (
+			SELECT DISTINCT
+				note.Z_PK,
+				note.ZTITLE,
+				GROUP_CONCAT(COALESCE(tag.ZTITLE, '')) as tags
+			FROM
+				ZSFNOTE note
+				LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
+				LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+				LEFT OUTER JOIN Z_7LINKEDNOTES link on note.Z_PK = link.Z_7LINKEDNOTES  
+			WHERE
+				note.ZARCHIVED = 0
+				AND note.ZTRASHED = 0
+			GROUP BY
+				note.Z_PK
+		)
+		SELECT notes.ZTITLE as src, notes.TAGS as src_tags, links.ZTITLE as dest, links.TAGS as dest_tags
+		FROM notes
+		JOIN links on notes.LINKED_TO = links.Z_PK
+	`
+
 	sqlPragma = `
 		PRAGMA query_only = on;
 		PRAGMA synchronous = off;
@@ -102,6 +142,15 @@ type Result struct {
 
 // Results is a list of *Result, and represents a collection of notes in the database
 type Results []*Result
+
+type Edge struct {
+	SourceTitle      string
+	SourceTags       string
+	DestinationTitle string
+	DestinationTags  string
+}
+
+type Graph []*Edge
 
 // Create a new DB, referencing the user's Bear Notes database
 func NewDB() (*DB, error) {
@@ -202,6 +251,37 @@ func (d *DB) QueryText(term string) (Results, error) {
 	defer rows.Close()
 
 	return rowsToResults(rows)
+}
+
+// QueryGraph returns a graph of linked notes
+func (d *DB) QueryGraph() (Graph, error) {
+	rows, err := d.db.Query(sqlGraph)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	defer rows.Close()
+
+	var sourceTitle string
+	var sourceTags string
+	var destinationTitle string
+	var destinationTags string
+
+	results := make(Graph, 0)
+
+	for rows.Next() {
+		err := rows.Scan(&sourceTitle, &sourceTags, &destinationTitle, &destinationTags)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+		results = append(results, &Edge{
+			SourceTitle:      sourceTitle,
+			SourceTags:       sourceTags,
+			DestinationTitle: destinationTitle,
+			DestinationTags:  destinationTags,
+		})
+	}
+
+	return results, errors.WithStack(rows.Err())
 }
 
 // UniqueTags returns the leaf-node tags ([a a/b a/b/c d] -> [a/b/c d])

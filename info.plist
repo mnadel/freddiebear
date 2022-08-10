@@ -21,6 +21,8 @@
 				<false/>
 			</dict>
 		</array>
+		<key>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</key>
+		<array/>
 		<key>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</key>
 		<array>
 			<dict>
@@ -136,6 +138,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>F05F04EB-987E-4118-97BA-299EA0D5269A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<array>
 			<dict>
@@ -178,12 +193,14 @@
 			<dict>
 				<key>browser</key>
 				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
 				<string>bear://x-callback-url/create?title={query}&amp;open_note=yes&amp;text=%20&amp;show_window=yes&amp;edit=yes</string>
-				<key>utf8</key>
-				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -312,12 +329,14 @@
 			<dict>
 				<key>browser</key>
 				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
 				<string>bear://x-callback-url/open-note?id={query}&amp;open_note=yes&amp;edit=yes&amp;show_window=yes</string>
-				<key>utf8</key>
-				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -348,6 +367,8 @@
 				</array>
 				<key>elselabel</key>
 				<string>open</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -427,6 +448,8 @@
 				</array>
 				<key>elselabel</key>
 				<string>open</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -440,12 +463,14 @@
 			<dict>
 				<key>browser</key>
 				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
 				<string>bear://x-callback-url/create?title={var:split1}&amp;tags={var:split2}&amp;open_note=yes&amp;edit=yes&amp;show_window=yes</string>
-				<key>utf8</key>
-				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -459,6 +484,10 @@
 			<dict>
 				<key>delimiter</key>
 				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
 				<key>trimarguments</key>
 				<true/>
 				<key>variableprefix</key>
@@ -531,6 +560,55 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>graphtype=pdf
+graphfile="$(mktemp).${graphtype}"
+
+/Users/mikenadel/Projects/go/bin/freddiebear graph | dot -T${graphtype} &gt; "${graphfile}"
+
+open "${graphfile}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>bg</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Show Graph of Linked Notes</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>F05F04EB-987E-4118-97BA-299EA0D5269A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>applescript</key>
 				<string>on alfred_script(q)
   -- your script here
@@ -557,110 +635,126 @@ Release Notes:
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
 			<key>xpos</key>
-			<integer>65</integer>
+			<real>65</real>
 			<key>ypos</key>
-			<integer>205</integer>
+			<real>205</real>
+		</dict>
+		<key>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</key>
+		<dict>
+			<key>xpos</key>
+			<real>270</real>
+			<key>ypos</key>
+			<real>675</real>
 		</dict>
 		<key>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</key>
 		<dict>
 			<key>xpos</key>
-			<integer>65</integer>
+			<real>65</real>
 			<key>ypos</key>
-			<integer>345</integer>
+			<real>345</real>
 		</dict>
 		<key>5ADEB109-2C47-4611-B75E-8B710AD3329D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>565</integer>
+			<real>70</real>
 			<key>ypos</key>
-			<integer>650</integer>
+			<real>840</real>
 		</dict>
 		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
 		<dict>
 			<key>xpos</key>
-			<integer>65</integer>
+			<real>65</real>
 			<key>ypos</key>
-			<integer>530</integer>
+			<real>530</real>
 		</dict>
 		<key>73CD1003-1EB6-41AD-9205-DC88881924D8</key>
 		<dict>
 			<key>note</key>
 			<string>create note</string>
 			<key>xpos</key>
-			<integer>755</integer>
+			<real>755</real>
 			<key>ypos</key>
-			<integer>55</integer>
+			<real>55</real>
 		</dict>
 		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
 		<dict>
 			<key>note</key>
 			<string>create cap log</string>
 			<key>xpos</key>
-			<integer>760</integer>
+			<real>760</real>
 			<key>ypos</key>
-			<integer>425</integer>
+			<real>425</real>
 		</dict>
 		<key>9A57C1B3-98D2-4857-BF03-F68279B6357F</key>
 		<dict>
 			<key>xpos</key>
-			<integer>550</integer>
+			<real>550</real>
 			<key>ypos</key>
-			<integer>355</integer>
+			<real>355</real>
 		</dict>
 		<key>9BAAA486-610C-457F-BC72-FF7242F797E0</key>
 		<dict>
 			<key>xpos</key>
-			<integer>345</integer>
+			<real>345</real>
 			<key>ypos</key>
-			<integer>225</integer>
+			<real>225</real>
 		</dict>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<dict>
 			<key>xpos</key>
-			<integer>265</integer>
+			<real>265</real>
 			<key>ypos</key>
-			<integer>530</integer>
+			<real>530</real>
 		</dict>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<dict>
 			<key>xpos</key>
-			<integer>65</integer>
+			<real>65</real>
 			<key>ypos</key>
-			<integer>60</integer>
+			<real>60</real>
 		</dict>
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
 			<key>note</key>
 			<string>open note</string>
 			<key>xpos</key>
-			<integer>755</integer>
+			<real>755</real>
 			<key>ypos</key>
-			<integer>215</integer>
+			<real>215</real>
 		</dict>
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
 			<key>xpos</key>
-			<integer>440</integer>
+			<real>440</real>
 			<key>ypos</key>
-			<integer>560</integer>
+			<real>560</real>
+		</dict>
+		<key>F05F04EB-987E-4118-97BA-299EA0D5269A</key>
+		<dict>
+			<key>xpos</key>
+			<real>70</real>
+			<key>ypos</key>
+			<real>675</real>
 		</dict>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<dict>
 			<key>note</key>
 			<string>remove x-fb</string>
 			<key>xpos</key>
-			<integer>535</integer>
+			<real>535</real>
 			<key>ypos</key>
-			<integer>85</integer>
+			<real>85</real>
 		</dict>
 		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
 		<dict>
 			<key>xpos</key>
-			<integer>665</integer>
+			<real>665</real>
 			<key>ypos</key>
-			<integer>455</integer>
+			<real>455</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
 	<key>version</key>
 	<string>1.2</string>
 	<key>webaddress</key>

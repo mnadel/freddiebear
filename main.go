@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/mnadel/freddiebear/cmd/export"
+	"github.com/mnadel/freddiebear/cmd/graph"
 	"github.com/mnadel/freddiebear/cmd/journal"
 	"github.com/mnadel/freddiebear/cmd/search"
 	"github.com/mnadel/freddiebear/cmd/version"
@@ -21,6 +22,7 @@ func main() {
 	cmd.AddCommand(search.New())
 	cmd.AddCommand(version.New())
 	cmd.AddCommand(export.New())
+	cmd.AddCommand(graph.New())
 
 	if err := cmd.Execute(); err != nil {
 		log.Fatal(err)
