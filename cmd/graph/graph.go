@@ -41,13 +41,14 @@ func runner(cmd *cobra.Command, args []string) error {
 	for i, edge := range graph {
 		if _, ok := nodes[edge.Source.Title]; !ok {
 			nodes[edge.Source.Title] = i
-			label := nodeLabel(edge.Source)
-			fmt.Printf("	node_%d [label=%s];\n", i, label)
+
+			fmt.Printf("	node_%d [label=%s];\n", i, nodeLabel(edge.Source))
 		}
 		if _, ok := nodes[edge.Target.Title]; !ok {
-			nodes[edge.Target.Title] = i + len(graph)
-			label := nodeLabel(edge.Target)
-			fmt.Printf("	node_%d [label=%s];\n", i+len(graph), label)
+			uniqID := i + len(graph)
+			nodes[edge.Target.Title] = uniqID
+
+			fmt.Printf("	node_%d [label=%s];\n", uniqID, nodeLabel(edge.Target))
 		}
 	}
 
@@ -67,6 +68,6 @@ func runner(cmd *cobra.Command, args []string) error {
 func nodeLabel(n *db.Node) string {
 	alltags := strings.Join(n.UniqueTags(), ", ")
 	return fmt.Sprintf(`<
-		<table border="0" cellborder="0"><tr><td>%s</td></tr><tr><td><font size="-2">%s</font></td></tr></table>
+		<table border="0" cellborder="0"><tr><td>%s</td></tr><tr><td><font point-size="10">%s</font></td></tr></table>
 	>`, util.ToSafeString(n.Title), alltags)
 }
