@@ -22,7 +22,18 @@
 			</dict>
 		</array>
 		<key>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</key>
-		<array/>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</key>
 		<array>
 			<dict>
@@ -563,14 +574,13 @@
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
-				<integer>102</integer>
+				<integer>127</integer>
 				<key>script</key>
-				<string>graphtype=pdf
-graphfile="$(mktemp).${graphtype}"
+				<string>file="$(mktemp).pdf"
 
-/Users/mikenadel/Projects/go/bin/freddiebear graph | dot -T${graphtype} &gt; "${graphfile}"
+/Users/mikenadel/Projects/go/bin/freddiebear graph | dot -Tpdf &gt; "${file}" &gt;/dev/null 2&gt;&amp;1
 
-open "${graphfile}"</string>
+echo -n "${file}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -609,6 +619,21 @@ open "${graphfile}"</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>openwith</key>
+				<string>/System/Applications/Preview.app</string>
+				<key>sourcefile</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openfile</string>
+			<key>uid</key>
+			<string>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>applescript</key>
 				<string>on alfred_script(q)
   -- your script here
@@ -632,6 +657,13 @@ Release Notes:
 - 1.2 Show note's tags as subtitle</string>
 	<key>uidata</key>
 	<dict>
+		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
+		<dict>
+			<key>xpos</key>
+			<real>760</real>
+			<key>ypos</key>
+			<real>675</real>
+		</dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
 			<key>xpos</key>
