@@ -8,13 +8,25 @@ Implemented in Golang for faster searching, with daily note journaling capabilit
 
 To search for a note by title, use the `bt` keyword.
 
+<img src="imgs/bt.png" alt="bt" width="400"/>
+
 To search a note by its full contents, use the `bs` keyword.
+
+<img src="imgs/bs.png" alt="bs" width="400"/>
+
+# Creating
+
+If your search fails to find any matching notes, the workflow will give you an option to create a new note w/ a title of the same name.
+
+<img src="imgs/bt-create.png" alt="bt create" width="400"/>
 
 # Journaling
 
 The `captainslog` keyword will either open today's log (a note with the title `YYYY-MM-DD`) or create a new note with that title.
 
 Run `freddiebear help journal` for details on how to tweak the tag it attaches to new notes.
+
+<img src="imgs/cap.png" alt="captain's log" width="400"/>
 
 # Exporting
 
@@ -29,6 +41,10 @@ This can be used in conjunction with the sample script `backup.sh` -- it exports
 You can create a [Graphviz](https://graphviz.org/) `graph` of how notes are linked together. The Alfred keyword `bg` will redirect `freddiebear graph` to a `.dot` file, generate a PDF from it, and open the PDF w/ Preview.
 
 Requires `graphviz`.
+
+<img src="imgs/bg.png" alt="bg" width="400"/>
+
+<img src="imgs/graph.png" alt="bg graph" width="400"/>
 
 # Implementation
 
