@@ -20,20 +20,23 @@ Run `freddiebear help journal` for details on how to tweak the tag it attaches t
 
 You can `export` the text contents of your notes to Markdown files. Specify the directory and we'll create files in the form of `<title> (<sha>).md`.
 
-Titles aren't unique, so we append a unique ID for each note. It also allows us to track renamed notes if you re-export into an existing directory.
+Titles aren't unique, so we append a unique ID for each note. This also allows us to track renamed notes.
+
+This can be used in conjunction with the sample script `backup.sh` -- it exports your notes and attachments and pushes them to GitHub for archiving and a rudimentary form of revision history.
 
 # Graph
 
-You can create a `graph` of how notes are linked together. The Alfred keyword `bg` will redirect `freddiebear graph` to a `.dot` file, generate a PDF from it, and open the PDF w/ your default viewer.
+You can create a [Graphviz](https://graphviz.org/) `graph` of how notes are linked together. The Alfred keyword `bg` will redirect `freddiebear graph` to a `.dot` file, generate a PDF from it, and open the PDF w/ Preview.
 
 Requires `graphviz`.
 
 # Implementation
 
-This Golang implementation is pretty snappy on my current 4MB database. Most of the performance gains of this implementaion over a Python implementation appears to be reduced startup cost. That said, [db.go](https://github.com/mnadel/freddiebear/blob/main/db/db.go) includes some SQLite3 pragmas that will hopefully keep it snappy as it grows. Sample timing that returns about half the records in the database:
+This Golang implementation is pretty snappy on my current 5MB database. Most of the performance gains of this implementaion over a Python implementation appear to be reduced startup cost. That said, [db.go](https://github.com/mnadel/freddiebear/blob/main/db/db.go) includes some SQLite3 pragmas that will hopefully keep it snappy as it grows. Sample timing that returns about half the records in the database:
 
 ```
-freddiebear search --all drip  0.00s user 0.00s system 66% cpu 0.012 total
+# time freddiebear search --all drip >/dev/null
+freddiebear search --all drip > /dev/null  0.00s user 0.00s system 24% cpu 0.029 total
 ```
 
 ## --show-tags
@@ -48,7 +51,7 @@ For example, a note with a tags `q` and `a/b/c` will have four tags in the datab
 
 And we'll only return the terminal/non-intermediate tags (`a/b/c` and `q` in this example).
 
-The current implementation uses a O(n^2) algorithm, but in practice is quite fast for small sets of tags. Compare its implementation to one that uses a prefix trie:
+The current implementation uses a naive O(n^2) algorithm, but in practice is quite fast for small sets of tags:
 
 ```
 → go test -bench=.
@@ -57,7 +60,6 @@ goarch: amd64
 pkg: github.com/mnadel/freddiebear/util
 cpu: Intel(R) Core(TM) i9-9880H CPU @ 2.30GHz
 BenchmarkRemoveIntermediatePrefixes-16   4701206               233.7 ns/op
-BenchmarkPrefixTrie-16                    611623              1865 ns/op
 ```
 
 And if you've got an M1, it's 36% faster:
@@ -67,5 +69,4 @@ goos: darwin
 goarch: arm64
 pkg: github.com/mnadel/freddiebear/util
 BenchmarkRemoveIntermediatePrefixes-10           7679737               149.4 ns/op
-BenchmarkTitleCase-10                           17403820                68.84 ns/op
 ```
