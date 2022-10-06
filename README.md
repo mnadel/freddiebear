@@ -2,7 +2,7 @@
 
 An [Alfred](https://www.alfredapp.com/) + [Bear](https://bear.app) workflow.
 
-Inspired by [alfred-bear](https://github.com/chrisbro/alfred-bear), implemented in Golang for faster searching, with daily note journaling capabilities.
+Inspired by [alfred-bear](https://github.com/chrisbro/alfred-bear), implemented in [Go](https://go.dev/) for faster searching, with daily note journaling capabilities.
 
 # Searching
 
