@@ -1,8 +1,8 @@
 # freddiebear
 
-An Alfred Workflow for [Bear](https://bear.app) inspired by [alfred-bear](https://github.com/chrisbro/alfred-bear).
+An [Alfred](https://www.alfredapp.com/) + [Bear](https://bear.app) workflow.
 
-Implemented in Golang for faster searching, with daily note journaling capabilities.
+Inspired by [alfred-bear](https://github.com/chrisbro/alfred-bear), implemented in Golang for faster searching, with daily note journaling capabilities.
 
 # Searching
 
