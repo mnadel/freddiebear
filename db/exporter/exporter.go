@@ -109,7 +109,8 @@ func BuildFilename(record *db.Record) string {
 }
 
 func ListFiles(directory string) ([]os.FileInfo, error) {
-	files := make([]os.FileInfo, 0)
+	var files []os.FileInfo
+
 	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
