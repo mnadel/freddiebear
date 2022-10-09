@@ -46,7 +46,9 @@ func TestDetectNoRename(t *testing.T) {
 }
 
 func TestDetectChange(t *testing.T) {
-	tmpDir := os.TempDir()
+	tmpDir, err := os.MkdirTemp(os.TempDir(), "freddiebear")
+	assert.NoError(t, err)
+
 	tmpFile, err := ioutil.TempFile(tmpDir, "freddiebear-")
 	assert.NoError(t, err)
 
@@ -70,7 +72,9 @@ func TestDetectChange(t *testing.T) {
 }
 
 func TestDetectNoChange(t *testing.T) {
-	tmpDir := os.TempDir()
+	tmpDir, err := os.MkdirTemp(os.TempDir(), "freddiebear")
+	assert.NoError(t, err)
+
 	tmpFile, err := ioutil.TempFile(tmpDir, "freddiebear-")
 	assert.NoError(t, err)
 
@@ -91,4 +95,29 @@ func TestDetectNoChange(t *testing.T) {
 	changed, err := exp.IsChanged(record)
 	assert.NoError(t, err)
 	assert.False(t, changed)
+}
+
+func TestListFiles(t *testing.T) {
+	dir, err := os.Getwd()
+	assert.NoError(t, err)
+
+	oldMethodFiles, err := ioutil.ReadDir(dir)
+	assert.NoError(t, err)
+
+	newMethodFiles, err := ListFiles(dir)
+	assert.NoError(t, err)
+
+	assert.Equal(t, len(oldMethodFiles), len(newMethodFiles))
+
+	oldNames := make([]string, len(oldMethodFiles))
+	for _, e := range oldMethodFiles {
+		oldNames = append(oldNames, e.Name())
+	}
+
+	newNames := make([]string, len(newMethodFiles))
+	for _, e := range newMethodFiles {
+		newNames = append(newNames, e.Name())
+	}
+
+	assert.ElementsMatch(t, oldNames, newNames)
 }

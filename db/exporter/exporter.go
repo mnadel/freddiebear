@@ -3,10 +3,11 @@ package exporter
 import (
 	"crypto/md5"
 	"fmt"
-	"io/ioutil"
+	"log"
 	"net/url"
 	"os"
 	"path"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -29,7 +30,7 @@ type Exporter struct {
 }
 
 func NewExporter(directory string) (*Exporter, error) {
-	files, err := ioutil.ReadDir(directory)
+	files, err := ListFiles(directory)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -62,6 +63,7 @@ func (e *Exporter) Archive(records []*db.Record, trashDirectory string) error {
 		// and if it's not in the list of currents
 		if ok := currSHAs[sha]; !ok {
 			// then move to the trash directory
+			log.Println("archiving", string(file))
 			newName := path.Join(trashDirectory, string(file))
 			if err := os.Rename(string(file), newName); err != nil {
 				return errors.WithStack(err)
@@ -104,4 +106,19 @@ func BuildFilename(record *db.Record) string {
 	safeTitle := strings.ReplaceAll(record.Title, PathSep, url.QueryEscape(PathSep))
 
 	return fmt.Sprintf(FilenameTemplate, safeTitle, record.SHA)
+}
+
+func ListFiles(directory string) ([]os.FileInfo, error) {
+	files := make([]os.FileInfo, 0)
+	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		} else if !info.IsDir() {
+			files = append(files, info)
+		}
+
+		return nil
+	})
+
+	return files, err
 }
