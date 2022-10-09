@@ -109,15 +109,5 @@ func TestListFiles(t *testing.T) {
 
 	assert.Equal(t, len(oldMethodFiles), len(newMethodFiles))
 
-	oldNames := make([]string, len(oldMethodFiles))
-	for _, e := range oldMethodFiles {
-		oldNames = append(oldNames, e.Name())
-	}
-
-	newNames := make([]string, len(newMethodFiles))
-	for _, e := range newMethodFiles {
-		newNames = append(newNames, e.Name())
-	}
-
-	assert.ElementsMatch(t, oldNames, newNames)
+	assert.ElementsMatch(t, oldMethodFiles, newMethodFiles)
 }
