@@ -17,7 +17,8 @@ const (
 )
 
 var (
-	listOnly bool
+	listOnly     bool
+	existingOnly bool
 )
 
 func New() *cobra.Command {
@@ -30,6 +31,7 @@ func New() *cobra.Command {
 	}
 
 	searchCmd.Flags().BoolVar(&listOnly, "list", false, "list files to export, but don't create them")
+	searchCmd.Flags().BoolVar(&existingOnly, "existing", false, "list existing files in export directory")
 
 	return searchCmd
 }
@@ -43,6 +45,17 @@ func runner(cmd *cobra.Command, args []string) error {
 
 	if listOnly {
 		return bearDB.Export(printingExporter(args[0]))
+	} else if existingOnly {
+		files, err := exporter.ListFiles(args[0])
+		if err != nil {
+			return errors.WithStack(err)
+		}
+
+		for _, f := range files {
+			fmt.Println(f)
+		}
+
+		return nil
 	}
 
 	info, err := os.Stat(args[0])

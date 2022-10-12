@@ -3,6 +3,7 @@ package exporter
 import (
 	"crypto/md5"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/url"
 	"os"
@@ -39,11 +40,9 @@ func NewExporter(directory string) (*Exporter, error) {
 	re := regexp.MustCompile(FilenameRegex)
 
 	for _, file := range files {
-		if !file.IsDir() {
-			parts := re.FindStringSubmatch(file.Name())
-			if len(parts) == 2 {
-				filenames[SHA(parts[1])] = Filename(file.Name())
-			}
+		parts := re.FindStringSubmatch(file)
+		if len(parts) == 2 {
+			filenames[SHA(parts[1])] = Filename(file)
 		}
 	}
 
@@ -108,14 +107,14 @@ func BuildFilename(record *db.Record) string {
 	return fmt.Sprintf(FilenameTemplate, safeTitle, record.SHA)
 }
 
-func ListFiles(directory string) ([]os.FileInfo, error) {
-	var files []os.FileInfo
+func ListFiles(directory string) ([]string, error) {
+	var files []string
 
-	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
+	err := filepath.WalkDir(directory, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
-		} else if !info.IsDir() {
-			files = append(files, info)
+		} else if !d.IsDir() && !strings.Contains(path, "/") {
+			files = append(files, d.Name())
 		}
 
 		return nil
