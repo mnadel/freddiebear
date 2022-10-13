@@ -104,10 +104,35 @@ func TestListFiles(t *testing.T) {
 	oldMethodFiles, err := ioutil.ReadDir(dir)
 	assert.NoError(t, err)
 
+	oldMethodFileNames := make([]string, len(oldMethodFiles))
+	for i, f := range oldMethodFiles {
+		oldMethodFileNames[i] = f.Name()
+	}
+
 	newMethodFiles, err := ListFiles(dir)
 	assert.NoError(t, err)
 
-	assert.Equal(t, len(oldMethodFiles), len(newMethodFiles))
+	assert.Equal(t, len(oldMethodFileNames), len(newMethodFiles))
 
-	assert.ElementsMatch(t, oldMethodFiles, newMethodFiles)
+	assert.ElementsMatch(t, oldMethodFileNames, newMethodFiles)
+}
+
+func TestListFilesIgnoreSubdirs(t *testing.T) {
+	var cwd, path string
+
+	cwd = "/home/mike/freddiebear/exports"
+	path = "/home/mike/freddiebear/exports/Trash/Foo.md"
+	assert.True(t, ignorePath(cwd, path, false))
+
+	cwd = "/home/mike/freddiebear/exports"
+	path = "/home/mike/freddiebear/exports/Foo.md"
+	assert.False(t, ignorePath(cwd, path, false))
+
+	cwd = "."
+	path = "Foo.md"
+	assert.False(t, ignorePath(cwd, path, false))
+
+	cwd = "."
+	path = "Trash/Foo.md"
+	assert.True(t, ignorePath(cwd, path, false))
 }
