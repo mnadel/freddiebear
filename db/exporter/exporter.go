@@ -13,6 +13,7 @@ import (
 	"strings"
 
 	"github.com/mnadel/freddiebear/db"
+	"github.com/mnadel/freddiebear/util"
 	"github.com/pkg/errors"
 )
 
@@ -132,17 +133,12 @@ func ignorePath(cwd, path string, isDir bool) (bool, error) {
 		return true, nil
 	}
 
-	cwdDir, err := filepath.Abs(cwd)
-	if err != nil {
-		return false, err
-	}
-
-	absPath, err := filepath.Abs(path)
-	if err != nil {
-		return false, err
-	}
+	cwdDir := util.MustString(filepath.Abs(cwd))
+	absPath := util.MustString(filepath.Abs(path))
 
 	remaining := strings.TrimPrefix(absPath, cwdDir)
+
+	// remaining will now begin with a path sep, let's first remove that
 	remaining = strings.TrimPrefix(remaining, PathSep)
 
 	return strings.Contains(remaining, PathSep), nil

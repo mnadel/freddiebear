@@ -1,8 +1,11 @@
 package util
 
 import (
+	"log"
 	"strings"
 	"unicode"
+
+	"github.com/pkg/errors"
 )
 
 // RemoveIntermediatePrefixes removes the set of intermediate prefixes. If [a a/b c] is passed in,
@@ -84,4 +87,14 @@ func UniqueSet(strs []string) []string {
 	}
 
 	return uniques
+}
+
+// MustString takes a (string, error) return value and either aborts
+// the program if there's an error, or returns the string
+func MustString(s string, e error) string {
+	if e != nil {
+		log.Fatalln(errors.WithStack(e))
+	}
+
+	return s
 }
