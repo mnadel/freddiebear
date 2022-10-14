@@ -120,19 +120,34 @@ func TestListFiles(t *testing.T) {
 func TestListFilesIgnoreSubdirs(t *testing.T) {
 	var cwd, path string
 
+	ignore := func(c, p string) bool {
+		i, e := ignorePath(c, p, false)
+		assert.NoError(t, e)
+		return i
+	}
+
 	cwd = "/home/mike/freddiebear/exports"
 	path = "/home/mike/freddiebear/exports/Trash/Foo.md"
-	assert.True(t, ignorePath(cwd, path, false))
+	assert.True(t, ignore(cwd, path))
 
 	cwd = "/home/mike/freddiebear/exports"
 	path = "/home/mike/freddiebear/exports/Foo.md"
-	assert.False(t, ignorePath(cwd, path, false))
+	assert.False(t, ignore(cwd, path))
+
+	cwd = "./freddiebear/exports/"
+	path = "freddiebear/exports/Trash/Foo.md"
+	assert.True(t, ignore(cwd, path))
+
+	cwd = "./freddiebear/exports/"
+	path = "freddiebear/exports/Foo.md"
+	assert.False(t, ignore(cwd, path))
 
 	cwd = "."
 	path = "Foo.md"
-	assert.False(t, ignorePath(cwd, path, false))
+	assert.False(t, ignore(cwd, path))
 
 	cwd = "."
 	path = "Trash/Foo.md"
-	assert.True(t, ignorePath(cwd, path, false))
+	assert.True(t, ignore(cwd, path))
+
 }

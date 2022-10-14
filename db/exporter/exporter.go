@@ -113,7 +113,11 @@ func ListFiles(directory string) ([]string, error) {
 	err := filepath.WalkDir(directory, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
-		} else if !ignorePath(directory, path, d.IsDir()) {
+		}
+
+		if ignore, err := ignorePath(directory, path, d.IsDir()); err != nil {
+			return err
+		} else if !ignore {
 			files = append(files, d.Name())
 		}
 
@@ -123,10 +127,24 @@ func ListFiles(directory string) ([]string, error) {
 	return files, err
 }
 
-func ignorePath(dir, path string, isDir bool) bool {
-	relative := strings.TrimPrefix(path, dir)
-	if strings.HasPrefix(path, "/") && len(relative) > 1 {
-		relative = relative[1:]
+func ignorePath(cwd, path string, isDir bool) (bool, error) {
+	if isDir {
+		return true, nil
 	}
-	return isDir || strings.Contains(relative, "/")
+
+	cwdDir, err := filepath.Abs(cwd)
+	if err != nil {
+		return false, err
+	}
+
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		return false, err
+	}
+
+	remaining := strings.TrimPrefix(absPath, cwdDir)
+	if len(remaining) > 0 {
+		remaining = remaining[1:]
+	}
+	return strings.Contains(remaining, PathSep), nil
 }
