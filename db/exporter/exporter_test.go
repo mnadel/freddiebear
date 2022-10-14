@@ -118,36 +118,29 @@ func TestListFiles(t *testing.T) {
 }
 
 func TestListFilesIgnoreSubdirs(t *testing.T) {
-	var cwd, path string
-
 	ignore := func(c, p string) bool {
 		i, e := ignorePath(c, p, false)
 		assert.NoError(t, e)
 		return i
 	}
 
-	cwd = "/home/mike/freddiebear/exports"
-	path = "/home/mike/freddiebear/exports/Trash/Foo.md"
-	assert.True(t, ignore(cwd, path))
+	type Test struct {
+		cwd  string
+		path string
+	}
 
-	cwd = "/home/mike/freddiebear/exports"
-	path = "/home/mike/freddiebear/exports/Foo.md"
-	assert.False(t, ignore(cwd, path))
+	tests := map[Test]bool{
+		{"/home/mike/freddiebear/exports", "/home/mike/freddiebear/exports/Trash/Foo.md"}: true,
+		{"/home/mike/freddiebear/exports", "/home/mike/freddiebear/exports/Foo.md"}:       false,
+		{"./freddiebear/exports/", "freddiebear/exports/Trash/Foo.md"}:                    true,
+		{".", "Foo.md"}:         false,
+		{".", "Trash/Foo.md"}:   true,
+		{"~/", "Foo.md"}:        true,
+		{"~/.", "Trash/Foo.md"}: true,
+	}
 
-	cwd = "./freddiebear/exports/"
-	path = "freddiebear/exports/Trash/Foo.md"
-	assert.True(t, ignore(cwd, path))
-
-	cwd = "./freddiebear/exports/"
-	path = "freddiebear/exports/Foo.md"
-	assert.False(t, ignore(cwd, path))
-
-	cwd = "."
-	path = "Foo.md"
-	assert.False(t, ignore(cwd, path))
-
-	cwd = "."
-	path = "Trash/Foo.md"
-	assert.True(t, ignore(cwd, path))
-
+	for k, v := range tests {
+		actual := ignore(k.cwd, k.path)
+		assert.Equal(t, v, actual)
+	}
 }
