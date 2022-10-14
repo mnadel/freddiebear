@@ -143,8 +143,7 @@ func ignorePath(cwd, path string, isDir bool) (bool, error) {
 	}
 
 	remaining := strings.TrimPrefix(absPath, cwdDir)
-	if len(remaining) > 0 {
-		remaining = remaining[1:]
-	}
+	remaining = strings.TrimPrefix(remaining, PathSep)
+
 	return strings.Contains(remaining, PathSep), nil
 }
