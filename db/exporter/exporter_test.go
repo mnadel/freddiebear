@@ -118,8 +118,8 @@ func TestListFiles(t *testing.T) {
 }
 
 func TestListFilesIgnoreSubdirs(t *testing.T) {
-	ignore := func(c, p string) bool {
-		i, e := ignorePath(c, p, false)
+	include := func(c, p string) bool {
+		i, e := includePath(c, p)
 		assert.NoError(t, e)
 		return i
 	}
@@ -130,17 +130,21 @@ func TestListFilesIgnoreSubdirs(t *testing.T) {
 	}
 
 	tests := map[Test]bool{
-		{"/home/mike/freddiebear/exports", "/home/mike/freddiebear/exports/Trash/Foo.md"}: true,
-		{"/home/mike/freddiebear/exports", "/home/mike/freddiebear/exports/Foo.md"}:       false,
-		{"./freddiebear/exports/", "freddiebear/exports/Trash/Foo.md"}:                    true,
-		{".", "Foo.md"}:         false,
-		{".", "Trash/Foo.md"}:   true,
-		{"~/", "Foo.md"}:        true,
-		{"~/.", "Trash/Foo.md"}: true,
+		// absolute paths
+		{"/home/mike/freddiebear/exports", "/home/mike/freddiebear/exports/Trash/A.md"}: false,
+		{"/home/mike/freddiebear/exports", "/home/mike/freddiebear/exports/B.md"}:       true,
+
+		// relative paths w/ subdirs
+		{"./freddiebear/exports/", "freddiebear/exports/Trash/C.md"}: false,
+		{"./freddiebear/exports/", "freddiebear/exports/D.md"}:       true,
+
+		// relative path w/o subdirs
+		{".", "E.md"}:       true,
+		{".", "Trash/F.md"}: false,
 	}
 
-	for k, v := range tests {
-		actual := ignore(k.cwd, k.path)
-		assert.Equal(t, v, actual)
+	for test, expected := range tests {
+		actual := include(test.cwd, test.path)
+		assert.Equal(t, expected, actual, test)
 	}
 }

@@ -116,9 +116,13 @@ func ListFiles(directory string) ([]string, error) {
 			return err
 		}
 
-		if ignore, err := ignorePath(directory, path, d.IsDir()); err != nil {
+		if d.IsDir() {
+			return nil
+		}
+
+		if include, err := includePath(directory, path); err != nil {
 			return err
-		} else if !ignore {
+		} else if include {
 			files = append(files, d.Name())
 		}
 
@@ -128,11 +132,7 @@ func ListFiles(directory string) ([]string, error) {
 	return files, err
 }
 
-func ignorePath(cwd, path string, isDir bool) (bool, error) {
-	if isDir {
-		return true, nil
-	}
-
+func includePath(cwd, path string) (bool, error) {
 	cwdDir := util.MustString(filepath.Abs(cwd))
 	absPath := util.MustString(filepath.Abs(path))
 
@@ -141,5 +141,5 @@ func ignorePath(cwd, path string, isDir bool) (bool, error) {
 	// remaining will now begin with a path sep, let's first remove that
 	remaining = strings.TrimPrefix(remaining, PathSep)
 
-	return strings.Contains(remaining, PathSep), nil
+	return !strings.Contains(remaining, PathSep), nil
 }
