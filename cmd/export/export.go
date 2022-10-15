@@ -17,8 +17,8 @@ const (
 )
 
 var (
-	listOnly     bool
-	existingOnly bool
+	preview bool
+	list    bool
 )
 
 func New() *cobra.Command {
@@ -30,8 +30,8 @@ func New() *cobra.Command {
 		RunE:  runner,
 	}
 
-	searchCmd.Flags().BoolVar(&listOnly, "list", false, "list files to export, but don't create them")
-	searchCmd.Flags().BoolVar(&existingOnly, "existing", false, "list existing files in export directory")
+	searchCmd.Flags().BoolVar(&preview, "preview", false, "list files that would be exported")
+	searchCmd.Flags().BoolVar(&list, "list", false, "list files in export directory")
 
 	return searchCmd
 }
@@ -43,9 +43,9 @@ func runner(cmd *cobra.Command, args []string) error {
 	}
 	defer bearDB.Close()
 
-	if listOnly {
+	if preview {
 		return bearDB.Export(printingExporter(args[0]))
-	} else if existingOnly {
+	} else if list {
 		files, err := exporter.ListFiles(args[0])
 		if err != nil {
 			return errors.WithStack(err)

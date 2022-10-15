@@ -136,10 +136,12 @@ func includePath(cwd, path string) (bool, error) {
 	cwdDir := util.MustString(filepath.Abs(cwd))
 	absPath := util.MustString(filepath.Abs(path))
 
-	remaining := strings.TrimPrefix(absPath, cwdDir)
+	// get path to export relative to export dir
+	relative := strings.TrimPrefix(absPath, cwdDir)
 
-	// remaining will now begin with a path sep, let's first remove that
-	remaining = strings.TrimPrefix(remaining, PathSep)
+	// relative will now begin with a path sep, let's first remove that
+	relPath := strings.TrimPrefix(relative, PathSep)
 
-	return !strings.Contains(remaining, PathSep), nil
+	// exlcude if it's in a subdir
+	return !strings.Contains(relPath, PathSep), nil
 }
