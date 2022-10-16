@@ -115,9 +115,13 @@ func ListFiles(directory string) ([]string, error) {
 			return err
 		}
 
-		// skip all subdirs but the specified one
-		if d.IsDir() && path != directory {
-			return filepath.SkipDir
+		// skip all directories, traverse only into the specified one
+		if d.IsDir() {
+			if path != directory {
+				return filepath.SkipDir
+			} else {
+				return nil
+			}
 		}
 
 		files = append(files, d.Name())
