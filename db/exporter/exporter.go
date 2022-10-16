@@ -13,7 +13,6 @@ import (
 	"strings"
 
 	"github.com/mnadel/freddiebear/db"
-	"github.com/mnadel/freddiebear/util"
 	"github.com/pkg/errors"
 )
 
@@ -116,32 +115,15 @@ func ListFiles(directory string) ([]string, error) {
 			return err
 		}
 
-		if d.IsDir() {
-			return nil
+		// skip all subdirs but the specified one
+		if d.IsDir() && path != directory {
+			return filepath.SkipDir
 		}
 
-		if include, err := includePath(directory, path); err != nil {
-			return err
-		} else if include {
-			files = append(files, d.Name())
-		}
+		files = append(files, d.Name())
 
 		return nil
 	})
 
 	return files, err
-}
-
-func includePath(cwd, path string) (bool, error) {
-	cwdDir := util.MustString(filepath.Abs(cwd))
-	absPath := util.MustString(filepath.Abs(path))
-
-	// get path to export relative to export dir
-	relative := strings.TrimPrefix(absPath, cwdDir)
-
-	// relative will now begin with a path sep, let's first remove that
-	relPath := strings.TrimPrefix(relative, PathSep)
-
-	// exlcude if it's in a subdir
-	return !strings.Contains(relPath, PathSep), nil
 }
