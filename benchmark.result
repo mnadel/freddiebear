@@ -1,9 +1,0 @@
-Fri Mar 10 18:06:01 CST 2023
-goos: darwin
-goarch: arm64
-pkg: github.com/mnadel/freddiebear/db
-BenchmarkQueryText-10                       2180            543219 ns/op
-BenchmarkQueryTitlesExact-10               10000            102519 ns/op
-BenchmarkQueryTitlesFuzzy-10                6100            183608 ns/op
-PASS
-

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+cat <<- EOF
+A previous execution:
+
+    goos: darwin
+    goarch: arm64
+    pkg: github.com/mnadel/freddiebear/db
+    BenchmarkQueryText-10                       2238            539119 ns/op
+    BenchmarkQueryTitlesExact-10               10000            106793 ns/op
+    BenchmarkQueryTitlesFuzzy-10                5985            188565 ns/op
+    PASS
+    ok      github.com/mnadel/freddiebear/db        4.628s
+    go test -bench=.  4.81s user 0.61s system 106% cpu 5.076 total
+
+And the latest:
+
+EOF
+
+cd db
+go test -bench=.
+cd ..
