@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>org.nadel.freddiebear</string>
+	<string>org.nadel.alfred.bear</string>
 	<key>category</key>
 	<string>Productivity</string>
 	<key>connections</key>
