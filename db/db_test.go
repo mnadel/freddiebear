@@ -11,7 +11,7 @@ func BenchmarkQueryText(t *testing.B) {
 	assert.Nil(t, err, "cannot create db")
 
 	for i := 0; i < t.N; i++ {
-		_, err = bearDB.QueryText("2022")
+		_, err = bearDB.QueryText("2022", false)
 		assert.Nil(t, err, "error searching text")
 	}
 }
