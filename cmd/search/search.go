@@ -12,7 +12,6 @@ import (
 
 var (
 	optAll      bool
-	optFuzzy    bool
 	optShowTags bool
 )
 
@@ -26,7 +25,6 @@ func New() *cobra.Command {
 	}
 
 	searchCmd.Flags().BoolVar(&optAll, "all", false, "full text search (default: titles only)")
-	searchCmd.Flags().BoolVar(&optFuzzy, "fuzzy", false, "full text search anywhere (default: word boundaries)")
 	searchCmd.Flags().BoolVar(&optShowTags, "show-tags", false, "include tags in output")
 
 	return searchCmd
@@ -42,7 +40,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	var results db.Results
 
 	if optAll {
-		results, err = bearDB.QueryText(args[0], optFuzzy)
+		results, err = bearDB.QueryText(args[0])
 	} else {
 		results, err = bearDB.QueryTitles(args[0], false)
 	}

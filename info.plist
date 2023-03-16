@@ -122,19 +122,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>B8E7CA1D-8539-4541-96B9-4C309440EB5A</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>9BAAA486-610C-457F-BC72-FF7242F797E0</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<array>
 			<dict>
@@ -327,7 +314,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>bf</string>
+				<string>bs</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -337,9 +324,9 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Searching Everywhere...</string>
+				<string>Searching Words...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" search --all --show-tags --fuzzy "{query}"</string>
+				<string>"${FB_BINARY:-freddiebear}" search --all --show-tags "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -347,7 +334,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Search Bear Fuzzily</string>
+				<string>Search Bear</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -356,7 +343,7 @@
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>B8E7CA1D-8539-4541-96B9-4C309440EB5A</string>
+			<string>1A741966-5341-40BC-996D-68EAB30F62AA</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -412,55 +399,6 @@
 			<string>9BAAA486-610C-457F-BC72-FF7242F797E0</string>
 			<key>version</key>
 			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>bs</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Searching Words...</string>
-				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" search --all --show-tags "{query}"</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Search Bear</string>
-				<key>type</key>
-				<integer>5</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>1A741966-5341-40BC-996D-68EAB30F62AA</string>
-			<key>version</key>
-			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -767,7 +705,7 @@ Release Notes:
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>270</real>
+			<real>210</real>
 		</dict>
 		<key>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</key>
 		<dict>
@@ -828,13 +766,6 @@ Release Notes:
 			<real>345</real>
 			<key>ypos</key>
 			<real>225</real>
-		</dict>
-		<key>B8E7CA1D-8539-4541-96B9-4C309440EB5A</key>
-		<dict>
-			<key>xpos</key>
-			<real>60</real>
-			<key>ypos</key>
-			<real>140</real>
 		</dict>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<dict>

@@ -276,25 +276,12 @@ func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
 	return rowsToResults(rows)
 }
 
-// QueryText searches for a term within the body or title of notes within the database, setting
-// `fuzzy` to true will match term anywhere, false will match at a word boundary only.
-func (d *DB) QueryText(term string, fuzzy bool) (Results, error) {
-	var rows *sql.Rows
-	var err error
-
-	if fuzzy {
-		bind := substringSearch(term)
-		rows, err = d.db.Query(sqlText, bind, bind)
-		if err != nil {
-			return nil, errors.WithStack(err)
-		}
-	} else {
-		t := substringSearch(term)
-		l, m, r := wordSearch(term)
-		rows, err = d.db.Query(sqlWord, t, l, m, r)
-		if err != nil {
-			return nil, errors.WithStack(err)
-		}
+// QueryText searches for a term within the body or title of notes within the database.
+func (d *DB) QueryText(term string) (Results, error) {
+	bind := substringSearch(term)
+	rows, err := d.db.Query(sqlText, bind, bind)
+	if err != nil {
+		return nil, errors.WithStack(err)
 	}
 
 	defer rows.Close()
@@ -379,21 +366,4 @@ func substringSearch(term string) string {
 	bind.WriteString(term)
 	bind.WriteString(`%`)
 	return bind.String()
-}
-
-func wordSearch(term string) (string, string, string) {
-	left := strings.Builder{}
-	left.WriteString(`% `)
-	left.WriteString(term)
-
-	mid := strings.Builder{}
-	mid.WriteString(`% `)
-	mid.WriteString(term)
-	mid.WriteString(` %`)
-
-	right := strings.Builder{}
-	right.WriteString(term)
-	right.WriteString(` %`)
-
-	return left.String(), mid.String(), right.String()
 }
