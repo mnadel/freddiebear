@@ -17,6 +17,21 @@ import (
 const (
 	dbFile = `/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite?mode=ro`
 
+	sqlTags = `
+		SELECT DISTINCT
+			note.Z_PK,
+			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
+		FROM
+			ZSFNOTE note
+			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+		WHERE
+			note.ZARCHIVED = 0
+			AND note.ZTRASHED = 0
+		GROUP BY
+			note.Z_PK
+	`
+
 	sqlTitle = `
 		SELECT DISTINCT
 			note.ZUNIQUEIDENTIFIER,
@@ -97,43 +112,33 @@ const (
 			SELECT DISTINCT
 				note.Z_PK,
 				note.ZTITLE,
-				GROUP_CONCAT(COALESCE(tag.ZTITLE, '')) as tags,
 				link.Z_7LINKEDNOTES as linked_to
 			FROM
 				ZSFNOTE note
-				LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
-				LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
 				LEFT OUTER JOIN Z_7LINKEDNOTES link on note.Z_PK = link.Z_7LINKEDBYNOTES 
 			WHERE
 				note.ZARCHIVED = 0
 				AND note.ZTRASHED = 0
 				AND link.Z_7LINKEDNOTES IS NOT NULL
-			GROUP BY
-				note.Z_PK
 		),
 		target AS (
 			SELECT DISTINCT
 				note.Z_PK,
 				note.ZTITLE,
-				GROUP_CONCAT(COALESCE(tag.ZTITLE, '')) as tags,
 				link.Z_7LINKEDNOTES as linked_from
 			FROM
 				ZSFNOTE note
-				LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
-				LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
 				LEFT OUTER JOIN Z_7LINKEDNOTES link on note.Z_PK = link.Z_7LINKEDNOTES 
 			WHERE
 				note.ZARCHIVED = 0
 				AND note.ZTRASHED = 0
 				AND link.Z_7LINKEDNOTES IS NOT NULL
-			GROUP BY
-				note.Z_PK
 		)
 		SELECT
+			src.Z_PK as sid,
 			src.ZTITLE as stitle,
-			src.TAGS as stags,
-			target.ZTITLE as ttitle,
-			target.TAGS as ttags
+			target.Z_PK as tid,
+			target.ZTITLE as ttitle
 		FROM
 			src
 			JOIN target on src.LINKED_TO = target.Z_PK
@@ -291,37 +296,66 @@ func (d *DB) QueryText(term string) (Results, error) {
 
 // QueryGraph returns a graph of linked notes
 func (d *DB) QueryGraph() (Graph, error) {
+	tags, err := d.tagsByNoteID()
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
 	rows, err := d.db.Query(sqlGraph)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 	defer rows.Close()
 
+	var sourceID int
 	var sourceTitle string
-	var sourceTags string
+	var targetID int
 	var targetTitle string
-	var targetTags string
 
 	results := make(Graph, 0)
 
 	for rows.Next() {
-		err := rows.Scan(&sourceTitle, &sourceTags, &targetTitle, &targetTags)
+		err := rows.Scan(&sourceID, &sourceTitle, &targetID, &targetTitle)
 		if err != nil {
 			return nil, errors.WithStack(err)
 		}
 		results = append(results, &Edge{
 			Source: &Node{
 				Title: sourceTitle,
-				Tags:  sourceTags,
+				Tags:  tags[sourceID],
 			},
 			Target: &Node{
 				Title: targetTitle,
-				Tags:  targetTags,
+				Tags:  tags[targetID],
 			},
 		})
 	}
 
 	return results, errors.WithStack(rows.Err())
+}
+
+func (d *DB) tagsByNoteID() (map[int]string, error) {
+	tags := make(map[int]string)
+
+	rows, err := d.db.Query(sqlTags)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	defer rows.Close()
+
+	var noteID int
+	var noteTags string
+
+	for rows.Next() {
+		err := rows.Scan(&noteID, &noteTags)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+
+		tags[noteID] = noteTags
+	}
+
+	return tags, nil
 }
 
 // UniqueTags returns the leaf-node tags ([a a/b a/b/c d] -> [a/b/c d])
