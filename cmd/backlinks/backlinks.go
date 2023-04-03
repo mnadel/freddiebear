@@ -12,7 +12,7 @@ import (
 func New() *cobra.Command {
 	searchCmd := &cobra.Command{
 		Use:   "backlinks [term]",
-		Short: "Create backlinks for a given note",
+		Short: "Create backlinks for notes whose title contains the specified term",
 		Long:  "Generate backlink results in Alfred Workflow's XML schema format",
 		Args:  cobra.ExactArgs(1),
 		RunE:  runner,
@@ -52,6 +52,10 @@ func buildOpenXml(matches map[*db.Node]*db.Node) string {
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
 	builder.WriteString(`<items>`)
+
+	if len(matches) == 0 {
+		builder.WriteString(`<item valid="no"><title>No backlinks found</title></item>`)
+	}
 
 	for target, source := range matches {
 		item := db.Result{
