@@ -185,14 +185,9 @@ type Result struct {
 // Results is a list of *Result, and represents a collection of notes in the database
 type Results []*Result
 
-type Node struct {
-	Title string
-	UUID  string
-	Tags  string
-}
 type Edge struct {
-	Source *Node
-	Target *Node
+	Source *Result
+	Target *Result
 }
 
 type Graph []*Edge
@@ -327,14 +322,14 @@ func (d *DB) QueryGraph() (Graph, error) {
 			return nil, errors.WithStack(err)
 		}
 		results = append(results, &Edge{
-			Source: &Node{
+			Source: &Result{
+				ID:    sourceUUID,
 				Title: sourceTitle,
-				UUID:  sourceUUID,
 				Tags:  tags[sourceID],
 			},
-			Target: &Node{
+			Target: &Result{
+				ID:    targetUUID,
 				Title: targetTitle,
-				UUID:  targetUUID,
 				Tags:  tags[targetID],
 			},
 		})
@@ -376,13 +371,6 @@ func (r *Result) UniqueTags() []string {
 // TitleCase returns a Alfred-safe version of the proper title casing
 func (r *Result) TitleCase() string {
 	return util.ToSafeString(util.ToTitleCase(r.Title))
-}
-
-// UniqueTags returns the leaf-node tags ([a a/b a/b/c d] -> [a/b/c d]) for a Node
-func (n *Node) UniqueTags() []string {
-	split := strings.Split(n.Tags, ",")
-	tags := util.RemoveIntermediatePrefixes(split, "/")
-	return util.UniqueSet(tags)
 }
 
 func rowsToResults(rows *sql.Rows) (Results, error) {

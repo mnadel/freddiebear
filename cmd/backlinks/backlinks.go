@@ -34,7 +34,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	}
 
 	term := strings.ToLower(args[0])
-	matches := make(map[*db.Node]*db.Node)
+	matches := make(map[*db.Result]*db.Result)
 
 	for _, edge := range graph {
 		if strings.Contains(strings.ToLower(edge.Target.Title), term) {
@@ -47,7 +47,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func buildOpenXml(matches map[*db.Node]*db.Node) string {
+func buildOpenXml(matches map[*db.Result]*db.Result) string {
 	builder := strings.Builder{}
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
@@ -55,28 +55,24 @@ func buildOpenXml(matches map[*db.Node]*db.Node) string {
 
 	if len(matches) == 0 {
 		builder.WriteString(`<item valid="no"><title>No backlinks found</title></item>`)
-	}
+	} else {
+		for target, source := range matches {
+			source.Title = fmt.Sprintf("%s → %s", source.Title, target.Title)
 
-	for target, source := range matches {
-		item := db.Result{
-			ID:    source.UUID,
-			Title: fmt.Sprintf("%s → %s", source.Title, target.Title),
-			Tags:  source.Tags,
+			builder.WriteString(`<item valid="yes">`)
+			builder.WriteString(`<title>`)
+			builder.WriteString(source.TitleCase())
+			builder.WriteString(`</title>`)
+
+			builder.WriteString(`<subtitle>`)
+			builder.WriteString(strings.Join(source.UniqueTags(), ", "))
+			builder.WriteString(`</subtitle>`)
+
+			builder.WriteString(`<arg>`)
+			builder.WriteString(source.ID)
+			builder.WriteString(`</arg>`)
+			builder.WriteString(`</item>`)
 		}
-
-		builder.WriteString(`<item valid="yes">`)
-		builder.WriteString(`<title>`)
-		builder.WriteString(item.TitleCase())
-		builder.WriteString(`</title>`)
-
-		builder.WriteString(`<subtitle>`)
-		builder.WriteString(strings.Join(item.UniqueTags(), ", "))
-		builder.WriteString(`</subtitle>`)
-
-		builder.WriteString(`<arg>`)
-		builder.WriteString(item.ID)
-		builder.WriteString(`</arg>`)
-		builder.WriteString(`</item>`)
 	}
 
 	builder.WriteString(`</items>`)

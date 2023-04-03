@@ -65,7 +65,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func nodeLabel(n *db.Node) string {
+func nodeLabel(n *db.Result) string {
 	tags := n.UniqueTags()
 	if len(tags) > 0 {
 		tags[0] = fmt.Sprintf("#%s", tags[0])
