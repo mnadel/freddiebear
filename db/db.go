@@ -112,6 +112,7 @@ const (
 			SELECT DISTINCT
 				note.Z_PK,
 				note.ZTITLE,
+				note.ZUNIQUEIDENTIFIER,
 				link.Z_7LINKEDNOTES as linked_to
 			FROM
 				ZSFNOTE note
@@ -125,6 +126,7 @@ const (
 			SELECT DISTINCT
 				note.Z_PK,
 				note.ZTITLE,
+				note.ZUNIQUEIDENTIFIER,
 				link.Z_7LINKEDNOTES as linked_from
 			FROM
 				ZSFNOTE note
@@ -136,8 +138,10 @@ const (
 		)
 		SELECT
 			src.Z_PK as sid,
+			src.ZUNIQUEIDENTIFIER as suuid,
 			src.ZTITLE as stitle,
 			target.Z_PK as tid,
+			target.ZUNIQUEIDENTIFIER as tuuid,
 			target.ZTITLE as ttitle
 		FROM
 			src
@@ -183,6 +187,7 @@ type Results []*Result
 
 type Node struct {
 	Title string
+	UUID  string
 	Tags  string
 }
 type Edge struct {
@@ -308,24 +313,28 @@ func (d *DB) QueryGraph() (Graph, error) {
 	defer rows.Close()
 
 	var sourceID int
+	var sourceUUID string
 	var sourceTitle string
 	var targetID int
+	var targetUUID string
 	var targetTitle string
 
 	results := make(Graph, 0)
 
 	for rows.Next() {
-		err := rows.Scan(&sourceID, &sourceTitle, &targetID, &targetTitle)
+		err := rows.Scan(&sourceID, &sourceUUID, &sourceTitle, &targetID, &targetUUID, &targetTitle)
 		if err != nil {
 			return nil, errors.WithStack(err)
 		}
 		results = append(results, &Edge{
 			Source: &Node{
 				Title: sourceTitle,
+				UUID:  sourceUUID,
 				Tags:  tags[sourceID],
 			},
 			Target: &Node{
 				Title: targetTitle,
+				UUID:  targetUUID,
 				Tags:  tags[targetID],
 			},
 		})

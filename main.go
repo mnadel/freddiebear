@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/mnadel/freddiebear/cmd/backlinks"
 	"github.com/mnadel/freddiebear/cmd/export"
 	"github.com/mnadel/freddiebear/cmd/graph"
 	"github.com/mnadel/freddiebear/cmd/journal"
@@ -23,6 +24,7 @@ func main() {
 	cmd.AddCommand(version.New())
 	cmd.AddCommand(export.New())
 	cmd.AddCommand(graph.New())
+	cmd.AddCommand(backlinks.New())
 
 	if err := cmd.Execute(); err != nil {
 		log.Fatal(err)
