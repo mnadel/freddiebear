@@ -9,10 +9,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type Source = *db.Result
+type Target = *db.Result
+
 func New() *cobra.Command {
 	searchCmd := &cobra.Command{
 		Use:   "backlinks [term]",
-		Short: "Create backlinks for notes whose title contains the specified term",
+		Short: "Show backlinks for notes matching search term",
 		Long:  "Generate backlink results in Alfred Workflow's XML schema format",
 		Args:  cobra.ExactArgs(1),
 		RunE:  runner,
@@ -34,7 +37,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	}
 
 	term := strings.ToLower(args[0])
-	matches := make(map[*db.Result]*db.Result)
+	matches := make(map[Target]Source)
 
 	for _, edge := range graph {
 		if strings.Contains(strings.ToLower(edge.Target.Title), term) {
@@ -47,7 +50,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func buildOpenXml(matches map[*db.Result]*db.Result) string {
+func buildOpenXml(matches map[Target]Source) string {
 	builder := strings.Builder{}
 
 	builder.WriteString(`<?xml version="1.0" encoding="utf-8"?>`)
