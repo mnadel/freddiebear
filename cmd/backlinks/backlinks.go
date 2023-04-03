@@ -56,7 +56,7 @@ func buildOpenXml(matches map[*db.Node]*db.Node) string {
 	for target, source := range matches {
 		item := db.Result{
 			ID:    source.UUID,
-			Title: fmt.Sprintf("%s ← %s", source.Title, target.Title),
+			Title: fmt.Sprintf("%s → %s", source.Title, target.Title),
 			Tags:  source.Tags,
 		}
 
