@@ -14,6 +14,15 @@ To search a note by its full contents, use the `bs` keyword.
 
 <img src="imgs/bs.png" alt="bs" width="400"/>
 
+To search for a note's backlinks, use the `bbl` keyword.
+
+<img src="imgs/bbl.png" alt="bbl" width="400"/>
+
+Here you can see that searching for `mcc` shows `Remote Team Interactions Workbook ~Skelton, Pais` which
+references `Team of Teams ~McChrystal`.
+
+Selecting that item will open `Remote Team Interactions Workbook ~Skelton, Pais`.
+
 # Creating
 
 If your search fails to find any matching notes, the workflow will give you an option to create a new note w/ a title of the same name.
