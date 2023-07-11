@@ -23,8 +23,8 @@ const (
 			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
 		FROM
 			ZSFNOTE note
-			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
-			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_13TAGS = tag.Z_PK
 		WHERE
 			note.ZARCHIVED = 0
 			AND note.ZTRASHED = 0
@@ -39,8 +39,8 @@ const (
 			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
 		FROM
 			ZSFNOTE note
-			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
-			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_13TAGS = tag.Z_PK
 		WHERE
 			note.ZARCHIVED = 0
 			AND note.ZTRASHED = 0
@@ -58,8 +58,8 @@ const (
 			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
 		FROM
 			ZSFNOTE note
-			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
-			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_13TAGS = tag.Z_PK
 		WHERE
 			note.ZARCHIVED = 0
 			AND note.ZTRASHED = 0
@@ -77,8 +77,8 @@ const (
 			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
 		FROM
 			ZSFNOTE note
-			LEFT OUTER JOIN Z_7TAGS tags ON note.Z_PK = tags.Z_7NOTES
-			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_14TAGS = tag.Z_PK
+			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_13TAGS = tag.Z_PK
 		WHERE
 			note.ZARCHIVED = 0
 			AND note.ZTRASHED = 0
