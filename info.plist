@@ -372,7 +372,7 @@
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
-				<string>bear://x-callback-url/open-note?id={query}&amp;open_note=yes&amp;edit=yes&amp;show_window=yes</string>
+				<string>bear://x-callback-url/open-note?id={query}&amp;open_note=yes&amp;show_window=yes&amp;edit=yes</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>

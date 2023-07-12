@@ -70,30 +70,6 @@ const (
 			note.ZMODIFICATIONDATE DESC
 	`
 
-	sqlWord = `
-		SELECT DISTINCT
-			note.ZUNIQUEIDENTIFIER,
-			note.ZTITLE,
-			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
-		FROM
-			ZSFNOTE note
-			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
-			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_13TAGS = tag.Z_PK
-		WHERE
-			note.ZARCHIVED = 0
-			AND note.ZTRASHED = 0
-			AND (
-				LOWER(note.ZTITLE) LIKE LOWER(?) 
-				OR LOWER(note.ZTEXT) LIKE LOWER(?) 
-				OR LOWER(note.ZTEXT) LIKE LOWER(?)
-				OR LOWER(note.ZTEXT) LIKE LOWER(?)
-			)
-		GROUP BY
-			note.ZUNIQUEIDENTIFIER
-		ORDER BY
-			note.ZMODIFICATIONDATE DESC
-	`
-
 	sqlExport = `
 		select
 			ZUNIQUEIDENTIFIER,
@@ -107,36 +83,8 @@ const (
 	`
 
 	sqlGraph = `
-		WITH src AS
-		(
-			SELECT DISTINCT
-				note.Z_PK,
-				note.ZTITLE,
-				note.ZUNIQUEIDENTIFIER,
-				link.Z_7LINKEDNOTES as linked_to
-			FROM
-				ZSFNOTE note
-				LEFT OUTER JOIN Z_7LINKEDNOTES link on note.Z_PK = link.Z_7LINKEDBYNOTES 
-			WHERE
-				note.ZARCHIVED = 0
-				AND note.ZTRASHED = 0
-				AND link.Z_7LINKEDNOTES IS NOT NULL
-		),
-		target AS (
-			SELECT DISTINCT
-				note.Z_PK,
-				note.ZTITLE,
-				note.ZUNIQUEIDENTIFIER,
-				link.Z_7LINKEDNOTES as linked_from
-			FROM
-				ZSFNOTE note
-				LEFT OUTER JOIN Z_7LINKEDNOTES link on note.Z_PK = link.Z_7LINKEDNOTES 
-			WHERE
-				note.ZARCHIVED = 0
-				AND note.ZTRASHED = 0
-				AND link.Z_7LINKEDNOTES IS NOT NULL
-		)
 		SELECT
+			DISTINCT
 			src.Z_PK as sid,
 			src.ZUNIQUEIDENTIFIER as suuid,
 			src.ZTITLE as stitle,
@@ -144,8 +92,14 @@ const (
 			target.ZUNIQUEIDENTIFIER as tuuid,
 			target.ZTITLE as ttitle
 		FROM
-			src
-			JOIN target on src.LINKED_TO = target.Z_PK
+			ZSFNOTEBACKLINK b
+			JOIN ZSFNOTE src ON src.Z_PK = b.ZLINKINGTO
+			JOIN ZSFNOTE target ON target.Z_PK = b.ZLINKEDBY
+		WHERE
+			src.ZARCHIVED = 0
+			AND src.ZTRASHED = 0
+			AND target.ZARCHIVED = 0
+			AND target.ZTRASHED = 0
 	`
 
 	sqlPragma = `
