@@ -105,12 +105,10 @@ const (
 	sqlPragma = `
 		PRAGMA query_only = on;
 		PRAGMA synchronous = off;
-		PRAGMA mmap_size = 1000000000;
+		PRAGMA mmap_size = 250000000;
 		PRAGMA temp_store = memory;
 		PRAGMA journal_mode = off;
-		PRAGMA page_size = 512;
-		PRAGMA cache_size = -5000;
-		PRAGMA locking_mode = normal;
+		PRAGMA cache_size = -25000;
 	`
 )
 
