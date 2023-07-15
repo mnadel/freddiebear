@@ -183,15 +183,14 @@ func (d *DB) Close() error {
 	return d.db.Close()
 }
 
-func (d *DB) Attachments() ([][]string, error) {
+// AllAttachments returns a list of all attachments in the database.
+func (d *DB) AllAttachments() ([][]string, error) {
 	records := make([][]string, 0)
 
 	records = append(records, []string{
 		"Note SHA",
-		"Note UUID",
 		"Note Title",
-		"Folder UUID",
-		"Filename",
+		"Attachment Path",
 	})
 
 	rows, err := d.db.Query(sqlAttachmentMap)
@@ -207,7 +206,16 @@ func (d *DB) Attachments() ([][]string, error) {
 			return nil, errors.WithStack(err)
 		}
 
-		records = append(records, []string{guidToSHA(nid), nid, ntitle, fid, fname})
+		var dir string
+
+		switch strings.ToLower(path.Ext(fname)) {
+		case ".jpeg", ".jpg", ".png", ".gif", ".tiff", ".tif", ".heic", ".heif":
+			dir = "Note Images"
+		default:
+			dir = "Note Files"
+		}
+
+		records = append(records, []string{guidToSHA(nid), ntitle, path.Join("Local Files", dir, fid, fname)})
 	}
 
 	return records, nil

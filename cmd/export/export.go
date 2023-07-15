@@ -101,12 +101,12 @@ func runner(cmd *cobra.Command, args []string) error {
 }
 
 func writeAttachmentMappings(destinationDir string, bearDB *db.DB) error {
-	mapping, err := bearDB.Attachments()
+	mapping, err := bearDB.AllAttachments()
 	if err != nil {
 		return errors.WithStack(err)
 	}
 
-	mappingFile, err := os.Create(path.Join(destinationDir, "Attachment Mappings.csv"))
+	mappingFile, err := os.Create(path.Join(destinationDir, "Attachments.csv"))
 	if err != nil {
 		return errors.WithStack(err)
 	}
