@@ -102,7 +102,7 @@ const (
 			AND target.ZTRASHED = 0
 	`
 
-	sqlAttachmentMap = `
+	sqlAttachments = `
 		SELECT
 			n.ZUNIQUEIDENTIFIER as note_uuid,
 			n.ZTITLE as note_title,
@@ -195,24 +195,24 @@ func (d *DB) Close() error {
 func (d *DB) AllAttachments() ([]*Attachment, error) {
 	records := make([]*Attachment, 0)
 
-	rows, err := d.db.Query(sqlAttachmentMap)
+	rows, err := d.db.Query(sqlAttachments)
 	if err != nil {
 		return nil, errors.WithStack(rows.Err())
 	}
 
-	var nid, ntitle, fid, fname string
+	var noteID, noteTitle, folderID, fileName string
 
 	for rows.Next() {
-		err := rows.Scan(&nid, &ntitle, &fid, &fname)
+		err := rows.Scan(&noteID, &noteTitle, &folderID, &fileName)
 		if err != nil {
 			return nil, errors.WithStack(err)
 		}
 
 		records = append(records, &Attachment{
-			NoteSHA:    guidToSHA(nid),
-			NoteTitle:  ntitle,
-			FolderUUID: fid,
-			Filename:   fname,
+			NoteSHA:    guidToSHA(noteID),
+			NoteTitle:  noteTitle,
+			FolderUUID: folderID,
+			Filename:   fileName,
 		})
 	}
 
