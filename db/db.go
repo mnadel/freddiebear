@@ -102,6 +102,21 @@ const (
 			AND target.ZTRASHED = 0
 	`
 
+	sqlAttachmentMap = `
+		SELECT
+			n.ZUNIQUEIDENTIFIER as note_uuid,
+			n.ZTITLE as note_title,
+			f.ZUNIQUEIDENTIFIER as folder_uuid,
+			f.ZFILENAME as filename
+		FROM
+			ZSFNOTE n join ZSFNOTEFILE f on f.ZNOTE = n.Z_PK
+		WHERE
+			n.ZARCHIVED = 0
+			AND n.ZTRASHED = 0
+		ORDER BY
+			n.ZUNIQUEIDENTIFIER
+	`
+
 	sqlPragma = `
 		PRAGMA query_only = on;
 		PRAGMA synchronous = off;
@@ -168,6 +183,36 @@ func (d *DB) Close() error {
 	return d.db.Close()
 }
 
+func (d *DB) Attachments() ([][]string, error) {
+	records := make([][]string, 0)
+
+	records = append(records, []string{
+		"Note SHA",
+		"Note UUID",
+		"Note Title",
+		"Folder UUID",
+		"Filename",
+	})
+
+	rows, err := d.db.Query(sqlAttachmentMap)
+	if err != nil {
+		return nil, errors.WithStack(rows.Err())
+	}
+
+	var nid, ntitle, fid, fname string
+
+	for rows.Next() {
+		err := rows.Scan(&nid, &ntitle, &fid, &fname)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+
+		records = append(records, []string{guidToSHA(nid), nid, ntitle, fid, fname})
+	}
+
+	return records, nil
+}
+
 // Records returns the list of notes in the database
 func (d *DB) Records() ([]*Record, error) {
 	records := make([]*Record, 0)
@@ -186,7 +231,7 @@ func (d *DB) Records() ([]*Record, error) {
 		}
 
 		record := &Record{
-			SHA:   fmt.Sprintf("%x", md5.Sum([]byte(guid)))[0:7],
+			SHA:   guidToSHA(guid),
 			Title: title,
 			Text:  text,
 		}
@@ -349,4 +394,8 @@ func substringSearch(term string) string {
 	bind.WriteString(term)
 	bind.WriteString(`%`)
 	return bind.String()
+}
+
+func guidToSHA(guid string) string {
+	return fmt.Sprintf("%x", md5.Sum([]byte(guid)))[0:7]
 }

@@ -1,6 +1,7 @@
 package export
 
 import (
+	"encoding/csv"
 	"fmt"
 	"log"
 	"os"
@@ -92,7 +93,29 @@ func runner(cmd *cobra.Command, args []string) error {
 		}
 	}
 
+	if err := writeAttachmentMappings(args[0], bearDB); err != nil {
+		errors.WithStack(err)
+	}
+
 	return exporter.Archive(records, trashDir)
+}
+
+func writeAttachmentMappings(destinationDir string, bearDB *db.DB) error {
+	mapping, err := bearDB.Attachments()
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	mappingFile, err := os.Create(path.Join(destinationDir, "Attachment Mappings.csv"))
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	err = csv.NewWriter(mappingFile).WriteAll(mapping)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	return nil
 }
 
 func printingExporter(destinationDir string) db.Exporter {
