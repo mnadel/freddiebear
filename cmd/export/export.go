@@ -21,6 +21,19 @@ const (
 var (
 	preview bool
 	list    bool
+
+	imageFileExtensions = map[string]bool{
+		".bmp":  true,
+		".gif":  true,
+		".heic": true,
+		".heif": true,
+		".jpeg": true,
+		".jpg":  true,
+		".png":  true,
+		".svg":  true,
+		".tif":  true,
+		".tiff": true,
+	}
 )
 
 func New() *cobra.Command {
@@ -176,10 +189,9 @@ func writeRecord(record *db.Record, destinationDir string) error {
 func buildAttachmentFilename(directory string, attachment *db.Attachment) string {
 	var dir string
 
-	switch strings.ToLower(path.Ext(attachment.Filename)) {
-	case ".jpeg", ".jpg", ".png", ".gif", ".tiff", ".tif", ".heic", ".heif":
+	if _, found := imageFileExtensions[strings.ToLower(path.Ext(attachment.Filename))]; found {
 		dir = "Note Images"
-	default:
+	} else {
 		dir = "Note Files"
 	}
 
