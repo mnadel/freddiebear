@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/mnadel/freddiebear/db"
 	"github.com/mnadel/freddiebear/db/exporter"
@@ -101,16 +102,26 @@ func runner(cmd *cobra.Command, args []string) error {
 }
 
 func writeAttachmentMappings(destinationDir string, bearDB *db.DB) error {
-	mapping, err := bearDB.AllAttachments()
+	attachments, err := bearDB.AllAttachments()
 	if err != nil {
 		return errors.WithStack(err)
+	}
+
+	exportable := make([][]string, len(attachments)+1)
+
+	exportable[0] = []string{"Note ID", "Note Title", "Attachment Path"}
+
+	for i, a := range attachments {
+		filepath := buildAttachmentFilename(destinationDir, a)
+		exportable[i+1] = []string{a.NoteSHA, a.NoteTitle, filepath}
 	}
 
 	mappingFile, err := os.Create(path.Join(destinationDir, "Attachments.csv"))
 	if err != nil {
 		return errors.WithStack(err)
 	}
-	err = csv.NewWriter(mappingFile).WriteAll(mapping)
+
+	err = csv.NewWriter(mappingFile).WriteAll(exportable)
 	if err != nil {
 		return errors.WithStack(err)
 	}
@@ -160,4 +171,17 @@ func writeRecord(record *db.Record, destinationDir string) error {
 	}
 
 	return nil
+}
+
+func buildAttachmentFilename(directory string, attachment *db.Attachment) string {
+	var dir string
+
+	switch strings.ToLower(path.Ext(attachment.Filename)) {
+	case ".jpeg", ".jpg", ".png", ".gif", ".tiff", ".tif", ".heic", ".heif":
+		dir = "Note Images"
+	default:
+		dir = "Note Files"
+	}
+
+	return path.Join("Local Files", dir, attachment.FolderUUID, attachment.Filename)
 }

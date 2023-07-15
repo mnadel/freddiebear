@@ -109,7 +109,8 @@ const (
 			f.ZUNIQUEIDENTIFIER as folder_uuid,
 			f.ZFILENAME as filename
 		FROM
-			ZSFNOTE n join ZSFNOTEFILE f on f.ZNOTE = n.Z_PK
+			ZSFNOTE n 
+			JOIN ZSFNOTEFILE f on f.ZNOTE = n.Z_PK
 		WHERE
 			n.ZARCHIVED = 0
 			AND n.ZTRASHED = 0
@@ -149,6 +150,13 @@ type Result struct {
 	Tags  string
 }
 
+type Attachment struct {
+	NoteSHA    string
+	NoteTitle  string
+	FolderUUID string
+	Filename   string
+}
+
 // Results is a list of *Result, and represents a collection of notes in the database
 type Results []*Result
 
@@ -184,14 +192,8 @@ func (d *DB) Close() error {
 }
 
 // AllAttachments returns a list of all attachments in the database.
-func (d *DB) AllAttachments() ([][]string, error) {
-	records := make([][]string, 0)
-
-	records = append(records, []string{
-		"Note SHA",
-		"Note Title",
-		"Attachment Path",
-	})
+func (d *DB) AllAttachments() ([]*Attachment, error) {
+	records := make([]*Attachment, 0)
 
 	rows, err := d.db.Query(sqlAttachmentMap)
 	if err != nil {
@@ -206,16 +208,12 @@ func (d *DB) AllAttachments() ([][]string, error) {
 			return nil, errors.WithStack(err)
 		}
 
-		var dir string
-
-		switch strings.ToLower(path.Ext(fname)) {
-		case ".jpeg", ".jpg", ".png", ".gif", ".tiff", ".tif", ".heic", ".heif":
-			dir = "Note Images"
-		default:
-			dir = "Note Files"
-		}
-
-		records = append(records, []string{guidToSHA(nid), ntitle, path.Join("Local Files", dir, fid, fname)})
+		records = append(records, &Attachment{
+			NoteSHA:    guidToSHA(nid),
+			NoteTitle:  ntitle,
+			FolderUUID: fid,
+			Filename:   fname,
+		})
 	}
 
 	return records, nil
