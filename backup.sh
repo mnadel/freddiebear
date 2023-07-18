@@ -29,12 +29,10 @@ fi
 log "exporting notes"
 freddiebear export .
 
-rsync --dry-run -avz "${DATADIR}/Local Files" . | grep -qs "Local Files" >/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    log "found assets to sync"
-    rsync -avz "${DATADIR}/Local Files" .
-fi
+log "syncing assets"
+rsync -avz --delete "${DATADIR}/Local Files" .
 
+log "checking changes"
 changes=$(git status --porcelain 2>/dev/null | wc -l)
 if [ ${changes} -eq 0 ]; then
     exit 0
