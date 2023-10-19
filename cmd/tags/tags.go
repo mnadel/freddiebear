@@ -32,10 +32,12 @@ func runner(cmd *cobra.Command, args []string) error {
 		return errors.WithStack(err)
 	}
 
-	items := make([]string, len(allTags))
+	items := make([]string, 0)
 
-	for i, t := range allTags {
-		items[i] = fmt.Sprintf(`{"title":"%s","arg":"%s"}`, t, t)
+	for _, t := range allTags {
+		if !strings.Contains(t, "captainslog") {
+			items = append(items, fmt.Sprintf(`{"title":"%s","arg":"%s"}`, t, t))
+		}
 	}
 
 	fmt.Printf(`{"items":[%s]}`, strings.Join(items, ","))
