@@ -2,7 +2,6 @@ package transcript
 
 import (
 	"fmt"
-	"net/url"
 	"regexp"
 	"strings"
 
@@ -42,7 +41,6 @@ func runner(cmd *cobra.Command, args []string) error {
 	}
 
 	transcript := strings.Builder{}
-	transcript.WriteString(fmt.Sprintf("# Transcript: %s\n", args[0]))
 
 	for _, result := range results {
 		transcript.WriteString(fmt.Sprintf("## %s\n", result.Title))
@@ -54,9 +52,7 @@ func runner(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	title := fmt.Sprintf("Transcript: %s", args[0])
-	fmt.Printf("edit=yes&open_note=yes&show_window=yes&title=%s&text=%s",
-		url.QueryEscape(title), url.QueryEscape(transcript.String()))
+	fmt.Printf(transcript.String())
 
 	return nil
 }
