@@ -17,6 +17,24 @@ import (
 const (
 	dbFile = `/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite?mode=ro`
 
+	sqlNotesByTag = `
+		SELECT
+			note.ZUNIQUEIDENTIFIER,
+			note.ZTITLE,
+			datetime(note.ZMODIFICATIONDATE, 'unixepoch', '31 years', 'localtime') as mod_date,
+			note.ZTEXT
+		FROM
+			ZSFNOTE note
+			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_13TAGS = tag.Z_PK
+		WHERE
+			note.ZARCHIVED = 0
+			AND note.ZTRASHED = 0
+			AND tag.ZTITLE = ?
+		ORDER BY
+			note.ZTITLE DESC
+	`
+
 	sqlTags = `
 		SELECT DISTINCT
 			note.Z_PK,
@@ -30,6 +48,18 @@ const (
 			AND note.ZTRASHED = 0
 		GROUP BY
 			note.Z_PK
+	`
+
+	sqlAllTags = `
+		SELECT DISTINCT
+			tag.ZTITLE
+		FROM
+			ZSFNOTE note
+			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_13TAGS = tag.Z_PK
+		WHERE
+			note.ZARCHIVED = 0
+			AND note.ZTRASHED = 0
 	`
 
 	sqlTitle = `
@@ -52,10 +82,10 @@ const (
 	`
 
 	sqlText = `
-		SELECT DISTINCT
+		SELECT
 			note.ZUNIQUEIDENTIFIER,
 			note.ZTITLE,
-			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
+			note.TEXT
 		FROM
 			ZSFNOTE note
 			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
@@ -68,6 +98,17 @@ const (
 			note.ZUNIQUEIDENTIFIER
 		ORDER BY
 			note.ZMODIFICATIONDATE DESC
+	`
+
+	sqlNote = `
+		SELECT
+			note.ZUNIQUEIDENTIFIER,
+			note.ZTITLE,
+			note.ZTEXT
+		FROM
+			ZSFNOTE note
+		WHERE
+			note.Z_PK = ?
 	`
 
 	sqlExport = `
@@ -141,6 +182,7 @@ type Record struct {
 	SHA   string
 	Title string
 	Text  string
+	ModificationDate string
 }
 
 // Result references a specific note: its identifier and title
@@ -295,6 +337,51 @@ func (d *DB) QueryText(term string) (Results, error) {
 	defer rows.Close()
 
 	return rowsToResults(rows)
+}
+
+// QueryTags returns a list of all tags
+func (d *DB) QueryTags() ([]string, error) {
+	rows, err := d.db.Query(sqlAllTags)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	defer rows.Close()
+
+	tags := make([]string, 0)
+	var tag string
+
+	for rows.Next() {
+		err := rows.Scan(&tag)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+
+		tags = append(tags, tag)
+	}
+
+	return util.RemoveIntermediatePrefixes(tags, "/"), nil
+}
+
+// QueryTag searches for all notes with a given tag within the database.
+func (d *DB) QueryTag(tag string) ([]*Record, error) {
+	rows, err := d.db.Query(sqlNotesByTag, tag)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	records := make([]*Record, 0)
+	var guid, title, text, moddate string
+
+	for rows.Next() {
+		err := rows.Scan(&guid, &title, &moddate, &text)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+		records = append(records, &Record{guid, title, text, moddate})
+	}
+
+	return records, nil
 }
 
 // QueryGraph returns a graph of linked notes

@@ -9,6 +9,8 @@ import (
 	"github.com/mnadel/freddiebear/cmd/journal"
 	"github.com/mnadel/freddiebear/cmd/search"
 	"github.com/mnadel/freddiebear/cmd/version"
+	"github.com/mnadel/freddiebear/cmd/tags"
+	"github.com/mnadel/freddiebear/cmd/transcript"
 	"github.com/spf13/cobra"
 )
 
@@ -25,6 +27,8 @@ func main() {
 	cmd.AddCommand(export.New())
 	cmd.AddCommand(graph.New())
 	cmd.AddCommand(backlinks.New())
+	cmd.AddCommand(transcript.New())
+	cmd.AddCommand(tags.New())
 
 	if err := cmd.Execute(); err != nil {
 		log.Fatal(err)
