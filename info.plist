@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>org.nadel.alfred.bear</string>
-	<key>category</key>
-	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
@@ -46,6 +44,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>51E0F38F-116B-404D-B096-130B3054FA64</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5A7B6E6B-69EA-466F-8030-56CE80881702</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</key>
 		<array>
 			<dict>
@@ -59,11 +70,37 @@
 				<false/>
 			</dict>
 		</array>
+		<key>5A7B6E6B-69EA-466F-8030-56CE80881702</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>C18A2120-5700-4B12-BA3C-C20476ABA9A6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>915F45D1-096A-4EA4-B21E-1E8B0DDD08A8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A3551607-915F-4C6B-AA7A-8561DD8ECD46</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -166,6 +203,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>915F45D1-096A-4EA4-B21E-1E8B0DDD08A8</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -588,27 +638,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>keyword</key>
-				<string>captainslog</string>
-				<key>subtext</key>
-				<string></string>
-				<key>text</key>
-				<string>Captain's Log</string>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>5B6F048B-E933-4908-B391-EE17DCD239E5</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
@@ -632,6 +661,27 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>captainslog</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Captain's Log</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>5B6F048B-E933-4908-B391-EE17DCD239E5</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
@@ -639,6 +689,138 @@
 			<string>alfred.workflow.utility.transform</string>
 			<key>uid</key>
 			<string>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>915F45D1-096A-4EA4-B21E-1E8B0DDD08A8</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>btranscript</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Select a tag...</string>
+				<key>script</key>
+				<string>"${FB_BINARY:-freddiebear}" tags</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Create a transcript</string>
+				<key>type</key>
+				<integer>5</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>51E0F38F-116B-404D-B096-130B3054FA64</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>"${FB_BINARY:-freddiebear}" transcript "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>bear://x-callback-url/create?edit=yes&amp;open_note=yes&amp;show_window=yes&amp;title={var:title}&amp;clipboard=yes</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>A3551607-915F-4C6B-AA7A-8561DD8ECD46</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>passthroughargument</key>
+				<true/>
+				<key>variables</key>
+				<dict>
+					<key>title</key>
+					<string>Transcript: {query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>5A7B6E6B-69EA-466F-8030-56CE80881702</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -656,6 +838,27 @@
 			<string>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</string>
 			<key>version</key>
 			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>bg</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Show Graph of Linked Notes</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>F05F04EB-987E-4118-97BA-299EA0D5269A</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -683,27 +886,6 @@ echo -n "${file}"</string>
 			<string>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</string>
 			<key>version</key>
 			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>keyword</key>
-				<string>bg</string>
-				<key>subtext</key>
-				<string></string>
-				<key>text</key>
-				<string>Show Graph of Linked Notes</string>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>F05F04EB-987E-4118-97BA-299EA0D5269A</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -761,7 +943,7 @@ Release Notes:
 			<key>xpos</key>
 			<real>575</real>
 			<key>ypos</key>
-			<real>740</real>
+			<real>1175</real>
 		</dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
@@ -775,7 +957,14 @@ Release Notes:
 			<key>xpos</key>
 			<real>260</real>
 			<key>ypos</key>
-			<real>820</real>
+			<real>1255</real>
+		</dict>
+		<key>51E0F38F-116B-404D-B096-130B3054FA64</key>
+		<dict>
+			<key>xpos</key>
+			<real>65</real>
+			<key>ypos</key>
+			<real>720</real>
 		</dict>
 		<key>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</key>
 		<dict>
@@ -784,19 +973,26 @@ Release Notes:
 			<key>ypos</key>
 			<real>260</real>
 		</dict>
+		<key>5A7B6E6B-69EA-466F-8030-56CE80881702</key>
+		<dict>
+			<key>xpos</key>
+			<real>245</real>
+			<key>ypos</key>
+			<real>750</real>
+		</dict>
 		<key>5ADEB109-2C47-4611-B75E-8B710AD3329D</key>
 		<dict>
 			<key>xpos</key>
 			<real>60</real>
 			<key>ypos</key>
-			<real>985</real>
+			<real>1420</real>
 		</dict>
 		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>610</real>
+			<real>545</real>
 		</dict>
 		<key>73CD1003-1EB6-41AD-9205-DC88881924D8</key>
 		<dict>
@@ -815,6 +1011,13 @@ Release Notes:
 			<real>760</real>
 			<key>ypos</key>
 			<real>425</real>
+		</dict>
+		<key>915F45D1-096A-4EA4-B21E-1E8B0DDD08A8</key>
+		<dict>
+			<key>xpos</key>
+			<real>510</real>
+			<key>ypos</key>
+			<real>720</real>
 		</dict>
 		<key>96E9A73E-6B73-41F5-932E-218AD332F788</key>
 		<dict>
@@ -837,12 +1040,19 @@ Release Notes:
 			<key>ypos</key>
 			<real>225</real>
 		</dict>
+		<key>A3551607-915F-4C6B-AA7A-8561DD8ECD46</key>
+		<dict>
+			<key>xpos</key>
+			<real>685</real>
+			<key>ypos</key>
+			<real>720</real>
+		</dict>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<dict>
 			<key>xpos</key>
 			<real>265</real>
 			<key>ypos</key>
-			<real>610</real>
+			<real>545</real>
 		</dict>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<dict>
@@ -865,21 +1075,28 @@ Release Notes:
 			<key>xpos</key>
 			<real>575</real>
 			<key>ypos</key>
-			<real>875</real>
+			<real>1310</real>
 		</dict>
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
 			<key>xpos</key>
 			<real>440</real>
 			<key>ypos</key>
-			<real>640</real>
+			<real>575</real>
+		</dict>
+		<key>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</key>
+		<dict>
+			<key>xpos</key>
+			<real>335</real>
+			<key>ypos</key>
+			<real>720</real>
 		</dict>
 		<key>F05F04EB-987E-4118-97BA-299EA0D5269A</key>
 		<dict>
 			<key>xpos</key>
 			<real>60</real>
 			<key>ypos</key>
-			<real>820</real>
+			<real>1255</real>
 		</dict>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<dict>
