@@ -2,7 +2,6 @@ package transcript
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/mnadel/freddiebear/db"
@@ -11,8 +10,8 @@ import (
 )
 
 var (
-	optAll      bool
-	optShowTags bool
+	optAst   bool
+	optDebug bool
 )
 
 func New() *cobra.Command {
@@ -23,6 +22,9 @@ func New() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE:  runner,
 	}
+
+	cmd.Flags().BoolVar(&optAst, "ast", false, "show representation of the AST")
+	cmd.Flags().BoolVar(&optDebug, "debug", false, "print parsing debug info")
 
 	return cmd
 }
@@ -44,28 +46,17 @@ func runner(cmd *cobra.Command, args []string) error {
 
 	for _, result := range results {
 		transcript.WriteString(fmt.Sprintf("## %s\n", result.Title))
-		transcript.WriteString(fmt.Sprintf("`%s`\n", result.ModificationDate))
+		transcript.WriteString(fmt.Sprintf("_%s_\n", result.ModificationDate))
 
-		for _, note := range extractTaggedNote(result, args[0]) {
-			transcript.WriteString(note)
-			transcript.WriteString("\n")
-		}
+		te := NewTagExtractor([]byte(result.Text), "#"+args[0])
+		data := te.ExtractTaggedNotes()
+
+		transcript.Write(data)
 	}
 
-	fmt.Printf(transcript.String())
+	if !optAst {
+		fmt.Println(transcript.String())
+	}
 
 	return nil
-}
-
-func extractTaggedNote(note *db.Record, tag string) []string {
-	re := regexp.MustCompile("(?s)#"+tag+"\n(.*?)(?:##\\s(.*?)\\n|$)") // match after #tag and everything until the next ## heading
-	matches := re.FindAllStringSubmatch(note.Text, -1)
-
-	parts := make([]string, len(matches))
-
-	for i := range matches {
-		parts[i] = matches[i][1]
-	}
-
-	return parts
 }
