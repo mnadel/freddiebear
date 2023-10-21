@@ -96,6 +96,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>896D6097-3725-408B-BAE8-F4A5DA648DC1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>D5F427FC-BEE1-4C26-8E46-EDED39834CBC</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>915F45D1-096A-4EA4-B21E-1E8B0DDD08A8</key>
 		<array>
 			<dict>
@@ -714,6 +727,29 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>"${FB_BINARY:-freddiebear}" transcript "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
@@ -747,7 +783,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Create a transcript</string>
+				<string>Create a Transcript</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -759,29 +795,6 @@
 			<string>51E0F38F-116B-404D-B096-130B3054FA64</string>
 			<key>version</key>
 			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" transcript "{query}"</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>5</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</string>
-			<key>version</key>
-			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -821,6 +834,76 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>5A7B6E6B-69EA-466F-8030-56CE80881702</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>btag</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Select a tag...</string>
+				<key>script</key>
+				<string>"${FB_BINARY:-freddiebear}" tags</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Filter on a Tag</string>
+				<key>type</key>
+				<integer>5</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>896D6097-3725-408B-BAE8-F4A5DA648DC1</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>bear://x-callback-url/search?show_window=yes&amp;tag={query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>D5F427FC-BEE1-4C26-8E46-EDED39834CBC</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -1003,6 +1086,13 @@ Release Notes:
 			<key>ypos</key>
 			<real>55</real>
 		</dict>
+		<key>896D6097-3725-408B-BAE8-F4A5DA648DC1</key>
+		<dict>
+			<key>xpos</key>
+			<real>70</real>
+			<key>ypos</key>
+			<real>900</real>
+		</dict>
 		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
 		<dict>
 			<key>note</key>
@@ -1060,6 +1150,13 @@ Release Notes:
 			<real>65</real>
 			<key>ypos</key>
 			<real>20</real>
+		</dict>
+		<key>D5F427FC-BEE1-4C26-8E46-EDED39834CBC</key>
+		<dict>
+			<key>xpos</key>
+			<real>340</real>
+			<key>ypos</key>
+			<real>900</real>
 		</dict>
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
