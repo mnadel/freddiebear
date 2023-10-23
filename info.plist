@@ -96,6 +96,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>6E677D1B-B758-42A3-B4A9-2AAAD841EBDB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F8A4B6C1-036F-45C4-BC98-1757802447E8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>896D6097-3725-408B-BAE8-F4A5DA648DC1</key>
 		<array>
 			<dict>
@@ -323,7 +336,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Search Bear by Title</string>
+				<string>Search by Title</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -400,7 +413,7 @@
 				<key>queuemode</key>
 				<integer>2</integer>
 				<key>runningsubtext</key>
-				<string>Searching Words...</string>
+				<string>Searching...</string>
 				<key>script</key>
 				<string>"${FB_BINARY:-freddiebear}" search --all --show-tags "{query}"</string>
 				<key>scriptargtype</key>
@@ -410,7 +423,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Search Bear</string>
+				<string>Full Text Search</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -593,7 +606,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Search Bear Backlinks</string>
+				<string>Search Backlinks</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -910,6 +923,48 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>bfilter</string>
+				<key>subtext</key>
+				<string>Search...</string>
+				<key>text</key>
+				<string>Filter on a Search Term</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>6E677D1B-B758-42A3-B4A9-2AAAD841EBDB</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>bear://x-callback-url/search?show_window=yes&amp;term={query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>F8A4B6C1-036F-45C4-BC98-1757802447E8</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>openwith</key>
 				<string>/System/Applications/Preview.app</string>
 				<key>sourcefile</key>
@@ -1077,6 +1132,13 @@ Release Notes:
 			<key>ypos</key>
 			<real>545</real>
 		</dict>
+		<key>6E677D1B-B758-42A3-B4A9-2AAAD841EBDB</key>
+		<dict>
+			<key>xpos</key>
+			<real>65</real>
+			<key>ypos</key>
+			<real>1055</real>
+		</dict>
 		<key>73CD1003-1EB6-41AD-9205-DC88881924D8</key>
 		<dict>
 			<key>note</key>
@@ -1204,6 +1266,13 @@ Release Notes:
 			<key>ypos</key>
 			<real>85</real>
 		</dict>
+		<key>F8A4B6C1-036F-45C4-BC98-1757802447E8</key>
+		<dict>
+			<key>xpos</key>
+			<real>340</real>
+			<key>ypos</key>
+			<real>1055</real>
+		</dict>
 		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
 		<dict>
 			<key>xpos</key>
@@ -1229,3 +1298,4 @@ Release Notes:
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>
 </plist>
+
