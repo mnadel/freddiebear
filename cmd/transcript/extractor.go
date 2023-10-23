@@ -29,7 +29,8 @@ func NewTagExtractor(source []byte, tag string) *TagExtractor {
 }
 
 func (te *TagExtractor) ExtractTaggedNotes() []byte {
-	doc := goldmark.New().Parser().Parse(text.NewReader(te.source))
+	parser := goldmark.New().Parser()
+	doc := parser.Parse(text.NewReader(te.source))
 
 	if optAst {
 		ast.DumpHelper(doc, te.source, 0, nil, func(_ int) {})

@@ -85,7 +85,7 @@ const (
 		SELECT
 			note.ZUNIQUEIDENTIFIER,
 			note.ZTITLE,
-			note.TEXT
+			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
 		FROM
 			ZSFNOTE note
 			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
@@ -99,18 +99,6 @@ const (
 		ORDER BY
 			note.ZMODIFICATIONDATE DESC
 	`
-
-	sqlNote = `
-		SELECT
-			note.ZUNIQUEIDENTIFIER,
-			note.ZTITLE,
-			note.ZTEXT
-		FROM
-			ZSFNOTE note
-		WHERE
-			note.Z_PK = ?
-	`
-
 	sqlExport = `
 		select
 			ZUNIQUEIDENTIFIER,
@@ -179,9 +167,9 @@ type DB struct {
 
 // Record represents an exported note
 type Record struct {
-	SHA   string
-	Title string
-	Text  string
+	SHA              string
+	Title            string
+	Text             string
 	ModificationDate string
 }
 
