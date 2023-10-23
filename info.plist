@@ -928,7 +928,7 @@
 				<key>keyword</key>
 				<string>bfilter</string>
 				<key>subtext</key>
-				<string>Search...</string>
+				<string></string>
 				<key>text</key>
 				<string>Filter on a Search Term</string>
 				<key>withspace</key>
