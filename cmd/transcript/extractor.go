@@ -54,10 +54,10 @@ func (te *TagExtractor) visit(node ast.Node, entering bool) (ast.WalkStatus, err
 		headingLevel = header.Level
 		if te.foundTag && headingLevel < 3 {
 			te.foundTag = false
-			debug("resetting found tag")
+			debug("resetting tag state")
 		}
 	} else if para, isPara := node.(*ast.Paragraph); isPara {
-		if bytes.Contains(para.Text(te.source), te.tag) {
+		if bytes.Index(para.Text(te.source), te.tag) == 0 {
 			te.foundTag = true
 			debug("found tag")
 		}
