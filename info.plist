@@ -336,7 +336,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Search by Title</string>
+				<string>Open Note by Title</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -423,7 +423,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Full Text Search</string>
+				<string>Open Note by Search</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -1079,44 +1079,44 @@ Release Notes:
 		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
 		<dict>
 			<key>xpos</key>
-			<real>575</real>
+			<real>660</real>
 			<key>ypos</key>
-			<real>1175</real>
+			<real>1040</real>
 		</dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>140</real>
+			<real>145</real>
 		</dict>
 		<key>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</key>
 		<dict>
 			<key>xpos</key>
-			<real>260</real>
+			<real>345</real>
 			<key>ypos</key>
-			<real>1255</real>
+			<real>1120</real>
 		</dict>
 		<key>51E0F38F-116B-404D-B096-130B3054FA64</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>720</real>
+			<real>705</real>
 		</dict>
 		<key>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>260</real>
+			<real>265</real>
 		</dict>
 		<key>5A7B6E6B-69EA-466F-8030-56CE80881702</key>
 		<dict>
 			<key>xpos</key>
 			<real>245</real>
 			<key>ypos</key>
-			<real>750</real>
+			<real>735</real>
 		</dict>
 		<key>5ADEB109-2C47-4611-B75E-8B710AD3329D</key>
 		<dict>
@@ -1130,14 +1130,14 @@ Release Notes:
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>545</real>
+			<real>510</real>
 		</dict>
 		<key>6E677D1B-B758-42A3-B4A9-2AAAD841EBDB</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>1055</real>
+			<real>980</real>
 		</dict>
 		<key>73CD1003-1EB6-41AD-9205-DC88881924D8</key>
 		<dict>
@@ -1151,16 +1151,16 @@ Release Notes:
 		<key>896D6097-3725-408B-BAE8-F4A5DA648DC1</key>
 		<dict>
 			<key>xpos</key>
-			<real>70</real>
+			<real>65</real>
 			<key>ypos</key>
-			<real>900</real>
+			<real>840</real>
 		</dict>
 		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
 		<dict>
 			<key>note</key>
 			<string>create cap log</string>
 			<key>xpos</key>
-			<real>760</real>
+			<real>755</real>
 			<key>ypos</key>
 			<real>425</real>
 		</dict>
@@ -1169,14 +1169,14 @@ Release Notes:
 			<key>xpos</key>
 			<real>510</real>
 			<key>ypos</key>
-			<real>720</real>
+			<real>705</real>
 		</dict>
 		<key>96E9A73E-6B73-41F5-932E-218AD332F788</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>380</real>
+			<real>385</real>
 		</dict>
 		<key>9A57C1B3-98D2-4857-BF03-F68279B6357F</key>
 		<dict>
@@ -1197,28 +1197,28 @@ Release Notes:
 			<key>xpos</key>
 			<real>685</real>
 			<key>ypos</key>
-			<real>720</real>
+			<real>705</real>
 		</dict>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<dict>
 			<key>xpos</key>
 			<real>265</real>
 			<key>ypos</key>
-			<real>545</real>
+			<real>510</real>
 		</dict>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>20</real>
+			<real>25</real>
 		</dict>
 		<key>D5F427FC-BEE1-4C26-8E46-EDED39834CBC</key>
 		<dict>
 			<key>xpos</key>
-			<real>340</real>
+			<real>335</real>
 			<key>ypos</key>
-			<real>900</real>
+			<real>840</real>
 		</dict>
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
@@ -1232,30 +1232,30 @@ Release Notes:
 		<key>E1822493-25C1-4A2E-8C9E-D2AECF924974</key>
 		<dict>
 			<key>xpos</key>
-			<real>575</real>
+			<real>660</real>
 			<key>ypos</key>
-			<real>1310</real>
+			<real>1175</real>
 		</dict>
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
 			<key>xpos</key>
-			<real>440</real>
+			<real>430</real>
 			<key>ypos</key>
-			<real>575</real>
+			<real>540</real>
 		</dict>
 		<key>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</key>
 		<dict>
 			<key>xpos</key>
 			<real>335</real>
 			<key>ypos</key>
-			<real>720</real>
+			<real>705</real>
 		</dict>
 		<key>F05F04EB-987E-4118-97BA-299EA0D5269A</key>
 		<dict>
 			<key>xpos</key>
 			<real>60</real>
 			<key>ypos</key>
-			<real>1255</real>
+			<real>1120</real>
 		</dict>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<dict>
@@ -1271,7 +1271,7 @@ Release Notes:
 			<key>xpos</key>
 			<real>340</real>
 			<key>ypos</key>
-			<real>1055</real>
+			<real>980</real>
 		</dict>
 		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
 		<dict>
