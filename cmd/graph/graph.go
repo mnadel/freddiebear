@@ -57,7 +57,7 @@ func runner(cmd *cobra.Command, args []string) error {
 	for _, edge := range graph {
 		src := nodes[edge.Source.Title]
 		dest := nodes[edge.Target.Title]
-		fmt.Printf("	node_%d -> node_%d;\n", src, dest)
+		fmt.Printf("	node_%d -> node_%d;\n", dest, src)
 	}
 
 	fmt.Println("}")
