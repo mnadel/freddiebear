@@ -125,7 +125,7 @@ func writeAttachmentMappings(destinationDir string, bearDB *db.DB) error {
 	exportable[0] = []string{"Note ID", "Note Title", "Attachment Path"}
 
 	for i, a := range attachments {
-		filepath := buildAttachmentFilename(destinationDir, a)
+		filepath := BuildAttachmentFilename(a)
 		exportable[i+1] = []string{a.NoteSHA, a.NoteTitle, filepath}
 	}
 
@@ -186,7 +186,8 @@ func writeRecord(record *db.Record, destinationDir string) error {
 	return nil
 }
 
-func buildAttachmentFilename(directory string, attachment *db.Attachment) string {
+// BuildAttachmentFilename builds a pathname give a base dir and an attachment.
+func BuildAttachmentFilename(attachment *db.Attachment) string {
 	var dir string
 
 	if _, found := imageFileExtensions[strings.ToLower(path.Ext(attachment.Filename))]; found {

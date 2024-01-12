@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/mnadel/freddiebear/cmd/backlinks"
+	"github.com/mnadel/freddiebear/cmd/cleanup"
 	"github.com/mnadel/freddiebear/cmd/export"
 	"github.com/mnadel/freddiebear/cmd/graph"
 	"github.com/mnadel/freddiebear/cmd/journal"
@@ -29,6 +30,7 @@ func main() {
 	cmd.AddCommand(backlinks.New())
 	cmd.AddCommand(transcript.New())
 	cmd.AddCommand(tags.New())
+	cmd.AddCommand(cleanup.New())
 
 	if err := cmd.Execute(); err != nil {
 		log.Fatal(err)

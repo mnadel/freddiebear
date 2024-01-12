@@ -17,6 +17,19 @@ import (
 const (
 	dbFile = `/Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear/Application Data/database.sqlite?mode=ro`
 
+	sqlDeletedAttachments = `
+		SELECT
+			f.ZUNIQUEIDENTIFIER,
+			f.ZFILENAME
+		FROM
+			ZSFNOTEFILE f 
+			LEFT OUTER JOIN ZSFNOTE n on n.Z_PK = f.ZNOTE
+		WHERE
+			n.ZARCHIVED = 1
+			OR n.ZTRASHED = 1
+			OR n.ZTRASHEDDATE IS NOT NULL
+	`
+
 	sqlNotesByTag = `
 		SELECT
 			note.ZUNIQUEIDENTIFIER,
@@ -349,6 +362,30 @@ func (d *DB) QueryTags() ([]string, error) {
 	}
 
 	return util.RemoveIntermediatePrefixes(tags, "/"), nil
+}
+
+// QueryDeletedAttachments returns a list of attachments that can be deleted off disk.
+func (d *DB) QueryDeletedAttachments() ([]*Attachment, error) {
+	rows, err := d.db.Query(sqlDeletedAttachments)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	attachments := make([]*Attachment, 0)
+	var guid, filename string
+
+	for rows.Next() {
+		err := rows.Scan(&guid, &filename)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+		attachments = append(attachments, &Attachment{
+			FolderUUID: guid,
+			Filename: filename,
+		})
+	}
+
+	return attachments, nil
 }
 
 // QueryTag searches for all notes with a given tag within the database.
