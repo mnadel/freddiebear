@@ -39,7 +39,7 @@ func runner(cmd *cobra.Command, args []string) error {
 		if !strings.Contains(t.Tags, "captainslog") {
 			tags := strings.Split(t.Tags, ",")
 			filtered := util.RemoveIntermediatePrefixes(tags, "/")
-			tag := strings.Join(filtered, ",")
+			tag := strings.Join(filtered, ", ")
 			items = append(items, fmt.Sprintf(`{"title":"%s","arg":"%s","subtitle":"%s"}`, t.Title, t.ID, tag))
 		}
 	}

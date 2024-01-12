@@ -25,8 +25,7 @@ const (
 			ZSFNOTEFILE f 
 			LEFT OUTER JOIN ZSFNOTE n on n.Z_PK = f.ZNOTE
 		WHERE
-			n.ZARCHIVED = 1
-			OR n.ZTRASHED = 1
+			n.ZTRASHED = 1
 			OR n.ZTRASHEDDATE IS NOT NULL
 	`
 
@@ -410,7 +409,7 @@ func (d *DB) QueryDeletedAttachments() ([]*Attachment, error) {
 		}
 		attachments = append(attachments, &Attachment{
 			FolderUUID: guid,
-			Filename: filename,
+			Filename:   filename,
 		})
 	}
 
