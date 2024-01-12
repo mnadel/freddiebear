@@ -75,6 +75,24 @@ const (
 			AND note.ZTRASHED = 0
 	`
 
+	sqlAllTitles = `
+		SELECT DISTINCT
+			note.ZUNIQUEIDENTIFIER,
+			note.ZTITLE,
+			GROUP_CONCAT(COALESCE(tag.ZTITLE, ''))
+		FROM
+			ZSFNOTE note
+			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
+			LEFT OUTER JOIN ZSFNOTETAG tag ON tags.Z_13TAGS = tag.Z_PK
+		WHERE
+			note.ZARCHIVED = 0
+			AND note.ZTRASHED = 0
+		GROUP BY
+			note.ZUNIQUEIDENTIFIER
+		ORDER BY
+			note.ZMODIFICATIONDATE DESC
+	`
+
 	sqlTitle = `
 		SELECT DISTINCT
 			note.ZUNIQUEIDENTIFIER,
@@ -319,6 +337,17 @@ func (d *DB) QueryTitles(term string, exact bool) (Results, error) {
 	}
 
 	rows, err := d.db.Query(sqlTitle, bind)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+	defer rows.Close()
+
+	return rowsToResults(rows)
+}
+
+// QueryAllTitles returns a list of all titles
+func (d *DB) QueryAllTitles() (Results, error) {
+	rows, err := d.db.Query(sqlAllTitles)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}

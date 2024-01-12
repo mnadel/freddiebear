@@ -11,6 +11,7 @@ import (
 	"github.com/mnadel/freddiebear/cmd/search"
 	"github.com/mnadel/freddiebear/cmd/version"
 	"github.com/mnadel/freddiebear/cmd/tags"
+	"github.com/mnadel/freddiebear/cmd/titles"
 	"github.com/mnadel/freddiebear/cmd/transcript"
 	"github.com/spf13/cobra"
 )
@@ -31,6 +32,7 @@ func main() {
 	cmd.AddCommand(transcript.New())
 	cmd.AddCommand(tags.New())
 	cmd.AddCommand(cleanup.New())
+	cmd.AddCommand(titles.New())
 
 	if err := cmd.Execute(); err != nil {
 		log.Fatal(err)
