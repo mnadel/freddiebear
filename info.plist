@@ -57,19 +57,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>9BAAA486-610C-457F-BC72-FF7242F797E0</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 		<key>5A7B6E6B-69EA-466F-8030-56CE80881702</key>
 		<array>
 			<dict>
@@ -101,6 +88,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>F8A4B6C1-036F-45C4-BC98-1757802447E8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>79068600-4B67-43B3-A114-6B2F0CD840AB</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -423,7 +423,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Open Note by Search</string>
+				<string>Open Note by Full Text Search</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -501,87 +501,6 @@
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>todo</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Searching...</string>
-				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" search todos</string>
-				<key>scriptargtype</key>
-				<integer>0</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>Bear TODOs</string>
-				<key>type</key>
-				<integer>5</integer>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>conditions</key>
-				<array>
-					<dict>
-						<key>inputstring</key>
-						<string>{query}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>4</integer>
-						<key>matchstring</key>
-						<string>.*,.*</string>
-						<key>outputlabel</key>
-						<string>create</string>
-						<key>uid</key>
-						<string>74D89E61-F33F-43B9-A518-3FF322D91D9A</string>
-					</dict>
-				</array>
-				<key>elselabel</key>
-				<string>open</string>
-				<key>hideelse</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.conditional</string>
-			<key>uid</key>
-			<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
 				<integer>102</integer>
@@ -643,23 +562,51 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>delimiter</key>
-				<string>,</string>
-				<key>discardemptyarguments</key>
-				<false/>
-				<key>outputas</key>
-				<integer>0</integer>
-				<key>trimarguments</key>
+				<key>alfredfiltersresults</key>
 				<true/>
-				<key>variableprefix</key>
-				<string>split</string>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>btitle</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading...</string>
+				<key>script</key>
+				<string>"${FB_BINARY:-freddiebear}" titles</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Filter on a Title</string>
+				<key>type</key>
+				<integer>5</integer>
+				<key>withspace</key>
+				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.utility.split</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>FC123FEE-10F1-4704-A05D-453295453FEA</string>
+			<string>79068600-4B67-43B3-A114-6B2F0CD840AB</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -702,6 +649,59 @@
 			<string>alfred.workflow.input.keyword</string>
 			<key>uid</key>
 			<string>5B6F048B-E933-4908-B391-EE17DCD239E5</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>delimiter</key>
+				<string>,</string>
+				<key>discardemptyarguments</key>
+				<false/>
+				<key>outputas</key>
+				<integer>0</integer>
+				<key>trimarguments</key>
+				<true/>
+				<key>variableprefix</key>
+				<string>split</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.split</string>
+			<key>uid</key>
+			<string>FC123FEE-10F1-4704-A05D-453295453FEA</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{query}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>.*,.*</string>
+						<key>outputlabel</key>
+						<string>create</string>
+						<key>uid</key>
+						<string>74D89E61-F33F-43B9-A518-3FF322D91D9A</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>open</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>9A57C1B3-98D2-4857-BF03-F68279B6357F</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -926,7 +926,7 @@
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>keyword</key>
-				<string>bfilter</string>
+				<string>bsearch</string>
 				<key>subtext</key>
 				<string></string>
 				<key>text</key>
@@ -1081,7 +1081,7 @@ Release Notes:
 			<key>xpos</key>
 			<real>660</real>
 			<key>ypos</key>
-			<real>1040</real>
+			<real>1320</real>
 		</dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
@@ -1095,49 +1095,42 @@ Release Notes:
 			<key>xpos</key>
 			<real>345</real>
 			<key>ypos</key>
-			<real>1120</real>
+			<real>1400</real>
 		</dict>
 		<key>51E0F38F-116B-404D-B096-130B3054FA64</key>
 		<dict>
 			<key>xpos</key>
-			<real>65</real>
+			<real>60</real>
 			<key>ypos</key>
-			<real>705</real>
-		</dict>
-		<key>5516F9BE-3D20-49D8-A101-7D7FD2461EFB</key>
-		<dict>
-			<key>xpos</key>
-			<real>65</real>
-			<key>ypos</key>
-			<real>265</real>
+			<real>715</real>
 		</dict>
 		<key>5A7B6E6B-69EA-466F-8030-56CE80881702</key>
 		<dict>
 			<key>xpos</key>
-			<real>245</real>
+			<real>240</real>
 			<key>ypos</key>
-			<real>735</real>
+			<real>745</real>
 		</dict>
 		<key>5ADEB109-2C47-4611-B75E-8B710AD3329D</key>
 		<dict>
 			<key>xpos</key>
 			<real>60</real>
 			<key>ypos</key>
-			<real>1420</real>
+			<real>1555</real>
 		</dict>
 		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>510</real>
+			<real>525</real>
 		</dict>
 		<key>6E677D1B-B758-42A3-B4A9-2AAAD841EBDB</key>
 		<dict>
 			<key>xpos</key>
-			<real>65</real>
+			<real>60</real>
 			<key>ypos</key>
-			<real>980</real>
+			<real>990</real>
 		</dict>
 		<key>73CD1003-1EB6-41AD-9205-DC88881924D8</key>
 		<dict>
@@ -1148,12 +1141,19 @@ Release Notes:
 			<key>ypos</key>
 			<real>55</real>
 		</dict>
-		<key>896D6097-3725-408B-BAE8-F4A5DA648DC1</key>
+		<key>79068600-4B67-43B3-A114-6B2F0CD840AB</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>840</real>
+			<real>395</real>
+		</dict>
+		<key>896D6097-3725-408B-BAE8-F4A5DA648DC1</key>
+		<dict>
+			<key>xpos</key>
+			<real>60</real>
+			<key>ypos</key>
+			<real>850</real>
 		</dict>
 		<key>89964AC2-784D-4776-8979-DE530696B99D</key>
 		<dict>
@@ -1162,28 +1162,28 @@ Release Notes:
 			<key>xpos</key>
 			<real>755</real>
 			<key>ypos</key>
-			<real>425</real>
+			<real>385</real>
 		</dict>
 		<key>915F45D1-096A-4EA4-B21E-1E8B0DDD08A8</key>
 		<dict>
 			<key>xpos</key>
-			<real>510</real>
+			<real>505</real>
 			<key>ypos</key>
-			<real>705</real>
+			<real>715</real>
 		</dict>
 		<key>96E9A73E-6B73-41F5-932E-218AD332F788</key>
 		<dict>
 			<key>xpos</key>
 			<real>65</real>
 			<key>ypos</key>
-			<real>385</real>
+			<real>270</real>
 		</dict>
 		<key>9A57C1B3-98D2-4857-BF03-F68279B6357F</key>
 		<dict>
 			<key>xpos</key>
-			<real>550</real>
+			<real>515</real>
 			<key>ypos</key>
-			<real>355</real>
+			<real>545</real>
 		</dict>
 		<key>9BAAA486-610C-457F-BC72-FF7242F797E0</key>
 		<dict>
@@ -1195,16 +1195,16 @@ Release Notes:
 		<key>A3551607-915F-4C6B-AA7A-8561DD8ECD46</key>
 		<dict>
 			<key>xpos</key>
-			<real>685</real>
+			<real>680</real>
 			<key>ypos</key>
-			<real>705</real>
+			<real>715</real>
 		</dict>
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<dict>
 			<key>xpos</key>
 			<real>265</real>
 			<key>ypos</key>
-			<real>510</real>
+			<real>525</real>
 		</dict>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<dict>
@@ -1216,9 +1216,9 @@ Release Notes:
 		<key>D5F427FC-BEE1-4C26-8E46-EDED39834CBC</key>
 		<dict>
 			<key>xpos</key>
-			<real>335</real>
+			<real>330</real>
 			<key>ypos</key>
-			<real>840</real>
+			<real>850</real>
 		</dict>
 		<key>DF453589-35D9-4C90-A2D7-F1FF0D6B9AB6</key>
 		<dict>
@@ -1234,28 +1234,28 @@ Release Notes:
 			<key>xpos</key>
 			<real>660</real>
 			<key>ypos</key>
-			<real>1175</real>
+			<real>1455</real>
 		</dict>
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
 			<key>xpos</key>
 			<real>430</real>
 			<key>ypos</key>
-			<real>540</real>
+			<real>555</real>
 		</dict>
 		<key>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</key>
 		<dict>
 			<key>xpos</key>
-			<real>335</real>
+			<real>330</real>
 			<key>ypos</key>
-			<real>705</real>
+			<real>715</real>
 		</dict>
 		<key>F05F04EB-987E-4118-97BA-299EA0D5269A</key>
 		<dict>
 			<key>xpos</key>
 			<real>60</real>
 			<key>ypos</key>
-			<real>1120</real>
+			<real>1400</real>
 		</dict>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<dict>
@@ -1269,20 +1269,42 @@ Release Notes:
 		<key>F8A4B6C1-036F-45C4-BC98-1757802447E8</key>
 		<dict>
 			<key>xpos</key>
-			<real>340</real>
+			<real>335</real>
 			<key>ypos</key>
-			<real>980</real>
+			<real>990</real>
 		</dict>
 		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
 		<dict>
 			<key>xpos</key>
-			<real>665</real>
+			<real>650</real>
 			<key>ypos</key>
-			<real>455</real>
+			<real>540</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
-	<array/>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>freddiebear</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Path to freddiebear binary</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>fb_binary</string>
+		</dict>
+	</array>
 	<key>variables</key>
 	<dict>
 		<key>FB_BINARY</key>
@@ -1298,4 +1320,3 @@ Release Notes:
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>
 </plist>
-
