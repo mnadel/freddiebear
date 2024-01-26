@@ -43,6 +43,7 @@ func runner(cmd *cobra.Command, args []string) error {
 		if len(args) == 1 && args[0] != "" {
 			haystack := strings.Builder{}
 			haystack.WriteString(strings.ToLower(edge.Source.Title))
+			haystack.WriteString("::")
 			haystack.WriteString(strings.ToLower(edge.Target.Title))
 
 			if !strings.Contains(haystack.String(), strings.ToLower(args[0])) {
