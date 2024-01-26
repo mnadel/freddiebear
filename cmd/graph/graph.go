@@ -36,7 +36,7 @@ func runner(cmd *cobra.Command, args []string) error {
 
 	fmt.Println("digraph Notes {")
 
-	nodes := make(map[string]int)
+	nodeIDs := make(map[string]int)
 	includedEdges := make(map[*db.Edge]bool)
 
 	for i, edge := range graph {
@@ -53,14 +53,18 @@ func runner(cmd *cobra.Command, args []string) error {
 
 		includedEdges[edge] = true
 
-		if _, ok := nodes[edge.Source.Title]; !ok {
-			nodes[edge.Source.Title] = i
+		if _, ok := nodeIDs[edge.Source.ID]; !ok {
+			uniqID := i
+			nodeIDs[edge.Source.ID] = uniqID
 
 			fmt.Printf("	node_%d [label=%s];\n", i, nodeLabel(edge.Source))
 		}
-		if _, ok := nodes[edge.Target.Title]; !ok {
-			uniqID := i + len(graph)
-			nodes[edge.Target.Title] = uniqID
+
+		uniqOffset := len(graph)
+
+		if _, ok := nodeIDs[edge.Target.ID]; !ok {
+			uniqID := i + uniqOffset
+			nodeIDs[edge.Target.ID] = uniqID
 
 			fmt.Printf("	node_%d [label=%s];\n", uniqID, nodeLabel(edge.Target))
 		}
@@ -69,9 +73,9 @@ func runner(cmd *cobra.Command, args []string) error {
 	fmt.Println("")
 
 	for edge := range includedEdges {
-		src := nodes[edge.Source.Title]
-		dest := nodes[edge.Target.Title]
-		fmt.Printf("	node_%d -> node_%d;\n", dest, src)
+		srcID := nodeIDs[edge.Source.ID]
+		destID := nodeIDs[edge.Target.ID]
+		fmt.Printf("	node_%d -> node_%d;\n", destID, srcID)
 	}
 
 	fmt.Println("}")
