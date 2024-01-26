@@ -67,7 +67,7 @@ func runner(cmd *cobra.Command, args []string) error {
 
 	fmt.Println("")
 
-	for edge, _ := range includedEdges {
+	for edge := range includedEdges {
 		src := nodes[edge.Source.Title]
 		dest := nodes[edge.Target.Title]
 		fmt.Printf("	node_%d -> node_%d;\n", dest, src)
