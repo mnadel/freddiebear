@@ -12,10 +12,10 @@ import (
 
 func New() *cobra.Command {
 	graphCmd := &cobra.Command{
-		Use:   "graph",
+		Use:   "graph [term]",
 		Short: "Visualize links between notes",
-		Long:  "Generate a DOT graph of the links between notes",
-		Args:  cobra.NoArgs,
+		Long:  "Generate a DOT graph of the links between notes. If term specified source or target must contain it.",
+		Args:  cobra.MaximumNArgs(1),
 		RunE:  runner,
 	}
 
@@ -37,8 +37,21 @@ func runner(cmd *cobra.Command, args []string) error {
 	fmt.Println("digraph Notes {")
 
 	nodes := make(map[string]int)
+	includedEdges := make(map[*db.Edge]bool)
 
 	for i, edge := range graph {
+		if len(args) == 1 && args[0] != "" {
+			haystack := strings.Builder{}
+			haystack.WriteString(strings.ToLower(edge.Source.Title))
+			haystack.WriteString(strings.ToLower(edge.Target.Title))
+
+			if !strings.Contains(haystack.String(), strings.ToLower(args[0])) {
+				continue
+			}
+		}
+
+		includedEdges[edge] = true
+
 		if _, ok := nodes[edge.Source.Title]; !ok {
 			nodes[edge.Source.Title] = i
 
@@ -54,7 +67,7 @@ func runner(cmd *cobra.Command, args []string) error {
 
 	fmt.Println("")
 
-	for _, edge := range graph {
+	for edge, _ := range includedEdges {
 		src := nodes[edge.Source.Title]
 		dest := nodes[edge.Target.Title]
 		fmt.Printf("	node_%d -> node_%d;\n", dest, src)

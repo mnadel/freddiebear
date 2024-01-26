@@ -336,7 +336,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Open Note by Title</string>
+				<string>Open (or Create) Note by Title</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -423,7 +423,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Open Note by Full Text Search</string>
+				<string>Open (or Create) Note by Full Text Search</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -607,6 +607,38 @@
 			<string>79068600-4B67-43B3-A114-6B2F0CD840AB</string>
 			<key>version</key>
 			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string></string>
+						<key>outputlabel</key>
+						<string></string>
+						<key>uid</key>
+						<string>29DD4746-2C97-472B-A5B5-58363063A3D4</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>80722F18-C9BD-4B0E-9E84-84FE3167CDBA</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -886,7 +918,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Filter on a Tag</string>
+				<string>Filter In-App on a Tag</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
@@ -930,7 +962,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>text</key>
-				<string>Filter on a Search Term</string>
+				<string>Filter In-App on a Search Term</string>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -981,7 +1013,7 @@
 			<key>config</key>
 			<dict>
 				<key>argumenttype</key>
-				<integer>2</integer>
+				<integer>1</integer>
 				<key>keyword</key>
 				<string>bg</string>
 				<key>subtext</key>
@@ -989,7 +1021,7 @@
 				<key>text</key>
 				<string>Show Graph of Linked Notes</string>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.keyword</string>
@@ -1008,7 +1040,7 @@
 				<key>script</key>
 				<string>file="$(mktemp)"
 
-"${FB_BINARY:-freddiebear}" graph | dot -Tpdf &gt; "${file}" &gt;/dev/null 2&gt;&amp;1
+"${FB_BINARY:-freddiebear}" graph "{query}" | dot -Tpdf &gt; "${file}" &gt;/dev/null 2&gt;&amp;1
 
 echo -n "${file}"</string>
 				<key>scriptargtype</key>
@@ -1147,6 +1179,13 @@ Release Notes:
 			<real>65</real>
 			<key>ypos</key>
 			<real>395</real>
+		</dict>
+		<key>80722F18-C9BD-4B0E-9E84-84FE3167CDBA</key>
+		<dict>
+			<key>xpos</key>
+			<real>535</real>
+			<key>ypos</key>
+			<real>400</real>
 		</dict>
 		<key>896D6097-3725-408B-BAE8-F4A5DA648DC1</key>
 		<dict>
