@@ -1105,15 +1105,16 @@ end alfred_script</string>
 Release Notes:
 - 1.1 Initial revision
 - 1.2 Show note's tags as subtitle
-- 1.3 Requires Bear 2</string>
+- 1.3 Requires Bear 2
+- 1.4 Graph view can now filter</string>
 	<key>uidata</key>
 	<dict>
 		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
 		<dict>
 			<key>xpos</key>
-			<real>660</real>
+			<real>655</real>
 			<key>ypos</key>
-			<real>1320</real>
+			<real>1075</real>
 		</dict>
 		<key>1A741966-5341-40BC-996D-68EAB30F62AA</key>
 		<dict>
@@ -1125,9 +1126,9 @@ Release Notes:
 		<key>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</key>
 		<dict>
 			<key>xpos</key>
-			<real>345</real>
+			<real>340</real>
 			<key>ypos</key>
-			<real>1400</real>
+			<real>1155</real>
 		</dict>
 		<key>51E0F38F-116B-404D-B096-130B3054FA64</key>
 		<dict>
@@ -1146,9 +1147,9 @@ Release Notes:
 		<key>5ADEB109-2C47-4611-B75E-8B710AD3329D</key>
 		<dict>
 			<key>xpos</key>
-			<real>60</real>
+			<real>55</real>
 			<key>ypos</key>
-			<real>1555</real>
+			<real>1330</real>
 		</dict>
 		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
 		<dict>
@@ -1271,9 +1272,9 @@ Release Notes:
 		<key>E1822493-25C1-4A2E-8C9E-D2AECF924974</key>
 		<dict>
 			<key>xpos</key>
-			<real>660</real>
+			<real>655</real>
 			<key>ypos</key>
-			<real>1455</real>
+			<real>1210</real>
 		</dict>
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
@@ -1292,9 +1293,9 @@ Release Notes:
 		<key>F05F04EB-987E-4118-97BA-299EA0D5269A</key>
 		<dict>
 			<key>xpos</key>
-			<real>60</real>
+			<real>55</real>
 			<key>ypos</key>
-			<real>1400</real>
+			<real>1155</real>
 		</dict>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<dict>
@@ -1354,7 +1355,7 @@ Release Notes:
 		<string>FB_BINARY</string>
 	</array>
 	<key>version</key>
-	<string>1.3</string>
+	<string>1.4</string>
 	<key>webaddress</key>
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>
