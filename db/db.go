@@ -205,9 +205,10 @@ type Record struct {
 
 // Result references a specific note: its identifier and title
 type Result struct {
-	ID    string
-	Title string
-	Tags  string
+	NoteSHA string
+	ID      string
+	Title   string
+	Tags    string
 }
 
 type Attachment struct {
@@ -528,7 +529,12 @@ func rowsToResults(rows *sql.Rows) (Results, error) {
 		if err != nil {
 			return nil, errors.WithStack(err)
 		}
-		results = append(results, &Result{ID: id, Title: title, Tags: tags})
+		results = append(results, &Result{
+			NoteSHA: guidToSHA(id),
+			ID:      id,
+			Title:   title,
+			Tags:    tags,
+		})
 	}
 
 	return results, errors.WithStack(rows.Err())

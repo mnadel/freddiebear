@@ -5,9 +5,14 @@ import (
 	"strings"
 
 	"github.com/mnadel/freddiebear/db"
+	"github.com/mnadel/freddiebear/db/exporter"
 	"github.com/mnadel/freddiebear/util"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+)
+
+var (
+	filenameAsArg bool
 )
 
 func New() *cobra.Command {
@@ -15,8 +20,11 @@ func New() *cobra.Command {
 		Use:   "titles",
 		Short: "Generate a list of all titles",
 		Long:  "Generate a list of all titles in Alfred Workflow's JSON schema format",
+		Args:  cobra.MaximumNArgs(1),
 		RunE:  runner,
 	}
+
+	cmd.Flags().BoolVar(&filenameAsArg, "filename-as-arg", false, "pass filename as arg (default: uuid)")
 
 	return cmd
 }
@@ -40,7 +48,17 @@ func runner(cmd *cobra.Command, args []string) error {
 			tags := strings.Split(t.Tags, ",")
 			filtered := util.RemoveIntermediatePrefixes(tags, "/")
 			tag := strings.Join(filtered, ", ")
-			items = append(items, fmt.Sprintf(`{"title":"%s","arg":"%s","subtitle":"%s"}`, t.Title, t.ID, tag))
+
+			arg := t.ID
+			if filenameAsArg {
+				rec := &db.Record{
+					SHA:   t.NoteSHA,
+					Title: t.Title,
+				}
+				arg = exporter.BuildFilename(rec)
+			}
+
+			items = append(items, fmt.Sprintf(`{"title":"%s","arg":"%s","subtitle":"%s"}`, t.Title, arg, tag))
 		}
 	}
 
