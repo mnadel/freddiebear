@@ -63,8 +63,7 @@ const (
 	`
 
 	sqlAllTags = `
-		SELECT DISTINCT
-			tag.ZTITLE
+		SELECT DISTINCT tag.ZTITLE
 		FROM
 			ZSFNOTE note
 			LEFT OUTER JOIN Z_5TAGS tags ON note.Z_PK = tags.Z_5NOTES
@@ -72,6 +71,7 @@ const (
 		WHERE
 			note.ZARCHIVED = 0
 			AND note.ZTRASHED = 0
+			AND tag.ZTITLE IS NOT NULL
 	`
 
 	sqlAllTitles = `
