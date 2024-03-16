@@ -644,7 +644,7 @@ end alfred_script</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -858,7 +858,7 @@ end alfred_script</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -988,7 +988,7 @@ end alfred_script</string>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
-				<string>bear://x-callback-url/search?show_window=yes&amp;tag={query}</string>
+				<string>bear://x-callback-url/open-tag?name={query}</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -1555,7 +1555,7 @@ Release Notes:
 		<string>FB_BINARY</string>
 	</array>
 	<key>version</key>
-	<string>1.6</string>
+	<string>1.6.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>
