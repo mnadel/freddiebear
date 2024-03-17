@@ -4,6 +4,22 @@ An [Alfred](https://www.alfredapp.com/) + [Bear](https://bear.app) workflow.
 
 Inspired by [alfred-bear](https://github.com/chrisbro/alfred-bear), implemented in [Go](https://go.dev/) for faster searching, with daily note journaling capabilities.
 
+# List of Alfred Workflow Triggers
+
+Keyword | Field | Action
+-- | -- | --
+`bt` | Title | Open note by title
+`btitle` | Title | Open (or create) a note by title
+`bs` | Note Body | Open a note by full-text search
+`btag` | Tags | Open Bear to the selected tag
+`bsearch` | Open Bear given your specified search
+`bbl` | Cross-Note | Open a note by searching its backlinks (by title)
+`bfl` | Cross-Note | Open a note by searching its forward links (by title)
+`captainslog` | Single Note | Open (or create) a daily note
+`btranscript` | Single Note | Show 
+`bg` | Cross-Note | Show graph of all notes
+`bhist` | Single Note | Open GitHub/Lab history for specificed note
+
 # Searching
 
 To search for a note by title, use the `bt` keyword.
@@ -23,14 +39,15 @@ references `Team of Teams ~McChrystal`.
 
 Selecting that item will open `Remote Team Interactions Workbook ~Skelton, Pais`.
 
+The `btag` and `bsearch` keywords will pass your search into Bear's search bar, thereby doing in-app filtering. All other search commands will open a single note.
+
 # Creating
 
-If your search fails to find any matching notes, the workflow will give you an option to create a new note w/ a title of the same name.
+If your `btitle` search fails to find any matching notes, the workflow will give you an option to create a new note w/ a title of the same name.
 
 <img src="imgs/bt-create.png" alt="bt create" width="400"/>
 
 # Journaling
-
 The `captainslog` keyword will either open today's log (a note with the title `YYYY-MM-DD`) or create a new note with that title.
 
 Run `freddiebear help journal` for details on how to tweak the tag it attaches to new notes.

@@ -211,6 +211,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>AEC43A7B-CC72-48BD-A32D-E3AAB2B62158</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9BAAA486-610C-457F-BC72-FF7242F797E0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>AEEE034C-7488-44C3-A9A1-F8CF12E175AF</key>
 		<array>
 			<dict>
@@ -656,34 +669,51 @@ end alfred_script</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>conditions</key>
-				<array>
-					<dict>
-						<key>inputstring</key>
-						<string></string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>0</integer>
-						<key>matchstring</key>
-						<string></string>
-						<key>outputlabel</key>
-						<string></string>
-						<key>uid</key>
-						<string>29DD4746-2C97-472B-A5B5-58363063A3D4</string>
-					</dict>
-				</array>
-				<key>elselabel</key>
-				<string>else</string>
-				<key>hideelse</key>
+				<key>alfredfiltersresults</key>
 				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>bfl</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>"${FB_BINARY:-freddiebear}" forwardlinks "{query}"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Search Forward Links</string>
+				<key>type</key>
+				<integer>5</integer>
+				<key>withspace</key>
+				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.utility.conditional</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>80722F18-C9BD-4B0E-9E84-84FE3167CDBA</string>
+			<string>AEC43A7B-CC72-48BD-A32D-E3AAB2B62158</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1298,9 +1328,9 @@ Release Notes:
 		<key>5B6F048B-E933-4908-B391-EE17DCD239E5</key>
 		<dict>
 			<key>xpos</key>
-			<real>65</real>
+			<real>60</real>
 			<key>ypos</key>
-			<real>525</real>
+			<real>595</real>
 		</dict>
 		<key>6E677D1B-B758-42A3-B4A9-2AAAD841EBDB</key>
 		<dict>
@@ -1321,16 +1351,9 @@ Release Notes:
 		<key>79068600-4B67-43B3-A114-6B2F0CD840AB</key>
 		<dict>
 			<key>xpos</key>
-			<real>65</real>
+			<real>325</real>
 			<key>ypos</key>
-			<real>395</real>
-		</dict>
-		<key>80722F18-C9BD-4B0E-9E84-84FE3167CDBA</key>
-		<dict>
-			<key>xpos</key>
-			<real>535</real>
-			<key>ypos</key>
-			<real>400</real>
+			<real>390</real>
 		</dict>
 		<key>896D6097-3725-408B-BAE8-F4A5DA648DC1</key>
 		<dict>
@@ -1365,9 +1388,9 @@ Release Notes:
 		<key>9A57C1B3-98D2-4857-BF03-F68279B6357F</key>
 		<dict>
 			<key>xpos</key>
-			<real>515</real>
+			<real>510</real>
 			<key>ypos</key>
-			<real>545</real>
+			<real>615</real>
 		</dict>
 		<key>9BAAA486-610C-457F-BC72-FF7242F797E0</key>
 		<dict>
@@ -1390,6 +1413,13 @@ Release Notes:
 			<key>ypos</key>
 			<real>715</real>
 		</dict>
+		<key>AEC43A7B-CC72-48BD-A32D-E3AAB2B62158</key>
+		<dict>
+			<key>xpos</key>
+			<real>60</real>
+			<key>ypos</key>
+			<real>405</real>
+		</dict>
 		<key>AEEE034C-7488-44C3-A9A1-F8CF12E175AF</key>
 		<dict>
 			<key>xpos</key>
@@ -1400,9 +1430,9 @@ Release Notes:
 		<key>C18A2120-5700-4B12-BA3C-C20476ABA9A6</key>
 		<dict>
 			<key>xpos</key>
-			<real>265</real>
+			<real>260</real>
 			<key>ypos</key>
-			<real>525</real>
+			<real>595</real>
 		</dict>
 		<key>D14874E6-A2AF-4386-A5E4-15D8F6C2AD6C</key>
 		<dict>
@@ -1437,9 +1467,9 @@ Release Notes:
 		<key>E1E8918B-73D5-4018-8B8A-A8A9007B4B7E</key>
 		<dict>
 			<key>xpos</key>
-			<real>430</real>
+			<real>425</real>
 			<key>ypos</key>
-			<real>555</real>
+			<real>625</real>
 		</dict>
 		<key>E6BBD73A-6D18-4B8B-95B5-7ABB179F11B4</key>
 		<dict>
@@ -1474,9 +1504,9 @@ Release Notes:
 		<key>FC123FEE-10F1-4704-A05D-453295453FEA</key>
 		<dict>
 			<key>xpos</key>
-			<real>650</real>
+			<real>645</real>
 			<key>ypos</key>
-			<real>540</real>
+			<real>610</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -1555,7 +1585,7 @@ Release Notes:
 		<string>FB_BINARY</string>
 	</array>
 	<key>version</key>
-	<string>1.6.1</string>
+	<string>1.7</string>
 	<key>webaddress</key>
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>

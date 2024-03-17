@@ -6,13 +6,14 @@ import (
 	"github.com/mnadel/freddiebear/cmd/backlinks"
 	"github.com/mnadel/freddiebear/cmd/cleanup"
 	"github.com/mnadel/freddiebear/cmd/export"
+	"github.com/mnadel/freddiebear/cmd/forwardlinks"
 	"github.com/mnadel/freddiebear/cmd/graph"
 	"github.com/mnadel/freddiebear/cmd/journal"
 	"github.com/mnadel/freddiebear/cmd/search"
-	"github.com/mnadel/freddiebear/cmd/version"
 	"github.com/mnadel/freddiebear/cmd/tags"
 	"github.com/mnadel/freddiebear/cmd/titles"
 	"github.com/mnadel/freddiebear/cmd/transcript"
+	"github.com/mnadel/freddiebear/cmd/version"
 	"github.com/spf13/cobra"
 )
 
@@ -29,6 +30,7 @@ func main() {
 	cmd.AddCommand(export.New())
 	cmd.AddCommand(graph.New())
 	cmd.AddCommand(backlinks.New())
+	cmd.AddCommand(forwardlinks.New())
 	cmd.AddCommand(transcript.New())
 	cmd.AddCommand(tags.New())
 	cmd.AddCommand(cleanup.New())
