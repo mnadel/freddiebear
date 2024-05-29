@@ -1258,17 +1258,40 @@ rm "{query}"</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>Search your Bear notes by title (with `bt`) or exhaustively (with `bs`). Or create/open a daily note with `captainslog`.
+	<string># Changelog
 
-## Release Notes
+## v1.8
 
-	- 1.8 Better confguration for freddiebear binary
-	- 1.6 Faster title searching: renamed `bt` to `btitle` and `bt` now uses Alfred to quickly filter results, but `bt` lost ability to create new notes (use `btitle` instead)
-	- 1.5 Added `bhist` to launch GitHub/Lab blame history for a note
-	- 1.4 Graph view can now filter
-	- 1.3 Requires Bear 2
-	- 1.2 Show note's tags as subtitle
-	- 1.1 Initial revision</string>
+- Better confguration for freddiebear binary
+
+## v1.7
+
+- Added `bfl` command to search forward links
+- Updated README to include all workflow triggers
+
+## v1.6 
+
+- Faster title searching: renamed `bt` to `btitle` and `bt` now uses Alfred to quickly filter results
+- `bt` lost ability to create new notes; use `btitle` instead
+
+## v1.5 
+
+- Added `bhist` to launch GitHub/Lab blame history for a note
+
+## v1.4 
+
+- Graph view can now filter
+
+## v1.3
+
+- Requires Bear 2
+
+## v1.2
+- Show note's tags as subtitle
+
+## v1.1
+
+- Initial revision</string>
 	<key>uidata</key>
 	<dict>
 		<key>0079BC51-DE39-481D-BFBB-664804BEF933</key>
