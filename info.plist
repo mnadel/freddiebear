@@ -369,7 +369,7 @@
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" search --show-tags "{query}"</string>
+				<string>"${fb}" search --show-tags "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -473,7 +473,7 @@ end alfred_script</string>
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" search --all --show-tags "{query}"</string>
+				<string>"${fb}" search --all --show-tags "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -575,7 +575,7 @@ end alfred_script</string>
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" backlinks "{query}"</string>
+				<string>"${fb}" backlinks "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -645,7 +645,7 @@ end alfred_script</string>
 				<key>runningsubtext</key>
 				<string>Loading...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" titles</string>
+				<string>"${fb}" titles</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -694,7 +694,7 @@ end alfred_script</string>
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" forwardlinks "{query}"</string>
+				<string>"${fb}" forwardlinks "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -744,7 +744,7 @@ end alfred_script</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" journal --tag captainslog --date</string>
+				<string>"${fb}" journal --tag captainslog --date</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -833,7 +833,7 @@ end alfred_script</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" transcript "{query}"</string>
+				<string>"${fb}" transcript "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -876,7 +876,7 @@ end alfred_script</string>
 				<key>runningsubtext</key>
 				<string>Select a tag...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" tags</string>
+				<string>"${fb}" tags</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -985,7 +985,7 @@ end alfred_script</string>
 				<key>runningsubtext</key>
 				<string>Select a tag...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" tags</string>
+				<string>"${fb}" tags</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1124,7 +1124,7 @@ end alfred_script</string>
 				<key>script</key>
 				<string>pdffile="$(mktemp)"
 
-"${FB_BINARY:-freddiebear}" graph "{query}" | dot -Tpdf &gt; "${pdffile}".pdf &gt;/dev/null 2&gt;&amp;1
+"${fb}" graph "{query}" | dot -Tpdf &gt; "${pdffile}".pdf &gt;/dev/null 2&gt;&amp;1
 
 echo -n "${pdffile}".pdf</string>
 				<key>scriptargtype</key>
@@ -1235,7 +1235,7 @@ rm "{query}"</string>
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>"${FB_BINARY:-freddiebear}" titles --filename-as-arg</string>
+				<string>"${fb}" titles --filename-as-arg</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1258,15 +1258,17 @@ rm "{query}"</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string>Search your Bear notes by title (with `bt`) or exhaustively (with `bs`). Or create/open a daily note with captainslog.
+	<string>Search your Bear notes by title (with `bt`) or exhaustively (with `bs`). Or create/open a daily note with `captainslog`.
 
-Release Notes:
-- 1.1 Initial revision
-- 1.2 Show note's tags as subtitle
-- 1.3 Requires Bear 2
-- 1.4 Graph view can now filter
-- 1.5 Added `bhist` to launch GitHub/Lab blame history for a note
-- 1.6 Faster title searching: renamed `bt` to `btitle` and `bt` now uses Alfred to quickly filter results, but `bt` lost ability to create new notes (use `btitle` instead)</string>
+## Release Notes
+
+	- 1.8 Better confguration for freddiebear binary
+	- 1.6 Faster title searching: renamed `bt` to `btitle` and `bt` now uses Alfred to quickly filter results, but `bt` lost ability to create new notes (use `btitle` instead)
+	- 1.5 Added `bhist` to launch GitHub/Lab blame history for a note
+	- 1.4 Graph view can now filter
+	- 1.3 Requires Bear 2
+	- 1.2 Show note's tags as subtitle
+	- 1.1 Initial revision</string>
 	<key>uidata</key>
 	<dict>
 		<key>0079BC51-DE39-481D-BFBB-664804BEF933</key>
@@ -1519,18 +1521,18 @@ Release Notes:
 				<key>placeholder</key>
 				<string></string>
 				<key>required</key>
-				<false/>
+				<true/>
 				<key>trim</key>
 				<true/>
 			</dict>
 			<key>description</key>
 			<string></string>
 			<key>label</key>
-			<string>Path to freddiebear binary</string>
+			<string>Path to `freddiebear` binary</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
-			<string>fb_binary</string>
+			<string>fb</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1575,17 +1577,8 @@ Release Notes:
 			<string>git_url_args</string>
 		</dict>
 	</array>
-	<key>variables</key>
-	<dict>
-		<key>FB_BINARY</key>
-		<string>/Users/mikenadel/Projects/go/bin/freddiebear</string>
-	</dict>
-	<key>variablesdontexport</key>
-	<array>
-		<string>FB_BINARY</string>
-	</array>
 	<key>version</key>
-	<string>1.7</string>
+	<string>1.8</string>
 	<key>webaddress</key>
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>
