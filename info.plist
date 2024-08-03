@@ -8,6 +8,31 @@
 	<dict>
 		<key>0E9F26A9-5E39-4DDC-9B4B-1C998447F8F8</key>
 		<array/>
+		<key>1556E6C4-6D1D-4AD1-8D85-EA9D2EF1C65C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4C18ACDF-670A-49FE-B47B-380C55CB0A7A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>AF9B058C-16EF-42CB-9A1F-FDF324B25DAF</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>29A01990-5CE5-4A2D-AAC4-79AE4311C850</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>1682545E-3FC5-4BA7-B4CE-135C34E11C44</key>
 		<array>
 			<dict>
@@ -296,6 +321,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>F06CB98D-864B-49CC-8B3B-FD9E5A1A4C61</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1556E6C4-6D1D-4AD1-8D85-EA9D2EF1C65C</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -1272,6 +1310,27 @@ rm "{query}"</string>
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+				<key>title</key>
+				<string>Installed!</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>4C18ACDF-670A-49FE-B47B-380C55CB0A7A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>2</integer>
 				<key>keyword</key>
@@ -1300,17 +1359,23 @@ rm "{query}"</string>
 				<key>script</key>
 				<string>arch=$(uname -m)
 
-echo $(date) ** downloading ver=${alfred_workflow_version} arch=${arch}
-curl -LO https://github.com/mnadel/freddiebear/releases/download/${alfred_workflow_version}/freddiebear.${arch}.gz
+&gt;&amp;2 echo $(date) ** downloading ver=${alfred_workflow_version} arch=${arch}
+&gt;&amp;2 curl -LO https://github.com/mnadel/freddiebear/releases/download/${alfred_workflow_version}/freddiebear.${arch}.gz
+[ $? -ne 0 ] &amp;&amp; echo error &amp;&amp; exit 1
 
-echo $(date) ** unpacking
-gzip -d freddiebear.${arch}.gz
+&gt;&amp;2 echo uncompressing
+&gt;&amp;2 gzip -d freddiebear.${arch}.gz
+[ $? -ne 0 ] &amp;&amp; echo error &amp;&amp; exit 1
 
-echo $(date) ** renaming
-mv freddiebear.${arch} freddiebear
+&gt;&amp;2 echo renaming
+&gt;&amp;2 mv freddiebear.${arch} freddiebear
+[ $? -ne 0 ] &amp;&amp; echo error &amp;&amp; exit 1
 
-echo $(date) ** chmodding
-chmod +x freddiebear</string>
+&gt;&amp;2 echo chmodding
+&gt;&amp;2 chmod +x freddiebear
+[ $? -ne 0 ] &amp;&amp; echo error &amp;&amp; exit 1
+
+echo ok</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1324,6 +1389,59 @@ chmod +x freddiebear</string>
 			<string>F06CB98D-864B-49CC-8B3B-FD9E5A1A4C61</string>
 			<key>version</key>
 			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>ok</string>
+						<key>outputlabel</key>
+						<string>installed</string>
+						<key>uid</key>
+						<string>AF9B058C-16EF-42CB-9A1F-FDF324B25DAF</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>1556E6C4-6D1D-4AD1-8D85-EA9D2EF1C65C</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+				<key>title</key>
+				<string>Error :( Check the logs.</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>29A01990-5CE5-4A2D-AAC4-79AE4311C850</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -1381,6 +1499,13 @@ chmod +x freddiebear</string>
 			<key>ypos</key>
 			<real>1045</real>
 		</dict>
+		<key>1556E6C4-6D1D-4AD1-8D85-EA9D2EF1C65C</key>
+		<dict>
+			<key>xpos</key>
+			<real>560</real>
+			<key>ypos</key>
+			<real>1460</real>
+		</dict>
 		<key>1682545E-3FC5-4BA7-B4CE-135C34E11C44</key>
 		<dict>
 			<key>xpos</key>
@@ -1395,12 +1520,26 @@ chmod +x freddiebear</string>
 			<key>ypos</key>
 			<real>145</real>
 		</dict>
+		<key>29A01990-5CE5-4A2D-AAC4-79AE4311C850</key>
+		<dict>
+			<key>xpos</key>
+			<real>735</real>
+			<key>ypos</key>
+			<real>1480</real>
+		</dict>
 		<key>3B1A7760-D68E-4F9C-9F05-58D61F41D0C3</key>
 		<dict>
 			<key>xpos</key>
 			<real>340</real>
 			<key>ypos</key>
 			<real>1155</real>
+		</dict>
+		<key>4C18ACDF-670A-49FE-B47B-380C55CB0A7A</key>
+		<dict>
+			<key>xpos</key>
+			<real>730</real>
+			<key>ypos</key>
+			<real>1350</real>
 		</dict>
 		<key>51E0F38F-116B-404D-B096-130B3054FA64</key>
 		<dict>
@@ -1588,14 +1727,14 @@ chmod +x freddiebear</string>
 			<key>xpos</key>
 			<real>345</real>
 			<key>ypos</key>
-			<real>1470</real>
+			<real>1440</real>
 		</dict>
 		<key>F4748865-F6F1-4B2B-840B-BC942AB50249</key>
 		<dict>
 			<key>xpos</key>
 			<real>50</real>
 			<key>ypos</key>
-			<real>1470</real>
+			<real>1440</real>
 		</dict>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<dict>
@@ -1688,7 +1827,7 @@ chmod +x freddiebear</string>
 		</dict>
 	</array>
 	<key>version</key>
-	<string>1.9.1</string>
+	<string>1.9.3</string>
 	<key>webaddress</key>
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>
