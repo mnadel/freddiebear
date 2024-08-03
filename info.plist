@@ -1301,10 +1301,10 @@ rm "{query}"</string>
 				<string>arch=$(uname -m)
 
 echo $(date) ** downloading ver=${alfred_workflow_version} arch=${arch}
-curl -LO https://github.com/mnadel/freddiebear/releases/download/${alfred_workflow_version}/freddiebear.${arch}.zip
+curl -LO https://github.com/mnadel/freddiebear/releases/download/${alfred_workflow_version}/freddiebear.${arch}.gz
 
-echo $(date) ** unzipping
-unzip freddiebear.${arch}.zip
+echo $(date) ** unpacking
+unzip freddiebear.${arch}.gz
 
 echo $(date) ** renaming
 mv freddiebear.${arch} freddiebear</string>
