@@ -304,6 +304,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>F4748865-F6F1-4B2B-840B-BC942AB50249</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F06CB98D-864B-49CC-8B3B-FD9E5A1A4C61</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<array>
 			<dict>
@@ -1256,9 +1269,66 @@ rm "{query}"</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>fbinstall</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Install latest binary</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>F4748865-F6F1-4B2B-840B-BC942AB50249</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>arch=$(uname -m)
+
+echo $(date) ** downloading ver=${alfred_workflow_version} arch=${arch}
+curl -LO https://github.com/mnadel/freddiebear/releases/download/${alfred_workflow_version}/freddiebear.${arch}.zip
+
+echo $(date) ** unzipping
+unzip freddiebear.${arch}.zip
+
+echo $(date) ** renaming
+mv freddiebear.${arch} freddiebear</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>11</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>F06CB98D-864B-49CC-8B3B-FD9E5A1A4C61</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string># Changelog
+
+## v1.9
+
+- Scripted install of binay via `fbinstall`
 
 ## v1.8
 
@@ -1510,6 +1580,20 @@ rm "{query}"</string>
 			<key>ypos</key>
 			<real>1155</real>
 		</dict>
+		<key>F06CB98D-864B-49CC-8B3B-FD9E5A1A4C61</key>
+		<dict>
+			<key>xpos</key>
+			<real>345</real>
+			<key>ypos</key>
+			<real>1470</real>
+		</dict>
+		<key>F4748865-F6F1-4B2B-840B-BC942AB50249</key>
+		<dict>
+			<key>xpos</key>
+			<real>50</real>
+			<key>ypos</key>
+			<real>1470</real>
+		</dict>
 		<key>F5FE8E36-03DA-4BB2-927C-F651EBA8A977</key>
 		<dict>
 			<key>note</key>
@@ -1540,7 +1624,7 @@ rm "{query}"</string>
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>freddiebear</string>
+				<string>./freddiebear</string>
 				<key>placeholder</key>
 				<string></string>
 				<key>required</key>
@@ -1601,7 +1685,7 @@ rm "{query}"</string>
 		</dict>
 	</array>
 	<key>version</key>
-	<string>1.8</string>
+	<string>1.9</string>
 	<key>webaddress</key>
 	<string>https://github.com/mnadel/freddiebear</string>
 </dict>
