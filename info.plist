@@ -1357,31 +1357,13 @@ rm "{query}"</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>arch=$(uname -m)
-
-&gt;&amp;2 echo $(date) ** downloading ver=${alfred_workflow_version} arch=${arch}
-&gt;&amp;2 curl -LO https://github.com/mnadel/freddiebear/releases/download/${alfred_workflow_version}/freddiebear.${arch}.gz
-[ $? -ne 0 ] &amp;&amp; echo error &amp;&amp; exit 1
-
-&gt;&amp;2 echo uncompressing
-&gt;&amp;2 gzip -d freddiebear.${arch}.gz
-[ $? -ne 0 ] &amp;&amp; echo error &amp;&amp; exit 1
-
-&gt;&amp;2 echo renaming
-&gt;&amp;2 mv freddiebear.${arch} freddiebear
-[ $? -ne 0 ] &amp;&amp; echo error &amp;&amp; exit 1
-
-&gt;&amp;2 echo chmodding
-&gt;&amp;2 chmod +x freddiebear
-[ $? -ne 0 ] &amp;&amp; echo error &amp;&amp; exit 1
-
-echo ok</string>
+				<string></string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
-				<string></string>
+				<string>./download.sh</string>
 				<key>type</key>
-				<integer>11</integer>
+				<integer>8</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>

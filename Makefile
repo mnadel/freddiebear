@@ -13,7 +13,7 @@ build: init
 workflow:
 	$(eval WFVER := $(shell git for-each-ref --sort=creatordate --format '%(refname)' refs/tags | tail -1 | cut -d/ -f3))
 	grep -q $(WFVER) info.plist || (echo "Update version in info.plist to $(WFVER)"; exit 1)
-	zip -r package/Freddiebear.alfredworkflow info.plist icon.png
+	zip -r package/Freddiebear.alfredworkflow info.plist icon.png download.sh
 
 package: build workflow
 	gzip -c target/freddiebear.amd64 > package/freddiebear.amd64.gz
