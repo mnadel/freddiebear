@@ -16,5 +16,5 @@ workflow:
 	zip -r package/Freddiebear.alfredworkflow info.plist icon.png download.sh
 
 package: build workflow
-	gzip -c target/amd64/freddiebear > package/freddiebear.amd64.gz
+	gzip -c target/amd64/freddiebear > package/freddiebear.x86_64.gz
 	gzip -c target/arm64/freddiebear > package/freddiebear.arm64.gz
