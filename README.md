@@ -8,16 +8,16 @@ Inspired by [alfred-bear](https://github.com/chrisbro/alfred-bear), implemented 
 
 Keyword | Field | Action
 -- | -- | --
-`bt` | Title | Open note by title
-`btitle` | Title | Open (or create) a note by title
-`bs` | Note Body | Open a note by full-text search
+`bt` | Title | Open note by title (Alfred filters results)
+`btitle` | Title | Open (or create) a note by title (Forks a new process on every keystroke to run SQL)
+`bs` | Body | Open a note by full-text search
 `btag` | Tags | Open Bear to the selected tag
 `bsearch` | Open Bear given your specified search
-`bbl` | Cross-Note | Open a note by searching its backlinks (by title)
-`bfl` | Cross-Note | Open a note by searching its forward links (by title)
+`bbl` | Multi-Note | Open a note by searching its backlinks (by title)
+`bfl` | Multi-Note | Open a note by searching its forward links (by title)
 `captainslog` | Single Note | Open (or create) a daily note
-`btranscript` | Single Note | Show 
-`bg` | Cross-Note | Show graph of all notes
+`btranscript` | Single Note | Collect related sections across daily notes to populate a new note (WIP)
+`bg` | Multi-Note | Show graph of all notes
 `bhist` | Single Note | Open GitHub/Lab history for specificed note
 
 # Searching
