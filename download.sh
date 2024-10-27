@@ -5,6 +5,18 @@ function log {
     >&2 echo "$(date) ** ${msg}"
 }
 
+if [ -f "${gopath}/bin/freddiebear" ]; then
+    log "copying ${gopath}/bin/freddiebear"
+    cp "${gopath}/bin/freddiebear" .
+    echo ok
+    exit 0
+elif [ -f "${gopath}/src/github.com/mnadel/freddiebear/freddiebear" ]; then
+    log "copying ${gopath}/src/github.com/mnadel/freddiebear/freddiebear"
+    cp "${gopath}/src/github.com/mnadel/freddiebear/freddiebear" .
+    echo ok
+    exit 0
+fi
+
 arch=$(uname -m)
 
 log "downloading ver=${alfred_workflow_version} arch=${arch}"

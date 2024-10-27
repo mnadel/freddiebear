@@ -708,7 +708,7 @@ end alfred_script</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -939,7 +939,7 @@ end alfred_script</string>
 				<key>type</key>
 				<integer>5</integer>
 				<key>withspace</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
@@ -1099,7 +1099,7 @@ end alfred_script</string>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>keyword</key>
-				<string>bsearch</string>
+				<string>bfilter</string>
 				<key>subtext</key>
 				<string></string>
 				<key>text</key>
@@ -1204,7 +1204,7 @@ echo -n "${pdffile}".pdf</string>
 				<key>text</key>
 				<string>Show Graph of Linked Notes</string>
 				<key>withspace</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.keyword</string>
@@ -1806,6 +1806,27 @@ rm "{query}"</string>
 			<string>textfield</string>
 			<key>variable</key>
 			<string>git_url_args</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Location of Golang (GOPATH)</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>gopath</string>
 		</dict>
 	</array>
 	<key>version</key>
