@@ -1,13 +1,13 @@
 module github.com/mnadel/freddiebear
 
-go 1.20
+go 1.23
 
 require (
 	github.com/mattn/go-sqlite3 v1.14.17
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.4
-	github.com/yuin/goldmark v1.5.6
+	github.com/yuin/goldmark v1.7.8
 )
 
 require (
